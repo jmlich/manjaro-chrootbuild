@@ -7,12 +7,12 @@ LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
 
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
+USER_HOME=/home/${SUDO_USER}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 PKG_DIR=$(get_mp_config PKGDEST)
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
-USER_HOME=/home/${SUDO_USER}
 RM_PKGS=false
 CLEAN_CHROOT=false
 MIRROR='https://repo.manjaro.org/repo'
