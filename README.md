@@ -1,2 +1,1 @@
 # manjaro-arm-chrootbuild
-

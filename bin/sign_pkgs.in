@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+. ${LIBDIR}/util-output.sh
+. ${LIBDIR}/util-chrootbuild.sh
+
+GPGKEY=$(get_config GPGKEY)
+
+for f in $(find $PWD -maxdepth 1 -regex '.*\.pkg\.tar\.\(xz\|zst\)'); do
+    msg2 "Signing ${f##*/} with key ${GPGKEY}"
+    [[ -e "$f".sig ]] && rm "$f".sig
+    gpg --detach-sign --use-agent -u "${GPGKEY}" "$f"
+done
+msg3 "Done."
