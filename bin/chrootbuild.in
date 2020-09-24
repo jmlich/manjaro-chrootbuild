@@ -1,13 +1,4 @@
 #!/bin/bash
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
 
 LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
 
@@ -18,6 +9,7 @@ CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
+PKG_DIR=$(get_mp_config PKGDEST)
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 USER_HOME=/home/${SUDO_USER}
@@ -26,14 +18,14 @@ CLEAN_CHROOT=false
 MIRROR='https://repo.manjaro.org/repo'
 BRANCH='arm-unstable'
 
-while getopts "b:chnr" arg; do
+while getopts "b:chnrs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN_CHROOT=true ;;
 #       i) INSTALL_PKG="${OPTARG}" ;;
         n) INSTALL=true ;;
         r) RM_PKGS=true ;;
-#       s) SIGNPKG=true ;;
+        s) SIGNPKG=true ;;
         h|?) usage 0 ;;
         *) usage 1 ;;
     esac
@@ -45,7 +37,6 @@ get_pkg_dir
 prepare_chroot ${CHROOT_DIR}
 # [[ INSTALL_PKG ]] && install_local_pkg
 build_pkg $1
-# [[ ${SIGNPKG} = true ]] && sign_pkg $1
 
 # clean up, unmount chroot fs
 umount -l ${CHROOT_DIR}

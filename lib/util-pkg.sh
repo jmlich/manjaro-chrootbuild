@@ -1,13 +1,4 @@
 #!/bin/bash
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
 
 . ${LIBDIR}/util-output.sh
 
@@ -22,27 +13,23 @@ usage() {
 #   echo '     -i <pkg>    Install pkg to chroot fs'
     echo '     -n          Install built pkg to chroot fs'
     echo '     -r          Remove previously built packages in $PKGDEST'
-#   echo '     -s          Sign package'
+    echo '     -s          Sign package'
     echo ''
     exit $1
 }
 
-get_conf() {
+query_conf() {
     echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
 }
 
 get_mp_conf() {
-    [[ -f ${MP_CONF_USER} ]] && CONF=$(get_conf $1 ${MP_CONF_USER})
-    [[ -z ${CONF} ]] && CONF=$(get_conf $1 ${MP_CONF_GLOB})
+    [[ -f ${MP_CONF_USER} ]] && CONF=$(query_conf $1 ${MP_CONF_USER})
+    [[ -z ${CONF} ]] && CONF=$(query_conf $1 ${MP_CONF_GLOB})
     echo $CONF
 }
 
 get_config() {
     echo $(get_mp_conf $1)
-}
-
-get_pkg_dir() {
-    PKG_DIR=$(get_config PKGDEST)
 }
 
 rm_pkgs() {
@@ -52,16 +39,29 @@ rm_pkgs() {
     fi
 }
 
+sign_pkg() {
+    local pkg
+    GPGKEY=$(get_config GPGKEY)
+    PKGEXT=$(query_conf PKGEXT "${CHROOT_DIR}${MP_CONF_GLOB}")
+
+    msg2 "Signing $1 with key ${GPGKEY}"
+    pkg="${1}*${PKGEXT}"
+    gpg --detach-sign --use-agent -u "${GPGKEY}" "$pkg"
+}
+
 build_pkg() {
+    local sign
     msg "Configure mirrorlist for branch [${BRANCH}]"
     echo "Server = ${MIRROR}/${BRANCH}/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
-    
+
     cp -r $1 ${BUILD_DIR}
     chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
+
+    [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
+    [[ $SIGNPKG = true ]] && sign=' --sign'
+    chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts $sign
     
-    [[ $INSTALL = true ]] && \
-      chroot ${CHROOT_DIR} chrootbuild $1 'fsi' || \
-      chroot ${CHROOT_DIR} chrootbuild $1 'fs'
-      
-    [[ ! -z ${PKG_DIR} ]] && mv ${CHROOT_DIR}/pkgdest/$1*.{xz,zst} ${PKG_DIR}/
+    cd ${CHROOT_DIR}/pkgdest
+    [[ ${SIGNPKG} = true ]] && sign_pkg $1
+    [[ ! -z ${PKG_DIR} ]] && mv $1*.{xz,zst,sig} ${PKG_DIR}/
 }

@@ -1,15 +1,4 @@
 #!/bin/bash
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-
 
 create_min_fs(){
     msg "Creating install root at $1"
@@ -87,7 +76,7 @@ EOF
         printf '#!/bin/bash\n\n'
         printf 'export LC_ALL=en_US.UTF-8;\n'
         printf '. /etc/profile;\n'
-        printf 'sudo -iu builduser bash -c "cd /build/$1; makepkg -$2 --noconfirm";\n'
+        printf 'sudo -iu builduser bash -c "cd /build/$1; makepkg -$2$3 --noconfirm";\n'
     } >"${buildscript}"
     chmod +x "${buildscript}"
 
