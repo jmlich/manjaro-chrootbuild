@@ -9,3 +9,8 @@ Usage: chrootbuild [options]
      -r          Remove previously built packages in $PKGDEST
      -s          Sign package
 ```
+
+TODO:
+- check for root priviliges
+- add option to install local pkgs to chroot fs
+- add wrapper for batch build
