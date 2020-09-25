@@ -7,6 +7,8 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN_CHROOT=false
+SIGNPKG=false
+INSTALL=false
 MIRROR='https://repo.manjaro.org/repo'
 BRANCH='arm-unstable'
 
