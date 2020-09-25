@@ -5,22 +5,6 @@
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 
-usage() {
-    echo ''
-    echo "Usage: ${0##*/} [options]"
-    echo ''
-    echo '     -b <branch> Branch to use (arm-unstable/arm-testing/arm-stable'
-    echo '                                default: arm-unstable)'
-    echo '     -c          Start with clean chroot fs'
-    echo '     -h          This help'
-#   echo '     -i <pkg>    Install pkg to chroot fs'
-    echo '     -n          Install built pkg to chroot fs'
-    echo '     -r          Remove previously built packages in $PKGDEST'
-    echo '     -s          Sign package'
-    echo ''
-    exit $1
-}
-
 query_conf() {
     echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
 }

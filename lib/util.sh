@@ -64,3 +64,19 @@ check_root() {
         exit 1
     fi
 }
+
+usage() {
+    echo ''
+    echo "Usage: ${0##*/} [options] <package>"
+    echo ''
+    echo '     -b <branch> Branch to use (arm-unstable/arm-testing/arm-stable'
+    echo '                                default: arm-unstable)'
+    echo '     -c          Start with clean chroot fs'
+    echo '     -h          This help'
+#   echo '     -i <pkg>    Install pkg to chroot fs'
+    echo '     -n          Install built pkg to chroot fs'
+    echo '     -r          Remove previously built packages in $PKGDEST'
+    echo '     -s          Sign package'
+    echo ''
+    exit $1
+}
