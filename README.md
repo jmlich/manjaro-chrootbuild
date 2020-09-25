@@ -10,10 +10,14 @@ Usage: chrootbuild [options]
      -s          Sign package
 ```
 
-TODO:
+Host package cache is used by default.
+PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with precendence) the user's `~/.makepkg.conf`
+
+_TODO:_
 - lock chroot while building
 - error handling
 - unmount when cancelled
 - add option to install local pkgs to chroot fs
 - add wrapper for batch build
 - overwrite older signature files
+- fix **sign_pkgs**
