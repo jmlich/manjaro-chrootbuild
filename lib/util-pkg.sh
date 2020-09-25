@@ -28,7 +28,7 @@ query_conf() {
 get_mp_conf() {
     [[ -f ${MP_CONF_USER} ]] && CONF=$(query_conf $1 ${MP_CONF_USER})
     [[ -z ${CONF} ]] && CONF=$(query_conf $1 ${MP_CONF_GLOB})
-    echo $CONF
+    echo ${CONF//\"/}
 }
 
 get_config() {
