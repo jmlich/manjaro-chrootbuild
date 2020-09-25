@@ -11,6 +11,7 @@ Usage: chrootbuild [options]
 ```
 
 TODO:
+- lock chroot while building
 - error handling
 - unmount when cancelled
 - add option to install local pkgs to chroot fs
