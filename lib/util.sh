@@ -3,7 +3,6 @@
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 USER_HOME=/home/${SUDO_USER}
-PKG_DIR=$(get_mp_conf PKGDEST)
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false

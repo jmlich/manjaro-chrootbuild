@@ -5,6 +5,8 @@ LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
 . ${LIBDIR}/util-chroot.sh
 . ${LIBDIR}/util-pkg.sh
 
+PKG_DIR=$(get_mp_conf PKGDEST)
+
 while getopts "b:chnrs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;

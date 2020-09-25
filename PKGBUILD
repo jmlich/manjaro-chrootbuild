@@ -1,7 +1,7 @@
 # Contributor: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-arm-chrootbuild
-pkgver=r13.gaf4c205
+pkgver=r16.gad2cfa2
 pkgrel=1
 pkgdesc="Tools for native aarch64 chrootbuilds"
 arch=('any')
