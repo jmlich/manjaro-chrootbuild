@@ -2,7 +2,7 @@
 
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
-USER_HOME=/home/${SUDO_USER}
+[[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
