@@ -55,6 +55,7 @@ build_pkg() {
     echo "Server = ${MIRROR}/${BRANCH}/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
 
     cp -r $1 ${BUILD_DIR}
+    rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
