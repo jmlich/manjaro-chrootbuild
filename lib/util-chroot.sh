@@ -76,7 +76,7 @@ EOF
         printf '#!/bin/bash\n\n'
         printf 'export LC_ALL=en_US.UTF-8;\n'
         printf '. /etc/profile;\n'
-        printf 'sudo -iu builduser bash -c "cd /build/$1; makepkg -$2$3 --noconfirm";\n'
+        printf 'sudo -iu builduser bash -c "cd /build/$1; makepkg -$2 --noconfirm $3";\n'
     } >"${buildscript}"
     chmod +x "${buildscript}"
 

@@ -37,7 +37,7 @@ build_pkg() {
     chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
-    [[ $SIGNPKG = true ]] && sign=' --sign'
+    [[ $SIGNPKG = true ]] && sign='--sign'
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts $sign
     
     cd ${CHROOT_DIR}/pkgdest
