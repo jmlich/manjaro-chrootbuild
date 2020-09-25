@@ -15,3 +15,4 @@ TODO:
 - unmount when cancelled
 - add option to install local pkgs to chroot fs
 - add wrapper for batch build
+- overwrite older signature files

@@ -65,5 +65,5 @@ build_pkg() {
     
     cd ${CHROOT_DIR}/pkgdest
     [[ ${SIGNPKG} = true ]] && sign_pkg $1
-    [[ ! -z ${PKG_DIR} ]] && mv $1*.{xz,zst,sig} ${PKG_DIR}/
+    [[ ! -z ${PKG_DIR} ]] && mv $1*.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
 }
