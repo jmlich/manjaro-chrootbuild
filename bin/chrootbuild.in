@@ -32,6 +32,7 @@ while getopts "b:chnrs" arg; do
 done
 shift $((OPTIND -1))
 
+check_root
 get_pkg_dir
 [[ ${RM_PKGS} = true ]] && rm_pkgs
 prepare_chroot ${CHROOT_DIR}

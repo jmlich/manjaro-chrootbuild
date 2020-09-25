@@ -45,7 +45,14 @@ msg5() {
     printf "\n${BOLD}      ${mesg}${ALL_OFF}\n\n" "$@" >&2
 }
 
-error() {
+err() {
     local mesg=$1; shift
     printf "${RED}==> ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
-} 
+}
+
+check_root() {
+    if [ "$EUID" -ne 0 ]; then
+        err "This application needs to be run as root."
+        exit 1
+    fi
+}

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ${LIBDIR}/util-output.sh
+. ${LIBDIR}/util.sh
 
 usage() {
     echo ''
