@@ -33,11 +33,10 @@ done
 shift $((OPTIND -1))
 
 check_root
-get_pkg_dir
 [[ ${RM_PKGS} = true ]] && rm_pkgs
 prepare_chroot ${CHROOT_DIR}
 # [[ INSTALL_PKG ]] && install_local_pkg
-build_pkg $1
+build_pkg ${1/\/}
 
 # clean up, unmount chroot fs
 umount -l ${CHROOT_DIR}
