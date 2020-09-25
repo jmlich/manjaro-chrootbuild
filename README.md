@@ -20,3 +20,4 @@ _TODO:_
 - add option to install local pkgs to chroot fs
 - add wrapper for batch build
 - check min arg
+- provide GPGKEY for makepkg in chroot
