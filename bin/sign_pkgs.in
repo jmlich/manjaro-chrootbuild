@@ -4,6 +4,7 @@ LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
 
 . ${LIBDIR}/util-pkg.sh
 
+GPGKEY=$(get_config GPGKEY)
 for f in $(find $PWD -maxdepth 1 -regex '.*\.pkg\.tar\.\(xz\|zst\)'); do
     msg2 "Signing ${f##*/} with key ${GPGKEY}"
     [[ -e "$f".sig ]] && rm "$f".sig

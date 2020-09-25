@@ -9,7 +9,6 @@ RM_PKGS=false
 CLEAN_CHROOT=false
 MIRROR='https://repo.manjaro.org/repo'
 BRANCH='arm-unstable'
-GPGKEY=$(get_config GPGKEY)
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
