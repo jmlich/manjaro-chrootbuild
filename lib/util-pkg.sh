@@ -2,6 +2,9 @@
 
 . ${LIBDIR}/util.sh
 
+MP_CONF_GLOB='/etc/makepkg.conf'
+MP_CONF_USER="${USER_HOME}/.makepkg.conf"
+
 usage() {
     echo ''
     echo "Usage: ${0##*/} [options]"

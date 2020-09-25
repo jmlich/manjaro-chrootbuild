@@ -1,5 +1,17 @@
 #!/bin/bash
 
+CHROOT_DIR=/var/lib/chrootbuild
+BUILD_DIR=${CHROOT_DIR}/build
+USER_HOME=/home/${SUDO_USER}
+PKG_DIR=$(get_mp_conf PKGDEST)
+BUILDUSER_UID="${SUDO_UID:-$UID}"
+BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
+RM_PKGS=false
+CLEAN_CHROOT=false
+MIRROR='https://repo.manjaro.org/repo'
+BRANCH='arm-unstable'
+GPGKEY=$(get_config GPGKEY)
+
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
     BOLD="$(tput bold)"

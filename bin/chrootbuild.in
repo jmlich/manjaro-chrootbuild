@@ -5,19 +5,6 @@ LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
 . ${LIBDIR}/util-chroot.sh
 . ${LIBDIR}/util-pkg.sh
 
-CHROOT_DIR=/var/lib/chrootbuild
-BUILD_DIR=${CHROOT_DIR}/build
-USER_HOME=/home/${SUDO_USER}
-MP_CONF_GLOB='/etc/makepkg.conf'
-MP_CONF_USER="${USER_HOME}/.makepkg.conf"
-PKG_DIR=$(get_mp_conf PKGDEST)
-BUILDUSER_UID="${SUDO_UID:-$UID}"
-BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
-RM_PKGS=false
-CLEAN_CHROOT=false
-MIRROR='https://repo.manjaro.org/repo'
-BRANCH='arm-unstable'
-
 while getopts "b:chnrs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
