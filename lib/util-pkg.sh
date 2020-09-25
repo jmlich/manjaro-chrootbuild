@@ -26,16 +26,6 @@ rm_pkgs() {
     fi
 }
 
-sign_pkg() {
-    local pkg
-    GPGKEY=$(get_config GPGKEY)
-    PKGEXT=$(query_conf PKGEXT "${CHROOT_DIR}${MP_CONF_GLOB}")
-
-    msg2 "Signing $1 with key ${GPGKEY}"
-    pkg="${1}*${PKGEXT}"
-    gpg --detach-sign --use-agent -u "${GPGKEY}" "$pkg"
-}
-
 build_pkg() {
     local sign
     msg "Configure mirrorlist for branch [${BRANCH}]"
