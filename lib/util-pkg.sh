@@ -54,6 +54,7 @@ build_pkg() {
     msg "Configure mirrorlist for branch [${BRANCH}]"
     echo "Server = ${MIRROR}/${BRANCH}/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
 
+    rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
