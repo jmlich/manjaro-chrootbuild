@@ -11,7 +11,8 @@ Usage: chrootbuild [options] <package>
 ```
 
 Host package cache is used by default.
-PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with precendence) the user's `~/.makepkg.conf`
+PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with precedence) the user's `~/.makepkg.conf`
+If PKGDEST isn't defined, package will be moved to current work directory.
 
 _TODO:_
 - lock chroot while building
@@ -20,4 +21,3 @@ _TODO:_
 - add option to install local pkgs to chroot fs
 - add wrapper for batch build
 - check min arg
-- provide GPGKEY for makepkg in chroot

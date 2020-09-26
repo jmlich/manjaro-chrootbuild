@@ -48,5 +48,6 @@ build_pkg() {
             err "No gpg key found in makepkg config. Package cannot be signed."
         fi
     fi
-    [[ ! -z ${PKG_DIR} ]] && mv $1*.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
+    [[ -z ${PKG_DIR} ]] && target=${START_DIR} || target=${PKG_DIR}
+    mv $1*.{xz,zst,sig} ${target}/ 2>/dev/null
 }

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+START_DIR=$PWD
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 [[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
