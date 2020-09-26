@@ -27,7 +27,6 @@ rm_pkgs() {
 }
 
 build_pkg() {
-    local sign
     msg "Configure mirrorlist for branch [${BRANCH}]"
     sed -i "/^Branch/c\Branch = ${BRANCH}" ${CHROOT_DIR}/etc/pacman-mirrors.conf
     echo "Server = ${MIRROR}/${BRANCH}/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
@@ -38,18 +37,16 @@ build_pkg() {
     chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
+    chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
+
+    cd ${CHROOT_DIR}/pkgdest
     if [ $SIGNPKG = true ]; then
         GPGKEY=$(get_config GPGKEY)
         if [ ! -z ${GPGKEY} ]; then
-            echo "GPGKEY=${GPGKEY}" >> ${CHROOT_DIR}${MP_CONF_GLOB}
-            sign='--sign'
+            sign_pkgs
         else
-            err "No gpg key found in makepkg config. Package will not be signed."
+            err "No gpg key found in makepkg config. Package cannot be signed."
         fi
     fi
-
-    chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts $sign
-
-    cd ${CHROOT_DIR}/pkgdest
     [[ ! -z ${PKG_DIR} ]] && mv $1*.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
 }
