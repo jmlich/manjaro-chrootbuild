@@ -11,9 +11,12 @@ Usage: chrootbuild [options] <package>
 ```
 
 Host package cache is used by default.
+
 PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with precedence) the user's `~/.makepkg.conf`
+
 If PKGDEST isn't defined, package will be moved to current work directory.
-<package> names may be used with trailing slashes.
+
+'<package>' names may be used with trailing slashes.
 
 _TODO:_
 - lock chroot while building
