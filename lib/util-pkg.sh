@@ -43,7 +43,7 @@ build_pkg() {
     if [ $SIGNPKG = true ]; then
         GPGKEY=$(get_config GPGKEY)
         if [ ! -z ${GPGKEY} ]; then
-            sign_pkgs
+            sudo -u ${SUDO_USER} sign_pkgs
         else
             err "No gpg key found in makepkg config. Package cannot be signed."
         fi
