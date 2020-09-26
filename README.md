@@ -16,7 +16,7 @@ PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with preceden
 
 If PKGDEST isn't defined, package will be moved to current work directory.
 
-'<package>' names may be used with trailing slashes.
+`<package>` names may be used with trailing slashes.
 
 _TODO:_
 - lock chroot while building
