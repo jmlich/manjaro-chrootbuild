@@ -1,13 +1,12 @@
 # Contributor: Bernhard Landauer <bernhard@manjaro.org>
 
-pkgname=manjaro-arm-chrootbuild
-pkgver=r30.g751b28a
+pkgname=manjaro-chrootbuild
+pkgver=r37.g3afeb02
 pkgrel=1
-pkgdesc="Tools for native aarch64 chrootbuilds"
+pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
 url="https://gitlab.manjaro.org/manjaro-arm/applications/$pkgname"
 license=('GPL3')
-depends=()
 makedepends=('git')
 source=("git+$url.git")
 sha256sums=('SKIP')
@@ -16,7 +15,7 @@ pkgver(){
   cd $pkgname
   printf "r%s.g%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
-    
+
 package() {
 cd $pkgname
 
