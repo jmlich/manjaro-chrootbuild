@@ -112,7 +112,7 @@ EOF
 
 # create/update chroot build environment
 prepare_chroot() {
-    if [ -e $1/.manjaro-arm-chroot ]; then
+    if [ -e $1/.manjaro-chroot ]; then
         if [ ${CLEAN_CHROOT} = true ]; then
             if [ -e $1/.lock ]; then
                 err_choice "Chroot is busy. Force unmount? [y/N]"
