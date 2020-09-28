@@ -1,13 +1,15 @@
 # manjaro-arm-chrootbuild
 
 ```
-Usage: chrootbuild [options] <package>
+Usage: chrootbuild [options]
      -b <branch> Branch to use (arm-unstable/arm-testing/arm-stable
                                 default: arm-unstable)
      -c          Start with clean chroot fs
-     -n          Install built pkg to chroot fs
+     -l <list>   List to build
+     -n          Install built pkg to chroot fs (default when building lists)
+     -p <pkg>    Package to build
      -r          Remove previously built packages in $PKGDEST
-     -s          Sign package
+     -s          Sign package(s)
 ```
 
 Host package cache is used by default.

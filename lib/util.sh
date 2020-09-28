@@ -1,6 +1,7 @@
 #!/bin/bash
 
-START_DIR=$PWD
+START_DIR=${PWD}
+PKG_DIR=${START_DIR}
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 [[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
@@ -8,8 +9,10 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN_CHROOT=false
-SIGNPKG=false
+BUILD_LIST=false
 INSTALL=false
+SIGN=false
+sign=none
 MIRROR='https://repo.manjaro.org/repo'
 BRANCH='arm-unstable'
 
@@ -41,7 +44,7 @@ msg2() {
 
 msg3() {
     local mesg=$1; shift
-    printf "${GREEN}      ${mesg}${ALL_OFF}\n\n" "$@" >&2
+    printf "\n${GREEN}      ${mesg}${ALL_OFF}\n\n" "$@" >&2
 }
 
 msg4() {
@@ -54,15 +57,46 @@ msg5() {
     printf "\n${BOLD}      ${mesg}${ALL_OFF}\n\n" "$@" >&2
 }
 
+msg6() {
+    local mesg=$1; shift
+    printf "\r      ${mesg}${ALL_OFF}" "$@" >&2
+}
+
 err() {
     local mesg=$1; shift
     printf "${RED}==> ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
+}
+
+err_choice() {
+    local mesg=$1; shift
+    printf "${RED}==> ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}" "$@" >&2
 }
 
 check_root() {
     if [ "$EUID" -ne 0 ]; then
         err "This application needs to be run as root."
         exit 1
+    fi
+}
+
+start_agent(){
+    echo "Initializing SSH agent..."
+    ssh-agent | sed 's/^echo/#echo/' > "$1"
+    chmod 600 "$1"
+    . "$1" > /dev/null
+    ssh-add
+}
+
+ssh_add(){
+    local ssh_env="$USER_HOME/.ssh/environment"
+
+    if [ -f "${ssh_env}" ]; then
+         . "${ssh_env}" > /dev/null
+         ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+            start_agent ${ssh_env};
+        }
+    else
+        start_agent ${ssh_env};
     fi
 }
 
@@ -75,9 +109,11 @@ usage() {
     echo '     -c          Start with clean chroot fs'
     echo '     -h          This help'
 #   echo '     -i <pkg>    Install pkg to chroot fs'
+    echo '     -l <list>   List to build'
     echo '     -n          Install built pkg to chroot fs'
+    echo '     -p <pkg>    Package to build'
     echo '     -r          Remove previously built packages in $PKGDEST'
-    echo '     -s          Sign package'
+    echo '     -s          Sign package(s)'
     echo ''
     exit $1
 }

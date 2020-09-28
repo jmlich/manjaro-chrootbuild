@@ -25,13 +25,35 @@ chroot_api_mount() {
     mount run "$1/run" -t tmpfs -o nosuid,nodev,mode=0755 &&
     mount tmp "$1/tmp" -t tmpfs -o mode=1777,strictatime,nodev,nosuid
     mount -o bind /var/cache/pacman/pkg $1/var/cache/pacman/pkg
+    touch $1/.mount
+}
+
+unmount_chroot() {
+    umount -l $1 && rm $1/.{mount,lock} 2>/dev/null
+}
+
+set_branch() {
+    msg "Configure branch [$1]"
+    sed -i "/^Branch/c\Branch = $1" ${mirror_conf}
+    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+}
+
+update_chroot() {
+    [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
+    cmd=yu
+    mirror_conf=$1/etc/pacman-mirrors.conf
+    chr_branch=$(cat ${mirror_conf} | grep ^Branch | cut -d' ' -f3)
+    [[ ${BRANCH} != ${chr_branch} ]] && cmd=yyuu
+    set_branch ${BRANCH}
+    msg "Update chroot file system"
+    pacman -r $1 -S$cmd --noconfirm
 }
 
 create_chroot() {
     create_min_fs $1
-    chroot_api_mount $1
+    chroot_api_mount $1 && touch $1/.{mount,lock}
     msg "Install build environment to $1"
-    pacman -r $1 -Sy base-devel --noconfirm
+    pacman -r $1 -Syy base-devel --noconfirm
     msg "Copy keyring"
     cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     msg "Create locale"
@@ -39,6 +61,7 @@ create_chroot() {
     printf 'LANG=en_US.UTF-8\n' > "$1/etc/locale.conf"
     printf 'LC_MESSAGES=C\n' >> "$1/etc/locale.conf"
     chroot $1 locale-gen
+    cp /etc/resolv.conf $1/etc/resolv.conf
     touch "$1/.manjaro-arm-chroot"
 
     # add builduser
@@ -79,19 +102,22 @@ EOF
     } >"${buildscript}"
     chmod +x "${buildscript}"
 
-    cp /etc/resolv.conf $1/etc/resolv.conf
-}
-
-update_chroot() {
-    chroot_api_mount $1
-    msg "Update chroot file system"
-    pacman -r $1 -Syuu --noconfirm
+    update_chroot $1
 }
 
 # create/update chroot build environment
 prepare_chroot() {
     if [ -e $1/.manjaro-arm-chroot ]; then
         if [ ${CLEAN_CHROOT} = true ]; then
+            if [ -e $1/.lock ]; then
+                err_choice "Chroot is busy. Force unmount? [y/N]"
+                read choice
+                if [ $choice = y ] 2>/dev/null; then
+                    unmount_chroot $1
+                else
+                    exit 1
+                fi
+            fi
             msg "Delete old chroot file system"
             rm -rf $1/*
             create_chroot $1
