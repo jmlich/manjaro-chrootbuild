@@ -1,8 +1,9 @@
-# manjaro-arm-chrootbuild
+# manjaro-chrootbuild
 
 ```
 Usage: chrootbuild [options]
-     -b <branch> Branch to use (arm-unstable/arm-testing/arm-stable
+     -b <branch> Branch to use (unstable/testing/stable-staging/stable;
+                                arm-unstable/arm-testing/arm-stable)
                                 default: arm-unstable)
      -c          Start with clean chroot fs
      -l <list>   List to build

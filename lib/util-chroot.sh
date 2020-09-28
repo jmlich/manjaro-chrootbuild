@@ -62,7 +62,7 @@ create_chroot() {
     printf 'LC_MESSAGES=C\n' >> "$1/etc/locale.conf"
     chroot $1 locale-gen
     cp /etc/resolv.conf $1/etc/resolv.conf
-    touch "$1/.manjaro-arm-chroot"
+    touch "$1/.manjaro-chroot"
 
     # add builduser
     local install="install -o ${BUILDUSER_UID} -g ${BUILDUSER_GID}"

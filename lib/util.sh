@@ -104,8 +104,10 @@ usage() {
     echo ''
     echo "Usage: ${0##*/} [options] <package>"
     echo ''
-    echo '     -b <branch> Branch to use (arm-unstable/arm-testing/arm-stable'
-    echo '                                default: arm-unstable)'
+    echo '     -b <branch> Branch to use:'
+    echo '                 (unstable/testing/stable-staging/stable;'
+    echo '                 arm-unstable/arm-testing/arm-stable)'
+    echo '                 default: arm-unstable'
     echo '     -c          Start with clean chroot fs'
     echo '     -h          This help'
 #   echo '     -i <pkg>    Install pkg to chroot fs'
