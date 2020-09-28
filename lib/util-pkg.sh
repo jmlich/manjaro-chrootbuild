@@ -44,7 +44,7 @@ build_pkg() {
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
-
+    status=$?
     cd ${CHROOT_DIR}/pkgdest
     [[ ${sign} = pkg ]] && sign_pkg .
     mv $1*.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null

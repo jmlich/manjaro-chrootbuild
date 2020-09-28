@@ -67,9 +67,9 @@ build_list() {
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
             cd ..
             build_pkg $p &>${LOG_FILE}
-            if [ $? != 0 ]; then
+            if [ $status != 0 ]; then
                 build_err+=("$LOG_FILE")
-                err
+                err_build
             else
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" >/dev/null 2>&1 && git push >/dev/null 2>&1

@@ -32,8 +32,8 @@ if [ ${SIGN} = true ]; then
 fi
 
 check_root
-[[ ${RM_PKGS} = true ]] && rm_pkgs
 prepare_chroot ${CHROOT_DIR}
+[[ ${RM_PKGS} = true ]] && rm_pkgs
 # [[ INSTALL_PKG ]] && install_local_pkg
 if [ ${BUILD_LIST} = true ]; then
     . ${LIBDIR}/util-lists.sh
