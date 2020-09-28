@@ -32,6 +32,11 @@ unmount_chroot() {
     umount -l $1 && rm $1/.{mount,lock} 2>/dev/null
 }
 
+get_branch() {
+    branch=$(cat $1 | grep ^Branch | cut -d' ' -f3)
+    echo ${branch}
+}
+
 set_branch() {
     msg "Configure branch [$1]"
     sed -i "/^Branch/c\Branch = $1" ${mirror_conf}
@@ -41,9 +46,7 @@ set_branch() {
 update_chroot() {
     [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
     cmd=yu
-    mirror_conf=$1/etc/pacman-mirrors.conf
-    chr_branch=$(cat ${mirror_conf} | grep ^Branch | cut -d' ' -f3)
-    [[ ${BRANCH} != ${chr_branch} ]] && cmd=yyuu
+    [[ ${BRANCH} != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
     set_branch ${BRANCH}
     msg "Update chroot file system"
     pacman -r $1 -S$cmd --noconfirm
@@ -102,6 +105,8 @@ EOF
     } >"${buildscript}"
     chmod +x "${buildscript}"
 
+    mirror_conf=$1${MIRROR_CONF}
+    set_branch $(get_branch ${MIRROR_CONF}) $mirror_conf
     update_chroot $1
 }
 

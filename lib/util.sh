@@ -14,6 +14,7 @@ INSTALL=false
 SIGN=false
 sign=none
 MIRROR='https://repo.manjaro.org/repo'
+MIRROR_CONF=/etc/pacman-mirrors.conf
 BRANCH='arm-unstable'
 
 if tput setaf 0 &>/dev/null; then
@@ -106,7 +107,7 @@ ssh_add(){
 
 usage() {
     echo ''
-    echo "Usage: ${0##*/} [options] <package>"
+    echo "Usage: ${0##*/} [options]"
     echo ''
     echo '     -b <branch> Branch to use:'
     echo '                 (unstable/testing/stable-staging/stable;'

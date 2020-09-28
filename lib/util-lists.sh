@@ -65,6 +65,7 @@ build_list() {
 
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
+            chown ${SUDO_USER}:${SUDO_USER} PKGBUILD
             cd ..
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
