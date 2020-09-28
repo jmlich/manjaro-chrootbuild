@@ -33,7 +33,7 @@ unmount_chroot() {
 }
 
 get_branch() {
-    branch=$(cat $1 | grep ^Branch | cut -d' ' -f3)
+    branch=$(cat $1 | grep ^Branch | cut -d= -f2 | cut -d' ' -f2)
     echo ${branch}
 }
 
