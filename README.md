@@ -22,7 +22,8 @@ If PKGDEST isn't defined, package will be moved to current work directory.
 
 `Lists` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`.
 
-_TODO:_
+### todo:
+- check options
 - error handling
 - add option to install local pkgs to chroot fs
-- check min arg
+- collect multiple packages and lists in arrays
