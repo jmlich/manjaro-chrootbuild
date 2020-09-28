@@ -38,7 +38,6 @@ get_branch() {
 }
 
 set_branch() {
-    msg "Configure branch [$1]"
     sed -i "/^Branch/c\Branch = $1" ${mirror_conf}
     echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
 }
@@ -46,8 +45,9 @@ set_branch() {
 update_chroot() {
     [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
     cmd=yu
-    [[ ${BRANCH} != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
-    set_branch ${BRANCH}
+    [[ $2 != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
+    msg "Configure branch [$2]"
+    set_branch $2
     msg "Update chroot file system"
     pacman -r $1 -S$cmd --noconfirm
 }
@@ -107,7 +107,7 @@ EOF
 
     mirror_conf=$1${MIRROR_CONF}
     set_branch $(get_branch ${MIRROR_CONF}) $mirror_conf
-    update_chroot $1
+    update_chroot $1 ${BRANCH}
 }
 
 # create/update chroot build environment
@@ -127,7 +127,7 @@ prepare_chroot() {
             rm -rf $1/*
             create_chroot $1
         else
-            update_chroot $1
+            update_chroot $1 ${BRANCH}
         fi
     else
         create_chroot $1
