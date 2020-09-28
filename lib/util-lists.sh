@@ -1,11 +1,11 @@
 #! /bin/sh
 
-LOG_DIR=${BUILD_DIR}/logs
+LOG_DIR=${START_DIR}/logs
 log=$LOG_DIR/build_log
 build_err=()
 
 get_ver() {
-    ver=$(grep "${1}=" PKGBUILD | cut -d'=' -f2)
+    ver=$(grep "$1=" PKGBUILD | cut -d'=' -f2)
     echo "$ver"
 }
 
