@@ -8,6 +8,8 @@ arch=('any')
 url="https://gitlab.manjaro.org/manjaro-arm/applications/$pkgname"
 license=('GPL3')
 makedepends=('git')
+conflicts=(manjaro-arm-chrootbuild)
+replaces=(manjaro-arm-chrootbuild manjaro-arm-chrootbuild-dev)
 source=("git+$url.git")
 sha256sums=('SKIP')
 
