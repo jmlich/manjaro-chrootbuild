@@ -15,7 +15,7 @@ Usage: chrootbuild [options]
 
 Host package cache is used by default.
 
-PKGDEST and GPGKEY are read from host's `/etc/makepkg.con` and/or (with precedence) the user's `~/.makepkg.conf`
+PKGDEST and GPGKEY are read from host's `/etc/makepkg.conf` and/or (with precedence) the user's `~/.makepkg.conf`
 
 If PKGDEST isn't defined, package will be moved to current work directory.
 
