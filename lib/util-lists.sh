@@ -1,12 +1,12 @@
 #! /bin/sh
 
 LOG_DIR=${START_DIR}/logs
-log=$LOG_DIR/build_log
+log=${LOG_DIR}/build_log
 build_err=()
 
 get_ver() {
     ver=$(grep "$1=" PKGBUILD | cut -d'=' -f2)
-    echo "$ver"
+    echo $ver
 }
 
 reset_rel() {
@@ -69,11 +69,11 @@ build_list() {
             cd ..
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
-                build_err+=("$LOG_FILE")
+                build_err+=("${LOG_FILE}")
                 err_build
             else
                 cd ${START_DIR}/$1/$p
-                git add PKGBUILD && git commit -m "$git_ver" >/dev/null 2>&1 && git push >/dev/null 2>&1
+                git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
         else
             msg3 "unchanged."
@@ -84,8 +84,7 @@ build_list() {
 
     rm $list
 
-    echo "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++" >> $log
-    echo " " >> $log
+    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
 }
 
 summary() {
