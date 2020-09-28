@@ -1,31 +1,50 @@
 #!/bin/bash
 
 LIBDIR='/usr/lib/manjaro-arm-chrootbuild'
-
-. ${LIBDIR}/util-chroot.sh
 . ${LIBDIR}/util-pkg.sh
+. ${LIBDIR}/util-chroot.sh
 
 PKG_DIR=$(get_mp_conf PKGDEST)
 
-while getopts "b:chnrs" arg; do
+while getopts "b:chl:np:rs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN_CHROOT=true ;;
 #       i) INSTALL_PKG="${OPTARG}" ;;
+        l) BUILD_LIST=true; INSTALL=true; buildlist="${OPTARG}" ;;
         n) INSTALL=true ;;
+        p) pkg="${OPTARG}" ;;
         r) RM_PKGS=true ;;
-        s) SIGNPKG=true ;;
+        s) SIGN=true ;;
         h|?) usage 0 ;;
         *) usage 1 ;;
     esac
 done
 shift $((OPTIND -1))
 
+# when building a list, sign all pkgs at the end.
+if [ ${SIGN} = true ]; then
+    if [ ${BUILD_LIST} = true ]; then
+        sign=list
+    else
+        sign=pkg
+    fi
+fi
+
 check_root
 [[ ${RM_PKGS} = true ]] && rm_pkgs
 prepare_chroot ${CHROOT_DIR}
 # [[ INSTALL_PKG ]] && install_local_pkg
-build_pkg ${1/\/}
+if [ ${BUILD_LIST} = true ]; then
+    . ${LIBDIR}/util-lists.sh
+    [[ ! -d ${LOG_DIR} ]] && mkdir -p ${LOG_DIR}
+    [[ ! -e ${log} ]] && echo "+++ package build log +++" > $log
+    #ssh_add
+    build_list ${buildlist}
+    [[ ${sign} = list ]] && sign_pkg ${PKG_DIR}
+    summary
+else
+    build_pkg ${pkg}
+fi
 
-# clean up, unmount chroot fs
-umount -l ${CHROOT_DIR}
+unmount_chroot ${CHROOT_DIR}

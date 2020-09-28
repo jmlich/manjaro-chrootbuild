@@ -22,15 +22,21 @@ get_config() {
 rm_pkgs() {
     if [ ! -z ${PKG_DIR} ]; then
         msg5 "Removing previously built packages from [${PKG_DIR}]."
-        rm ${PKG_DIR}/*.pkg.tar.zst{,.sig} &>/dev/null
+        rm ${PKG_DIR}/*.{xz,zst,sig} &>/dev/null
+    fi
+}
+
+sign_pkg() {
+    cd $1
+    GPGKEY=$(get_config GPGKEY)
+    if [ ! -z ${GPGKEY} ]; then
+        sudo -u ${SUDO_USER} sign_pkgs
+    else
+        err "No gpg key found in makepkg config. Package cannot be signed."
     fi
 }
 
 build_pkg() {
-    msg "Configure mirrorlist for branch [${BRANCH}]"
-    sed -i "/^Branch/c\Branch = ${BRANCH}" ${CHROOT_DIR}/etc/pacman-mirrors.conf
-    echo "Server = ${MIRROR}/${BRANCH}/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
-
     rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
@@ -40,14 +46,6 @@ build_pkg() {
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
 
     cd ${CHROOT_DIR}/pkgdest
-    if [ $SIGNPKG = true ]; then
-        GPGKEY=$(get_config GPGKEY)
-        if [ ! -z ${GPGKEY} ]; then
-            sudo -u ${SUDO_USER} sign_pkgs
-        else
-            err "No gpg key found in makepkg config. Package cannot be signed."
-        fi
-    fi
-    [[ -z ${PKG_DIR} ]] && target=${START_DIR} || target=${PKG_DIR}
-    mv $1*.{xz,zst,sig} ${target}/ 2>/dev/null
+    [[ ${sign} = pkg ]] && sign_pkg .
+    mv $1*.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
 }
