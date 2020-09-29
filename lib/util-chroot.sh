@@ -1,7 +1,7 @@
 #!/bin/bash
 
 create_min_fs(){
-    msg "Creating install root at $1"
+    msg "Create install root at $1"
     rm -rf $1/*
     mkdir -m 0755 -p $1/var/{cache/pacman/pkg,lib/pacman,log} $1/{dev,run,etc}
     mkdir -m 1777 -p $1/tmp

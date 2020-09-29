@@ -34,9 +34,14 @@ else
     BLUE="${BOLD}\e[34m"
 fi
 
+header() {
+    local mesg=$1; shift
+    printf "${YELLOW}${BOLD}  ::  ${mesg}${ALL_OFF}\n" "$@" >&2
+}
+
 msg() {
     local mesg=$1; shift
-    printf "${YELLOW}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
+    printf "\n${BLUE}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 msg2() {

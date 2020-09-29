@@ -34,7 +34,7 @@ build_list() {
     prepare_list $1
     i=1
     for p in $(cat $list); do
-        msg "${1%-git}: $i/$num - $p"
+        header "${1%-git}: $i/$num - $p"
         repo_ver=$(sudo pacman -Siy "${p}" 2>/dev/null | grep "Version" | cut -d":" -f2 | cut -d ' ' -f2)
         [[ -z $repo_ver ]] && repo_ver=0
 

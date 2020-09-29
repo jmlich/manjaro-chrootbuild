@@ -21,7 +21,7 @@ get_config() {
 
 rm_pkgs() {
     if [ ! -z ${PKG_DIR} ]; then
-        msg5 "Removing previously built packages from [${PKG_DIR}]."
+        msg5 "Remove previously built packages from [${PKG_DIR}]."
         rm ${PKG_DIR}/*.{xz,zst,sig} &>/dev/null
     fi
 }
