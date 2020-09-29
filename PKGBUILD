@@ -1,7 +1,7 @@
 # Contributor: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r43.gcc3f79c
+pkgver=r48.ga8379ae
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
@@ -27,6 +27,6 @@ cd $pkgname
       done
   }
 
-  _install lib sh 644 usr/lib/$pkgname
+  _install lib sh 644 var/lib/$pkgname
   _install bin in 755 usr/bin
 }
