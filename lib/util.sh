@@ -76,7 +76,7 @@ err() {
 
 err_choice() {
     local mesg=$1; shift
-    printf "${RED}==> ERROR:${ALL_OFF}${BOLD} ${mesg} ${ALL_OFF}" "$@" >&2
+    printf "\n${RED}  :: ERROR:${ALL_OFF}${BOLD} ${mesg} ${ALL_OFF}" "$@" >&2
 }
 
 err_build() {

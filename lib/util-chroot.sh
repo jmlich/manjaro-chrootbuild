@@ -112,16 +112,16 @@ EOF
 # create/update chroot build environment
 prepare_chroot() {
     if [ -e $1/.manjaro-chroot ]; then
-        if [ ${CLEAN} = true ]; then
-            if [ -e $1/.lock ]; then
-                err_choice "Chroot is busy. Force unmount? [y/N]"
-                read choice
-                if [ $choice = y ] 2>/dev/null; then
-                    unmount_chroot $1
-                else
-                    exit 1
-                fi
+        if [ -e $1/.lock ]; then
+            err_choice "Chroot is busy. Force unmount? [y/N]"
+            read choice
+            if [ $choice = y ] 2>/dev/null; then
+                unmount_chroot $1
+            else
+                exit 1
             fi
+        fi
+        if [ ${CLEAN} = true ]; then
             msg "Delete old chroot file system"
             rm -rf $1/*
             create_chroot $1
