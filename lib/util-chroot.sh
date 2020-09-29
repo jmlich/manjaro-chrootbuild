@@ -49,7 +49,7 @@ update_chroot() {
     msg "Configure branch [$2]"
     set_branch $2
     msg "Update chroot file system"
-    pacman -r $1 -S$cmd --noconfirm
+    pacman --sysroot $1 -S$cmd --noconfirm
 }
 
 create_chroot() {
