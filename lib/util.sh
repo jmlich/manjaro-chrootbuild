@@ -36,12 +36,12 @@ fi
 
 header() {
     local mesg=$1; shift
-    printf "${YELLOW}${BOLD}  ::  ${mesg}${ALL_OFF}\n" "$@" >&2
+    printf "${YELLOW}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 msg() {
     local mesg=$1; shift
-    printf "\n${GREEN}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
+    printf "\n${GREEN}${BOLD}:: ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 msg2() {
@@ -76,7 +76,7 @@ err() {
 
 err_choice() {
     local mesg=$1; shift
-    printf "\n${RED}  :: ERROR:${ALL_OFF}${BOLD} ${mesg} ${ALL_OFF}" "$@" >&2
+    printf "\n${RED}:: ERROR:${ALL_OFF}${BOLD} ${mesg} ${ALL_OFF}" "$@" >&2
 }
 
 err_build() {
@@ -88,6 +88,11 @@ check_root() {
         err "This application needs to be run as root."
         exit 1
     fi
+}
+
+abort() {
+  unmount_chroot ${CHROOT_DIR}
+  err $1
 }
 
 start_agent(){

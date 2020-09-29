@@ -6,11 +6,11 @@ LIBDIR='/var/lib/manjaro-chrootbuild'
 
 PKG_DIR=$(get_mp_conf PKGDEST)
 
-while getopts "b:chl:np:rs" arg; do
+while getopts "b:chi:l:np:rs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
-#       i) INSTALL_PKG="${OPTARG}" ;;
+        i) INSTALL_PKG="${OPTARG}" ;;
         l) BUILD_LIST=true; INSTALL=true; buildlist="${OPTARG}" ;;
         n) INSTALL=true ;;
         p) pkg="${OPTARG}" ;;
@@ -34,7 +34,7 @@ fi
 check_root
 prepare_chroot ${CHROOT_DIR}
 [[ ${RM_PKGS} = true ]] && rm_pkgs
-# [[ INSTALL_PKG ]] && install_local_pkg
+[[ ! -z ${INSTALL_PKG} ]] && install_local_pkg ${INSTALL_PKG} ${CHROOT_DIR}
 if [ ${BUILD_LIST} = true ]; then
     . ${LIBDIR}/util-lists.sh
     [[ ! -d ${LOG_DIR} ]] && mkdir -p ${LOG_DIR}
