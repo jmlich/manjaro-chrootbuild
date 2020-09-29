@@ -89,7 +89,7 @@ build_list() {
 
 summary() {
     if [ ! -z ${build_err} ]; then
-        err
+        err_build
         for e in "${build_err[@]}"; do
             echo "      $e"
         done
