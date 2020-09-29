@@ -8,13 +8,14 @@ BUILD_DIR=${CHROOT_DIR}/build
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
-CLEAN_CHROOT=false
+CLEAN=false
 BUILD_LIST=false
 INSTALL=false
 SIGN=false
 sign=none
 MIRROR='https://repo.manjaro.org/repo'
-MIRROR_CONF=/etc/pacman-mirrors.conf
+MIRROR_CONF=etc/pacman-mirrors.conf
+mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 BRANCH='arm-unstable'
 
 if tput setaf 0 &>/dev/null; then

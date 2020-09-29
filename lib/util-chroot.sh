@@ -105,15 +105,14 @@ EOF
     } >"${buildscript}"
     chmod +x "${buildscript}"
 
-    mirror_conf=$1${MIRROR_CONF}
-    set_branch $(get_branch ${MIRROR_CONF}) $mirror_conf
+    set_branch $(get_branch /${MIRROR_CONF}) ${mirror_conf}
     update_chroot $1 ${BRANCH}
 }
 
 # create/update chroot build environment
 prepare_chroot() {
     if [ -e $1/.manjaro-chroot ]; then
-        if [ ${CLEAN_CHROOT} = true ]; then
+        if [ ${CLEAN} = true ]; then
             if [ -e $1/.lock ]; then
                 err_choice "Chroot is busy. Force unmount? [y/N]"
                 read choice

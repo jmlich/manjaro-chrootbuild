@@ -9,7 +9,7 @@ PKG_DIR=$(get_mp_conf PKGDEST)
 while getopts "b:chl:np:rs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
-        c) CLEAN_CHROOT=true ;;
+        c) CLEAN=true ;;
 #       i) INSTALL_PKG="${OPTARG}" ;;
         l) BUILD_LIST=true; INSTALL=true; buildlist="${OPTARG}" ;;
         n) INSTALL=true ;;
