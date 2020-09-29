@@ -121,7 +121,7 @@ usage() {
     echo '                 default: arm-unstable'
     echo '     -c          Start with clean chroot fs'
     echo '     -h          This help'
-#   echo '     -i <pkg>    Install pkg to chroot fs'
+    echo '     -i <pkg>    Install pkg to chroot fs'
     echo '     -l <list>   List to build'
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package to build'

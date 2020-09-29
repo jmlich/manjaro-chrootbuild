@@ -6,6 +6,7 @@ Usage: chrootbuild [options]
                                 arm-unstable/arm-testing/arm-stable)
                                 default: arm-unstable)
      -c          Start with clean chroot fs
+     -i <pkg>    Install local package (specify full path!)
      -l <list>   List to build
      -n          Install built pkg to chroot fs (default when building lists)
      -p <pkg>    Package to build
@@ -25,6 +26,5 @@ If PKGDEST isn't defined, package will be moved to current work directory.
 
 ### todo:
 - check options
-- error handling
-- add option to install local pkgs to chroot fs
+- more error handling
 - collect multiple packages and lists in arrays
