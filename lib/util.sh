@@ -41,7 +41,7 @@ header() {
 
 msg() {
     local mesg=$1; shift
-    printf "\n${BLUE}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
+    printf "\n${GREEN}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 msg2() {
