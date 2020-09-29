@@ -22,7 +22,7 @@ If PKGDEST isn't defined, package will be moved to current work directory.
 
 `<package>` names may be used with trailing slashes.
 
-`Lists` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`.
+`Lists` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`. Commenting list entries with `#` is supported.
 
 ### todo:
 - check options
