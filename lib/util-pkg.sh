@@ -19,9 +19,17 @@ get_config() {
     echo $(get_mp_conf $1)
 }
 
+install_local_pkg() {
+    local pkg=${1##*/}
+    msg "Install local package [$pkg]"
+    cp $1 $2/pkgdest
+    chroot $2 pacman -U /pkgdest/$pkg --noconfirm || abort "Failed to install local package."
+    rm $2/pkgdest/$pkg
+}
+
 rm_pkgs() {
     if [ ! -z ${PKG_DIR} ]; then
-        msg5 "Remove previously built packages from [${PKG_DIR}]."
+        msg5 "Remove previously built packages from [${PKG_DIR}]"
         rm ${PKG_DIR}/*.{xz,zst,sig} &>/dev/null
     fi
 }

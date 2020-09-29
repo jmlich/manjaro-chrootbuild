@@ -49,14 +49,14 @@ update_chroot() {
     msg "Configure branch [$2]"
     set_branch $2
     msg "Update chroot file system"
-    pacman --sysroot $1 -S$cmd --noconfirm
+    pacman --sysroot $1 -S$cmd --noconfirm || abort "Failed to update chroot."
 }
 
 create_chroot() {
     create_min_fs $1
     chroot_api_mount $1 && touch $1/.{mount,lock}
     msg "Install build environment to $1"
-    pacman -r $1 -Syy base-devel --noconfirm
+    pacman -r $1 -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
     msg "Copy keyring"
     cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     msg "Create locale"
