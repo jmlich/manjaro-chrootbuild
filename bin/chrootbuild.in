@@ -44,7 +44,7 @@ if [ ${BUILD_LIST} = true ]; then
     [[ ${sign} = list ]] && sign_pkg ${PKG_DIR}
     summary
 else
-    build_pkg ${pkg}
+    build_pkg $pkg
 fi
 
 unmount_chroot ${CHROOT_DIR}

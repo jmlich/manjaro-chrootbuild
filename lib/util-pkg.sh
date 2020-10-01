@@ -54,6 +54,6 @@ build_pkg() {
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
     status=$?
     cd ${CHROOT_DIR}/pkgdest
-    [[ ${sign} = pkg ]] && sign_pkg .
+    [[ $sign = pkg ]] && sign_pkg .
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
 }
