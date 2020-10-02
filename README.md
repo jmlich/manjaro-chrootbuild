@@ -19,7 +19,9 @@ Usage: chrootbuild [options]
 
 - **sign_pkgs**   - Signs all packages in the current directory with the gpg key configured for makepkg
 
-- **cb_monitor**  - Prints build log in realtime when executed in a separate terminal window (or console) while `chrootbuild` is running
+- **cb_monitor**  - When building lists, build logs will be written to separate log files for each package.  
+Errors will be collected and displayed at the end with links to the relevant log files.  
+To see the build progress in realtime you can run `cb_monitor` in a separate terminal window or console.
 
 ![chrootbuild/cb_monitor](https://gitlab.manjaro.org/manjaro-arm/applications/manjaro-chrootbuild/-/raw/build-monitor/chrootbuild_in_action.png)  
 _Building a list of git packages on a PinebookPro while printing the build log with `cb_monitor` (top right)_
