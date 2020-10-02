@@ -3,7 +3,7 @@
 build_err=()
 
 get_ver() {
-    ver=$(grep "$1=" PKGBUILD | cut -d'=' -f2)
+    ver=$(grep "^$1=" PKGBUILD | cut -d'=' -f2)
     echo $ver
 }
 
