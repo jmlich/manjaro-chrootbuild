@@ -29,7 +29,7 @@ install_local_pkg() {
 
 rm_pkgs() {
     if [ ! -z ${PKG_DIR} ]; then
-        msg5 "Remove previously built packages from [${PKG_DIR}]"
+        msg "Remove previously built packages from [${PKG_DIR}]"
         rm ${PKG_DIR}/*.{xz,zst,sig} &>/dev/null
     fi
 }
@@ -45,6 +45,8 @@ sign_pkg() {
 }
 
 build_pkg() {
+    LOG_FILE="${LOG_DIR}/$1-$(date +'%Y%m%d%H%M')"
+    echo ${LOG_FILE} > $mon
     rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
@@ -56,4 +58,5 @@ build_pkg() {
     cd ${CHROOT_DIR}/pkgdest
     [[ $sign = pkg ]] && sign_pkg .
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
+    msg_wait
 }

@@ -1,7 +1,5 @@
 #! /bin/sh
 
-LOG_DIR=${START_DIR}/logs
-log=${LOG_DIR}/build_log
 build_err=()
 
 get_ver() {
@@ -27,9 +25,7 @@ prepare_list() {
 build_list() {
     msg5 "* ${1%-git}: Comparing git versions."
     cd ${START_DIR}
-    echo " " >> $log
-    echo "+++ $(date -u) - START PACKAGE UPDATE +++" >> $log
-    echo " " >> $log
+    printf "\n\n+++ $(date -u) - START PACKAGE UPDATE +++\n\n" >> $log
 
     prepare_list $1
     i=1
@@ -59,7 +55,7 @@ build_list() {
 
             msg3 "building updated pkgver $git_ver"
 
-            LOG_FILE="${LOG_DIR}/${p}-$(date +'%Y%m%d%H%M')"
+            LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
             echo "$(date -u) $p $git_ver" >> $log
 
@@ -67,6 +63,7 @@ build_list() {
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
             chown ${SUDO_USER}:${SUDO_USER} PKGBUILD
             cd ..
+            echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
                 build_err+=("${LOG_FILE}")
@@ -75,6 +72,7 @@ build_list() {
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
+            msg_wait
         else
             msg3 "unchanged."
         fi
