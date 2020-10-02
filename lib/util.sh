@@ -17,10 +17,6 @@ MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 BRANCH='arm-unstable'
-mon=/tmp/current_build
-mon_wait=/tmp/mon_msg
-# term_emu=$(ps -p $(ps -p $$ -o ppid=) o args=)
-
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
@@ -87,15 +83,6 @@ err_build() {
     printf "${RED}${BOLD}      Errors have occurred.${ALL_OFF} Check the log!\n\n"
 }
 
-msg_wait() {
-    printf "\r   Waiting for build job ..." > $mon_wait
-    echo $mon_wait > $mon
-}
-
-mon_end() {
-    rm $mon_wait $mon
-}
-
 check_root() {
     if [ "$EUID" -ne 0 ]; then
         err "This application needs to be run as root."
@@ -127,13 +114,6 @@ ssh_add(){
     else
         start_agent ${ssh_env};
     fi
-}
-
-prepare_log() {
-    LOG_DIR=$(get_config LOGDEST)
-    [[ -z ${LOG_DIR} ]] && LOG_DIR=$USER_HOME/.chrootbuild-logs
-    install -d ${LOG_DIR}
-    log=${LOG_DIR}/build_log
 }
 
 usage() {

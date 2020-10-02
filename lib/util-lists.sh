@@ -1,6 +1,25 @@
 #! /bin/sh
 
+mon=/tmp/current_build
+mon_wait=/tmp/mon_msg
+# term_emu=$(ps -p $(ps -p $$ -o ppid=) o args=)
 build_err=()
+
+msg_wait() {
+    printf "\r   Waiting for build job ..." > $mon_wait
+    echo $mon_wait > $mon
+}
+
+prepare_log() {
+    LOG_DIR=$(get_config LOGDEST)
+    [[ -z ${LOG_DIR} ]] && LOG_DIR=$USER_HOME/.chrootbuild-logs
+    install -d ${LOG_DIR}
+    log=${LOG_DIR}/build_log
+}
+
+mon_end() {
+    rm $mon_wait $mon
+}
 
 get_ver() {
     ver=$(grep "^$1=" PKGBUILD | cut -d'=' -f2)
@@ -83,6 +102,7 @@ build_list() {
     rm $list
 
     printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
+    mon_end
 }
 
 summary() {
