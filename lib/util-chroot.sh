@@ -88,8 +88,8 @@ EOF
     chmod 440 "$1/etc/sudoers.d/builduser-pacman"
 
     sed -e '/^MAKEFLAGS=/d' -e '/^PACKAGER=/d' -i "$1/${MP_CONF_GLOB}"
-    for x in BUILDDIR=/build PKGDEST=/pkgdest SRCPKGDEST=/srcpkgdest SRCDEST=/srcdest LOGDEST=/logdest \
-        "MAKEFLAGS='$MAKEFLAGS'" "PACKAGER='$PACKAGER'" "GPGKEY='$GPGKEY'"
+    for x in BUILDDIR=/build PKGDEST=/pkgdest SRCPKGDEST=/srcpkgdest SRCDEST=/srcdest \
+    LOGDEST=/logdest "PACKAGER='$PACKAGER'" "GPGKEY='$GPGKEY'"
     do
         grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
         echo "$x" >>"$1/${MP_CONF_GLOB}"
