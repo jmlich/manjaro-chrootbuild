@@ -32,10 +32,11 @@ if [ ${SIGN} = true ]; then
 fi
 
 check_root
+[[ ${BUILD_LIST} = true ]] && check_sanity $buildlist || check_sanity $pkg
 prepare_chroot ${CHROOT_DIR}
 
-[[ ${RM_PKGS} = true ]] && rm_pkgs
 [[ ! -z ${INSTALL_PKG} ]] && install_local_pkg ${INSTALL_PKG} ${CHROOT_DIR}
+[[ ${RM_PKGS} = true ]] && rm_pkgs
 
 if [ ${BUILD_LIST} = true ]; then
     . ${LIBDIR}/util-lists.sh
@@ -43,7 +44,7 @@ if [ ${BUILD_LIST} = true ]; then
     msg_wait
     [[ ! -e ${log} ]] && echo "+++ package build log +++" > $log
     #ssh_add
-    build_list ${buildlist}
+    build_list $buildlist
     [[ ${sign} = list ]] && sign_pkg ${PKG_DIR}
     summary
 else

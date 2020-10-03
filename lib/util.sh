@@ -91,8 +91,23 @@ check_root() {
 }
 
 abort() {
-  unmount_chroot ${CHROOT_DIR}
-  err $1
+  err "$1"
+  [[ -e ${CHROOT_DIR}/.mount ]] && unmount_chroot ${CHROOT_DIR}
+  exit 1
+}
+
+check_sanity() {
+    if [ $BUILD_LIST = true ]; then
+        if [ ! -f $1.list ]; then
+            abort "Could not find buildlist [$1.list]. Aborting."
+        elif [ ! -d $1 ]; then
+            abort "Could not find directory [$1]. Aborting."
+        fi
+    elif [ -z $1 ]; then
+        abort "No list or package specified. Aborting."
+    elif [ ! -f $1/PKGBUILD ]; then
+        abort "Could not find PKGBUILD for [$1]. Aborting."
+    fi
 }
 
 start_agent(){
