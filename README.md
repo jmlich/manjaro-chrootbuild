@@ -2,7 +2,7 @@
 
 ## included utilities:
 
-- **chrootbuild** - Creates a chroot environment in `/var/lib/chrootbuild` and builds individual packages or build lists
+- **chrootbuild** - Creates a chroot environment in `/var/lib/chrootbuild` and builds lists or individual packages
 ```
 Usage: chrootbuild [options]
      -b <branch> Branch to use (unstable/testing/stable-staging/stable;
@@ -35,5 +35,4 @@ If `PKGDEST` isn't defined, package(s) will be moved to the current work directo
 
 #### todo:
 - check options
-- improve error and abort handling
 - collect multiple packages and lists in arrays
