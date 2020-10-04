@@ -38,7 +38,7 @@ get_branch() {
 }
 
 set_branch() {
-    sed -i "/^Branch/c\Branch = $1" ${mirror_conf}
+    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
     echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
 }
 
