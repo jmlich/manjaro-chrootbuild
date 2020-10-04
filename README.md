@@ -39,5 +39,4 @@ If `PKGDEST` isn't defined, package(s) will be moved to the current work directo
 To rebuild listed packages with `pkgver` identical with repo version just bump `pkgrel`.
 
 #### todo:
-- check required options
 - add option to build complete lists, regardless of repo version
