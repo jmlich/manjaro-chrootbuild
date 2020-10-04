@@ -6,7 +6,7 @@
 It is particularly useful for updating lists of git packages, where it compares git versions with current repo versions and updates remote package repos after building.
 When a newer `pkgver` is available, `pkgrel` will automatically be reset to `1`.  
 When building lists, build logs will be written to separate log files for each package.  
-Errors will be collected and a summary displayed at the end with links to the relevant log files, also a log of built packages with timestamps is written to a log file.
+Errors will be collected and a summary displayed at the end with links to the relevant log files, also a log of built packages with timestamps is written to a log file. (makepkg's LOGDEST if defined, or $USER_HOME/.chrootbuild-logs)
 ```
 Usage: chrootbuild [options]
      -b <branch> Branch to use (unstable/testing/stable-staging/stable;
