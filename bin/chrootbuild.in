@@ -44,8 +44,10 @@ if [ ${BUILD_LIST} = true ]; then
     #ssh_add
     job build_list "${lists[@]}"
     summary
-else
+elif [ ! -z $1 ]; then
     job build_pkg "${pkgs[@]}"
+else
+    abort "No list or package specified. Aborting."
 fi
 [[ ${SIGN} = true ]] && gpg_sign ${PKG_DIR}
 
