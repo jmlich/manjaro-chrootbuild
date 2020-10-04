@@ -15,7 +15,6 @@ SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
-64bit
 install_pkgs=()
 lists=()
 pkgs=()
@@ -99,6 +98,7 @@ abort() {
 }
 
 check_sanity() {
+    [[ -z $1 ]] && abort "No list or package specified. Aborting."
     if [ $BUILD_LIST = true ]; then
         if [ ! -f $1.list ]; then
             abort "Could not find buildlist [$1.list]. Aborting."
