@@ -33,6 +33,8 @@ if [ ${BUILD_LIST} = true ]; then
     job check_sanity "${lists[@]}"
     msg "List(s) to build:"
     printf "   - %s\n" "${lists[@]//\//}"
+elif [ -z $pkgs ]; then
+    abort "No list or package specified. Aborting."
 else
     job check_sanity "${pkgs[@]}"
     msg "Package(s) to build:"
