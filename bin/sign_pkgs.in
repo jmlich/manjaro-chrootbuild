@@ -10,4 +10,3 @@ for f in $(find $PWD -maxdepth 1 -regex '.*\.pkg\.tar\.\(xz\|zst\)'); do
     [[ -e "$f".sig ]] && rm "$f".sig
     gpg --detach-sign --use-agent -u "${GPGKEY}" "$f"
 done
-msg3 "Done."

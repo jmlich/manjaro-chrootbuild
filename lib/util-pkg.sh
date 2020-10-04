@@ -22,8 +22,8 @@ get_config() {
 install_local_pkg() {
     local pkg=${1##*/}
     msg "Install local package [$pkg]"
-    cp $1 $2/pkgdest
-    chroot $2 pacman -U /pkgdest/$pkg --noconfirm || abort "Failed to install local package."
+    cp $1 ${CHROOT_DIR}/pkgdest
+    chroot ${CHROOT_DIR} pacman -U /pkgdest/$pkg --noconfirm || abort "Failed to install local package."
     rm $2/pkgdest/$pkg
 }
 
@@ -34,7 +34,7 @@ rm_pkgs() {
     fi
 }
 
-sign_pkg() {
+gpg_sign() {
     cd $1
     GPGKEY=$(get_config GPGKEY)
     if [ ! -z ${GPGKEY} ]; then
@@ -54,6 +54,6 @@ build_pkg() {
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
     status=$?
     cd ${CHROOT_DIR}/pkgdest
-    [[ $sign = pkg ]] && sign_pkg .
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
+    cd ${START_DIR}
 }
