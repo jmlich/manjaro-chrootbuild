@@ -7,7 +7,7 @@
 Usage: chrootbuild [options]
      -b <branch> Branch to use (unstable/testing/stable-staging/stable;
                                 arm-unstable/arm-testing/arm-stable)
-                                default: arm-unstable)
+                                default: unstable / arm-unstable)
      -c          Start with clean chroot fs
      -i <pkg>    Install local package (specify full path!)
      -l <list>   List to build
