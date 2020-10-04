@@ -16,6 +16,9 @@ MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 BRANCH='arm-unstable'
+install_pkgs=()
+lists=()
+pkgs=()
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"

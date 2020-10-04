@@ -33,9 +33,8 @@ else
     printf "   - %s\n" "${pkgs[@]//\//}"
 fi
 prepare_chroot ${CHROOT_DIR}
-
-[[ ${RM_PKGS} = true ]] && rm_pkgs
 job install_local_pkg "${install_pkgs[@]}"
+[[ ${RM_PKGS} = true ]] && rm_pkgs
 
 if [ ${BUILD_LIST} = true ]; then
     . ${LIBDIR}/util-lists.sh
