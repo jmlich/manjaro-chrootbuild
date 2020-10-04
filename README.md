@@ -35,7 +35,8 @@ Host package cache is used by default.
 `PKGDEST` and `GPGKEY` are read from host's `/etc/makepkg.conf` and/or (with precedence) the user's `~/.makepkg.conf`  
 If `PKGDEST` isn't defined, package(s) will be moved to the current work directory.  
 `<package>` names may be used with trailing slashes.  
-`<list>s` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`. Commenting list entries with `#` is supported.
+`<list>s` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`.  
+Commenting list entries with `#` is supported.  
 To rebuild listed packages with `pkgver` identical with repo version just bump `pkgrel`.
 
 #### todo:
