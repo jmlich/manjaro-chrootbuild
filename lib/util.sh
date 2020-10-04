@@ -12,11 +12,13 @@ CLEAN=false
 BUILD_LIST=false
 INSTALL=false
 SIGN=false
-sign=none
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 BRANCH='arm-unstable'
+install_pkgs=()
+lists=()
+pkgs=()
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
@@ -109,6 +111,14 @@ check_sanity() {
         abort "Could not find PKGBUILD for [$1]. Aborting."
     fi
 }
+job() {
+    local func=$1
+    shift
+    arr=("$@")
+    for i in ${arr[@]}; do
+        $func $i
+    done
+}
 
 start_agent(){
     echo "Initializing SSH agent..."
@@ -141,10 +151,13 @@ usage() {
     echo '                 default: arm-unstable'
     echo '     -c          Start with clean chroot fs'
     echo '     -h          This help'
-    echo '     -i <pkg>    Install pkg to chroot fs'
-    echo '     -l <list>   List to build'
+    echo '     -i <pkg>    Install package(s) to chroot fs'
+    echo '                 (for multiple packages repeat -i flag)'
+    echo '     -l <list>   List(s) to build'
+    echo '                 (for multiple lists repeat -l flag)'
     echo '     -n          Install built pkg to chroot fs'
-    echo '     -p <pkg>    Package to build'
+    echo '     -p <pkg>    Package(s) to build'
+    echo '                 (for multiple packages repeat -p flag)'
     echo '     -r          Remove previously built packages in $PKGDEST'
     echo '     -s          Sign package(s)'
     echo ''

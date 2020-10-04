@@ -10,10 +10,10 @@ while getopts "b:chi:l:np:rs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
-        i) INSTALL_PKG="${OPTARG}" ;;
-        l) BUILD_LIST=true; INSTALL=true; buildlist="${OPTARG}" ;;
+        i) install_pkgs+=("${OPTARG}") ;;
+        l) BUILD_LIST=true; INSTALL=true; lists+=("${OPTARG}") ;;
         n) INSTALL=true ;;
-        p) pkg="${OPTARG}" ;;
+        p) pkgs+=("${OPTARG}") ;;
         r) RM_PKGS=true ;;
         s) SIGN=true ;;
         h|?) usage 0 ;;
@@ -22,33 +22,31 @@ while getopts "b:chi:l:np:rs" arg; do
 done
 shift $((OPTIND -1))
 
-# when building a list, sign all pkgs at the end.
-if [ ${SIGN} = true ]; then
-    if [ ${BUILD_LIST} = true ]; then
-        sign=list
-    else
-        sign=pkg
-    fi
-fi
-
 check_root
-[[ ${BUILD_LIST} = true ]] && check_sanity $buildlist || check_sanity $pkg
+if [ ${BUILD_LIST} = true ]; then
+    job check_sanity "${lists[@]}"
+    msg "List(s) to build:"
+    printf "   - %s\n" "${lists[@]//\//}"
+else
+    job check_sanity "${pkgs[@]}"
+    msg "Package(s) to build:"
+    printf "   - %s\n" "${pkgs[@]//\//}"
+fi
 prepare_chroot ${CHROOT_DIR}
-
-[[ ! -z ${INSTALL_PKG} ]] && install_local_pkg ${INSTALL_PKG} ${CHROOT_DIR}
+job install_local_pkg "${install_pkgs[@]}"
 [[ ${RM_PKGS} = true ]] && rm_pkgs
 
 if [ ${BUILD_LIST} = true ]; then
     . ${LIBDIR}/util-lists.sh
     prepare_log
     msg_wait
-    [[ ! -e ${log} ]] && echo "+++ package build log +++" > $log
+    [[ ! -e $log ]] && echo "+++ package build log +++" > $log
     #ssh_add
-    build_list $buildlist
-    [[ ${sign} = list ]] && sign_pkg ${PKG_DIR}
+    job build_list "${lists[@]}"
     summary
 else
-    build_pkg $pkg
+    job build_pkg "${pkgs[@]}"
 fi
+[[ ${SIGN} = true ]] && gpg_sign ${PKG_DIR}
 
 unmount_chroot ${CHROOT_DIR}

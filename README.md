@@ -34,5 +34,4 @@ If `PKGDEST` isn't defined, package(s) will be moved to the current work directo
 `<list>s` must be present in the work directory as `<list>.list` together with a directory named `<list>`, containing all PKGBUILD-repos specified in `<list>.list`. Commenting list entries with `#` is supported.
 
 #### todo:
-- check options
-- collect multiple packages and lists in arrays
+- check required options

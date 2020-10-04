@@ -17,10 +17,6 @@ prepare_log() {
     log=${LOG_DIR}/build_log
 }
 
-mon_end() {
-    rm $mon_wait $mon
-}
-
 get_ver() {
     ver=$(grep "^$1=" PKGBUILD | cut -d'=' -f2)
     echo $ver
@@ -99,10 +95,8 @@ build_list() {
         cd ${START_DIR}
     done
 
-    rm $list
-
+    rm $list $mon_wait $mon
     printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
-    mon_end
 }
 
 summary() {
