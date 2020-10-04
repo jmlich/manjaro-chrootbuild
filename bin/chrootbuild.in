@@ -22,6 +22,12 @@ while getopts "b:chi:l:np:rs" arg; do
 done
 shift $((OPTIND -1))
 
+# determine default branch
+case "$(uname -m)" in
+    aarch64) BRANCH="arm-unstable" ;;
+    x86_64) BRANCH="unstable" ;;
+esac
+
 check_root
 if [ ${BUILD_LIST} = true ]; then
     job check_sanity "${lists[@]}"

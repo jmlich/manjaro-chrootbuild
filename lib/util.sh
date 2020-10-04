@@ -15,7 +15,6 @@ SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
-[[ $(uname -m) = aarch64 ]] && BRANCH='arm-unstable' || [[ $(uname -m) =  x86_64 ]] && BRANCH='unstable'
 64bit
 install_pkgs=()
 lists=()
