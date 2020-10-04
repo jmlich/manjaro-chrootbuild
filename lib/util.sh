@@ -108,6 +108,7 @@ check_sanity() {
         abort "Could not find PKGBUILD for [$1]. Aborting."
     fi
 }
+
 job() {
     local func=$1
     shift
