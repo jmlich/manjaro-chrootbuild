@@ -2,7 +2,7 @@
 
 ## included utilities:
 
-- **chrootbuild** - Builds lists or individual packages in a chroot environment.
+- **chrootbuild** - Builds lists or individual packages in a chroot environment of native architecure.  
 It is particularly useful for updating lists of git packages, where it compares git versions with current repo versions and updates remote package repos after building.
 When a newer `pkgver` is available, `pkgrel` will automatically be reset to `1`.  
 When building lists, build logs will be written to separate log files for each package.  
