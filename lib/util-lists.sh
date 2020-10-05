@@ -53,7 +53,7 @@ build_list() {
         cd $1/$p
         rm -rf src
         msg6 "updating git ..." # can take a while in some cases.
-        git pull &>/dev/null
+        git pull &>/dev/null || abort "Failed to update git repo for package [$p]. Aborting."
         sudo -iu ${SUDO_USER} repo=${PWD} bash -c 'cd ${repo}; makepkg -do &>/dev/null'
         git_ver=$(get_ver pkgver)-$(get_ver pkgrel)
 
