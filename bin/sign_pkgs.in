@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBDIR='/var/lib/manjaro-chrootbuild'
+LIBDIR='/usr/lib/manjaro-chrootbuild'
 
 . ${LIBDIR}/util-pkg.sh
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 create_min_fs(){
-    msg "Create install root at $1"
+    msg "Create install root at [$1]"
     rm -rf $1/*
     mkdir -m 0755 -p $1/var/{cache/pacman/pkg,lib/pacman,log} $1/{dev,run,etc}
     mkdir -m 1777 -p $1/tmp
@@ -55,7 +55,7 @@ update_chroot() {
 create_chroot() {
     create_min_fs $1
     chroot_api_mount $1 && touch $1/.{mount,lock}
-    msg "Install build environment to $1"
+    msg "Install build environment"
     pacman -r $1 -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
     msg "Copy keyring"
     cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
