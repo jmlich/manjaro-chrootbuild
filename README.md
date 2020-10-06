@@ -3,11 +3,13 @@
 ## included utilities:
 
 - **chrootbuild** - Builds lists or individual packages in a chroot environment of native architecture.  
-It is particularly useful for updating lists of git packages, where it compares git versions with current repo versions and updates remote package repos after building.
+It is particularly useful for updating lists of git packages, where it compares git versions with current repo versions and updates remote package repos after building.  
 When a newer `pkgver` is available, `pkgrel` will automatically be reset to `1`.  
-When building lists, build logs will be written to separate log files for each package.  
+While building lists, build logs will be written to separate log files for each package.  
 Errors will be collected and a summary displayed at the end with links to the relevant log files.  
 A log of built packages with timestamps is written to a file **build_log** in makepkg's `LOGDEST` if defined, or in `$USER_HOME/.chrootbuild-logs/`).
+Local packages can be installed into the chroot filesystem before building.__
+Combined jobs of building packages and list are also possible, where built packages can be installed into the chroot filesystem before subsequent building of other packages and lists.
 ```
 Usage: chrootbuild [options]
      -b <branch> Branch to use (unstable/testing/stable-staging/stable;

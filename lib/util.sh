@@ -9,7 +9,6 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN=false
-BUILD_LIST=false
 INSTALL=false
 SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
@@ -18,6 +17,7 @@ mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 install_pkgs=()
 lists=()
 pkgs=()
+check=none
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
@@ -97,8 +97,17 @@ abort() {
   exit 1
 }
 
+job() {
+    local func=$1
+    shift
+    arr=("$@")
+    for i in ${arr[@]}; do
+        $func $i
+    done
+}
+
 check_sanity() {
-    if [ $BUILD_LIST = true ]; then
+    if [ $check = list ]; then
         if [ ! -f $1.list ]; then
             abort "Could not find buildlist [$1.list]. Aborting."
         elif [ ! -d $1 ]; then
@@ -109,13 +118,22 @@ check_sanity() {
     fi
 }
 
-job() {
-    local func=$1
-    shift
-    arr=("$@")
-    for i in ${arr[@]}; do
-        $func $i
-    done
+prepare_lists() {
+    check=list
+    job check_sanity "${lists[@]}"
+    . ${LIBDIR}/util-lists.sh
+    msg_wait
+    prepare_log
+    #ssh_add
+    msg "List(s) to build:"
+    printf "   - %s\n" "${lists[@]//\//}"
+}
+
+prepare_pkgs() {
+    check=package
+    job check_sanity "${pkgs[@]}"
+    msg "Package(s) to build:"
+    printf "   - %s\n" "${pkgs[@]//\//}"
 }
 
 start_agent(){
