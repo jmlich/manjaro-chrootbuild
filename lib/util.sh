@@ -101,7 +101,7 @@ cleanup() {
 
 abort() {
   err "$1"
-  [[ -e ${CHROOT_DIR}/.mount ]] && cleanup
+  cleanup
   exit 1
 }
 

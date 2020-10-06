@@ -4,7 +4,7 @@ LIBDIR='/usr/lib/manjaro-chrootbuild'
 . ${LIBDIR}/util-pkg.sh
 . ${LIBDIR}/util-chroot.sh
 
-trap cleanup EXIT
+trap 'abort "Aborted."' EXIT
 PKG_DIR=$(get_mp_conf PKGDEST)
 check_root
 get_default_branch
