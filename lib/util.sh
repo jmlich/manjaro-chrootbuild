@@ -91,9 +91,17 @@ check_root() {
     fi
 }
 
+cleanup() {
+    mesg=${1:-"Cleaning up."}
+    msg4 "$mesg"
+    umount -l ${CHROOT_DIR} 2>/dev/null
+    rm ${CHROOT_DIR}/.{mount,lock} 2>/dev/null
+    rm ${START_DIR}/*.list.work 2>/dev/null
+    }
+
 abort() {
   err "$1"
-  [[ -e ${CHROOT_DIR}/.mount ]] && unmount_chroot ${CHROOT_DIR}
+  [[ -e ${CHROOT_DIR}/.mount ]] && cleanup
   exit 1
 }
 

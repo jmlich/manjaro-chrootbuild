@@ -28,10 +28,6 @@ chroot_api_mount() {
     touch $1/.mount
 }
 
-unmount_chroot() {
-    umount -l $1 && rm $1/.{mount,lock} 2>/dev/null
-}
-
 get_branch() {
     branch=$(cat $1 | grep ^Branch | cut -d= -f2 | cut -d' ' -f2)
     echo ${branch}
@@ -115,11 +111,7 @@ prepare_chroot() {
         if [ -e $1/.lock ]; then
             err_choice "Chroot is busy. Force unmount? [y/N]"
             read choice
-            if [ $choice = y ] 2>/dev/null; then
-                unmount_chroot $1
-            else
-                exit 1
-            fi
+            [[ $choice = y ]] 2>/dev/null && cleanup "Re-mounting chroot filesystem." || exit 1
         fi
         if [ ${CLEAN} = true ]; then
             msg "Delete old chroot file system"

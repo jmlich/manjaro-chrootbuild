@@ -4,6 +4,7 @@ LIBDIR='/usr/lib/manjaro-chrootbuild'
 . ${LIBDIR}/util-pkg.sh
 . ${LIBDIR}/util-chroot.sh
 
+trap cleanup EXIT
 PKG_DIR=$(get_mp_conf PKGDEST)
 check_root
 get_default_branch
@@ -36,4 +37,4 @@ job build_list "${lists[@]}"
 [[ ${SIGN} = true ]] && gpg_sign ${PKG_DIR}
 [[ $check = list ]] && finish_list
 
-unmount_chroot ${CHROOT_DIR}
+cleanup
