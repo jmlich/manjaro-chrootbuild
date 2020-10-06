@@ -5,6 +5,14 @@
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 
+
+get_default_branch() {
+    case "$(uname -m)" in
+        aarch64) BRANCH="arm-unstable" ;;
+        x86_64) BRANCH="unstable" ;;
+    esac
+}
+
 query_conf() {
     echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
 }
@@ -34,16 +42,6 @@ rm_pkgs() {
     fi
 }
 
-gpg_sign() {
-    cd $1
-    GPGKEY=$(get_config GPGKEY)
-    if [ ! -z ${GPGKEY} ]; then
-        sudo -u ${SUDO_USER} sign_pkgs
-    else
-        err "No gpg key found in makepkg config. Package cannot be signed."
-    fi
-}
-
 build_pkg() {
     rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
@@ -56,4 +54,14 @@ build_pkg() {
     cd ${CHROOT_DIR}/pkgdest
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
     cd ${START_DIR}
+}
+
+gpg_sign() {
+    cd $1
+    GPGKEY=$(get_config GPGKEY)
+    if [ ! -z ${GPGKEY} ]; then
+        sudo -u ${SUDO_USER} sign_pkgs
+    else
+        err "No gpg key found in makepkg config. Package cannot be signed."
+    fi
 }

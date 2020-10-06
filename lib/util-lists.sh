@@ -15,6 +15,8 @@ prepare_log() {
     [[ -z ${LOG_DIR} ]] && LOG_DIR=$USER_HOME/.chrootbuild-logs
     install -d ${LOG_DIR}
     log=${LOG_DIR}/build_log
+    [[ ! -e $log ]] && echo "+++ package build log +++" > $log
+    printf "\n\n+++ $(date -u) - START PACKAGE UPDATE +++\n\n" >> $log
 }
 
 get_ver() {
@@ -37,12 +39,28 @@ prepare_list() {
     num="$(wc -l $list | cut -d' ' -f1)"
 }
 
-build_list() {
-    msg5 "* ${1%-git}: Comparing git versions."
-    cd ${START_DIR}
-    printf "\n\n+++ $(date -u) - START PACKAGE UPDATE +++\n\n" >> $log
+summary() {
+    if [ ! -z ${build_err} ]; then
+        err_build
+        for e in "${build_err[@]}"; do
+            echo "      $e"
+        done
+        echo ""
+    fi
+    msg4 "Finished."
+}
 
+finish_list() {
+    rm $mon_wait $mon
+    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
+    summary
+}
+
+build_list() {
+    cd ${START_DIR}
     prepare_list $1
+
+    msg5 "* ${1%-git}: Comparing git versions."
     i=1
     for p in $(cat $list); do
         header "${1%-git}: $i/$num - $p"
@@ -53,7 +71,7 @@ build_list() {
         cd $1/$p
         rm -rf src
         msg6 "updating git ..." # can take a while in some cases.
-        git pull &>/dev/null || abort "Failed to update git repo for package [$p]. Aborting."
+        git pull &>/dev/null
         sudo -iu ${SUDO_USER} repo=${PWD} bash -c 'cd ${repo}; makepkg -do &>/dev/null'
         git_ver=$(get_ver pkgver)-$(get_ver pkgrel)
 
@@ -95,17 +113,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    rm $list $mon_wait $mon
-    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
-}
-
-summary() {
-    if [ ! -z ${build_err} ]; then
-        err_build
-        for e in "${build_err[@]}"; do
-            echo "      $e"
-        done
-        echo ""
-    fi
-    msg4 "Finished."
+    rm $list
 }
