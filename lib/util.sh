@@ -14,6 +14,8 @@ SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
+MP_CONF_GLOB='/etc/makepkg.conf'
+MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 install_pkgs=()
 lists=()
 pkgs=()
@@ -97,12 +99,13 @@ cleanup() {
     umount -l ${CHROOT_DIR} 2>/dev/null
     rm ${CHROOT_DIR}/.{mount,lock} 2>/dev/null
     rm ${START_DIR}/*.list.work 2>/dev/null
+    rm $mon $man_wait 2>/dev/null
     }
 
 abort() {
-  err "$1"
-  cleanup
-  exit 1
+    err "$1"
+    cleanup
+    exit 1
 }
 
 job() {

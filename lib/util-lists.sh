@@ -50,12 +50,6 @@ summary() {
     msg4 "Finished."
 }
 
-finish_list() {
-    rm $mon_wait $mon
-    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
-    summary
-}
-
 build_list() {
     cd ${START_DIR}
     prepare_list $1
@@ -113,5 +107,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    rm $list
+    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
 }

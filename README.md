@@ -24,11 +24,22 @@ Usage: chrootbuild [options]
      -s          Sign package(s)
 ```
 
-**NOTE:** For multiple lists of packages repeat the respective flag. Example `sudo chrootbuild -csrl list-1 -l list-2` or `sudo chrootbuild -sp pkg-1 -p pkg-2`.
+**NOTE:** For multiple lists or packages repeat the respective flag. Example `sudo chrootbuild -csrl list-1 -l list-2` or `sudo chrootbuild -sp pkg-1 -p pkg-2`.
 
-- **sign_pkgs**   - Signs all packages in the current directory with the gpg key configured for makepkg.
+- **sign_pkgs**      - Signs all packages in the current directory with the gpg key configured for makepkg.
 
-- **cb_monitor**  - To see the build progress of lists in realtime you can run `cb_monitor` in a separate terminal window or console.
+- **cb_monitor**     - To see the build progress of lists in realtime you can run `cb_monitor` in a separate terminal window or console.
+
+- **prepare_chroot** - Install chroot filesystem and update with defined branch.
+```
+Usage: prepare_chroot [options]"
+      -b <branch> Branch to use: (unstable/testing/stable-staging/stable;
+                                  arm-unstable/arm-testing/arm-stable)
+                                  default: unstable / arm-unstable)
+      -c          Create clean chroot filesystem
+      -k          Keep Chroot filesystem mounted
+      -u          Unmount Chroot filesystem cleanly
+```
 
 ![chrootbuild/cb_monitor](https://gitlab.manjaro.org/manjaro-arm/applications/manjaro-chrootbuild/-/raw/build-monitor/chrootbuild_in_action.png)  
 _Building a list of git packages on a PinebookPro while printing the build log with `cb_monitor` (top right)_

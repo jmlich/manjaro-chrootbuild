@@ -1,5 +1,12 @@
 #!/bin/bash
 
+get_default_branch() {
+    case "$(uname -m)" in
+        aarch64) BRANCH="arm-unstable" ;;
+        x86_64) BRANCH="unstable" ;;
+    esac
+}
+
 create_min_fs(){
     msg "Create install root at [$1]"
     rm -rf $1/*
@@ -111,7 +118,11 @@ prepare_chroot() {
         if [ -e $1/.lock ]; then
             err_choice "Chroot is busy. Force unmount? [y/N]"
             read choice
-            [[ $choice = y ]] 2>/dev/null && cleanup "Re-mounting chroot filesystem." || exit 1
+            if [ $choice = y 2>/dev/null ] ;then
+                cleanup "Re-mounting chroot filesystem."
+            else
+                exit 1
+            fi
         fi
         if [ ${CLEAN} = true ]; then
             msg "Delete old chroot file system"
