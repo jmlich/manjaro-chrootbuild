@@ -2,17 +2,6 @@
 
 . ${LIBDIR}/util.sh
 
-MP_CONF_GLOB='/etc/makepkg.conf'
-MP_CONF_USER="${USER_HOME}/.makepkg.conf"
-
-
-get_default_branch() {
-    case "$(uname -m)" in
-        aarch64) BRANCH="arm-unstable" ;;
-        x86_64) BRANCH="unstable" ;;
-    esac
-}
-
 query_conf() {
     echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
 }
