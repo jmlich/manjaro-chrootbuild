@@ -33,12 +33,12 @@ Usage: chrootbuild [options]
 - **prepare_chroot** - Install chroot filesystem and update with defined branch.
 ```
 Usage: prepare_chroot [options]"
-      -b <branch> Branch to use: (unstable/testing/stable-staging/stable;
-                                  arm-unstable/arm-testing/arm-stable)
-                                  default: unstable / arm-unstable)
-      -c          Create clean chroot filesystem
-      -k          Keep Chroot filesystem mounted
-      -u          Unmount Chroot filesystem cleanly
+     -b <branch> Branch to use (unstable/testing/stable-staging/stable;
+                                arm-unstable/arm-testing/arm-stable)
+                                default: unstable / arm-unstable)
+     -c          Create clean chroot filesystem
+     -k          Keep Chroot filesystem mounted
+     -u          Unmount Chroot filesystem cleanly
 ```
 
 ![chrootbuild/cb_monitor](https://gitlab.manjaro.org/manjaro-arm/applications/manjaro-chrootbuild/-/raw/build-monitor/chrootbuild_in_action.png)  
