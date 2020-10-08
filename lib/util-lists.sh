@@ -88,7 +88,7 @@ build_list() {
 
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
-            chown ${SUDO_USER}:${SUDO_USER} PKGBUILD
+            user_own PKGBUILD
             cd ..
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}

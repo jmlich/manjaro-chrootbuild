@@ -35,11 +35,12 @@ build_pkg() {
     rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
-    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} ${BUILD_DIR}/$1
+    user_own ${BUILD_DIR}/$1
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
     chroot ${CHROOT_DIR} chrootbuild $1 $mp_opts
     status=$?
+    [[ $status != 0 ]] && [[ $check = package ]] && abort "Building package [${1//\//}] failed."
     cd ${CHROOT_DIR}/pkgdest
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
     cd ${START_DIR}

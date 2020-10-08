@@ -147,6 +147,10 @@ prepare_pkgs() {
     printf "   - %s\n" "${pkgs[@]//\//}"
 }
 
+user_own() {
+    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} $1
+}
+
 start_agent(){
     echo "Initializing SSH agent..."
     ssh-agent | sed 's/^echo/#echo/' > "$1"
