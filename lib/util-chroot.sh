@@ -57,6 +57,7 @@ update_chroot() {
     msg "Configure branch [$2]"
     conf_pacman
     set_branch $2
+    cp ${PAC_CONF} ${CHROOT_DIR}/etc/pacman.conf
     msg "Update chroot file system"
     pacman --sysroot $1 -S$cmd --noconfirm || abort "Failed to update chroot."
 }
