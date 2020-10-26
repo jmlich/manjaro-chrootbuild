@@ -8,3 +8,4 @@ _remove() {
 
 _remove lib sh lib/manjaro-chrootbuild
 _remove bin in bin
+rm -rf /etc/manjaro-chrootbuild
