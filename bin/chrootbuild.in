@@ -6,7 +6,6 @@ LIBDIR='/usr/lib/manjaro-chrootbuild'
 
 trap 'abort "Aborted."' INT
 PKG_DIR=$(get_mp_conf PKGDEST)
-check_root
 get_default_branch
 
 while getopts "b:chi:l:np:rs" arg; do
@@ -25,6 +24,7 @@ while getopts "b:chi:l:np:rs" arg; do
 done
 shift $((OPTIND -1))
 
+check_root
 [[ ! -z $lists ]] && prepare_lists
 [[ ! -z $pkgs ]] && prepare_pkgs
 [[ $check = none ]] && abort "No list or package specified. Aborting."

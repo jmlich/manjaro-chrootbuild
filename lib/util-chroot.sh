@@ -1,7 +1,7 @@
 #!/bin/bash
 
 get_default_branch() {
-    case "$(uname -m)" in
+    case ${ARCH} in
         aarch64) BRANCH="arm-unstable" ;;
         x86_64) BRANCH="unstable" ;;
     esac
@@ -35,14 +35,19 @@ chroot_api_mount() {
     touch $1/.mount
 }
 
-get_branch() {
-    branch=$(cat $1 | grep ^Branch | cut -d= -f2 | cut -d' ' -f2)
-    echo ${branch}
-}
+#get_branch() {
+#    branch=$(cat $1 | grep ^Branch | cut -d= -f2 | cut -d' ' -f2)
+#    echo ${branch}
+#}
 
-set_branch() {
-    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
-    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+#set_branch() {
+#    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
+#    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+#}
+
+conf_pacman() {
+    cp ${PAC_CONF_TPL} ${PAC_CONF}
+    sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
 }
 
 update_chroot() {
@@ -59,7 +64,8 @@ create_chroot() {
     create_min_fs $1
     chroot_api_mount $1 && touch $1/.{mount,lock}
     msg "Install build environment"
-    pacman -r $1 -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
+    conf_pacman
+    pacman -r $1 --config $PAC_CONF -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
     msg "Copy keyring"
     cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     msg "Create locale"

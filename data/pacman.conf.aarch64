@@ -1,0 +1,20 @@
+[options]
+CacheDir = /var/cache/pacman/pkg/
+HoldPkg = pacman glibc manjaro-system
+SyncFirst = manjaro-system archlinuxarm-keyring manjaro-arm-keyring
+Architecture = auto
+CheckSpace
+SigLevel = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[core]
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+
+[extra]
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+
+[community]
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+
+[multilib]
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
