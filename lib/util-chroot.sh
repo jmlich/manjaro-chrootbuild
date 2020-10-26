@@ -115,7 +115,7 @@ EOF
     } >"${buildscript}"
     chmod +x "${buildscript}"
 
-    set_branch $(get_branch /${MIRROR_CONF}) ${mirror_conf}
+#    set_branch $(get_branch /${MIRROR_CONF}) ${mirror_conf}
     update_chroot $1 ${BRANCH}
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-confdir=/etc/manjaro-chrootbuild
+confdir=/etc/chrootbuild
 
 _remove() {
     for f in $(ls $1/*.$2 | cut -d / -f 2); do

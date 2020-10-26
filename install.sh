@@ -10,4 +10,4 @@ _install() {
 echo "Installing manjaro-chrootbuild"
 _install lib sh 644 /usr/lib/manjaro-chrootbuild
 _install bin in 755 /usr/bin
-_install data 'conf.*' 644 /etc/manjaro-chrootbuild
+_install data 'conf.*' 644 /etc/chrootbuild
