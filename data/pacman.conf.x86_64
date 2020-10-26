@@ -1,10 +1,10 @@
 [options]
 CacheDir = /var/cache/pacman/pkg/
 HoldPkg = pacman glibc manjaro-system
-SyncFirst    = manjaro-system archlinux-keyring manjaro-keyring
+SyncFirst = manjaro-system archlinux-keyring manjaro-keyring
 Architecture = auto
 CheckSpace
-SigLevel = Required DatabaseOptional
+SigLevel = Never
 LocalFileSigLevel = Optional
 
 [core]
