@@ -2,7 +2,7 @@
 
 _remove() {
     for f in $(ls $1/*.$2 | cut -d / -f 2); do
-        rm /usr/$3/$f
+        rm /usr/$3/${f/.in/}
     done
 }
 
