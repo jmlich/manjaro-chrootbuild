@@ -53,11 +53,12 @@ conf_pacman() {
 update_chroot() {
     [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
     cmd=yu
-    [[ $2 != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
+#    [[ $2 != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
     msg "Configure branch [$2]"
-    set_branch $2
+    conf_pacman
+#    set_branch $2
     msg "Update chroot file system"
-    pacman --sysroot $1 -S$cmd --noconfirm || abort "Failed to update chroot."
+    pacman --sysroot $1 --config ${PAC_CONF} -S$cmd --noconfirm || abort "Failed to update chroot."
 }
 
 create_chroot() {
@@ -65,7 +66,7 @@ create_chroot() {
     chroot_api_mount $1 && touch $1/.{mount,lock}
     msg "Install build environment"
     conf_pacman
-    pacman -r $1 --config $PAC_CONF -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
+    pacman -r $1 --config ${PAC_CONF} -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
     msg "Copy keyring"
     cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     msg "Create locale"
