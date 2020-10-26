@@ -40,10 +40,10 @@ chroot_api_mount() {
 #    echo ${branch}
 #}
 
-#set_branch() {
-#    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
-#    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
-#}
+set_branch() {
+    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
+    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+}
 
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
@@ -56,9 +56,9 @@ update_chroot() {
 #    [[ $2 != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
     msg "Configure branch [$2]"
     conf_pacman
-#    set_branch $2
+    set_branch $2
     msg "Update chroot file system"
-    pacman --sysroot $1 --config ${PAC_CONF} -S$cmd --noconfirm || abort "Failed to update chroot."
+    pacman --sysroot $1 -S$cmd --noconfirm || abort "Failed to update chroot."
 }
 
 create_chroot() {
