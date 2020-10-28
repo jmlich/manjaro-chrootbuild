@@ -71,6 +71,7 @@ build_list() {
         # compare, build if changed and install to chroot
         if [ $repo_ver == 0 ]; then
             msg6 "Package doesn't exist in repo."
+            repo_ver=r0
         else
             msg6 "repo version: $repo_ver"
         fi
