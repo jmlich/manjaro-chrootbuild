@@ -83,7 +83,6 @@ build_list() {
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-            echo "$(date -u) $p $git_ver" >> $log
 
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
@@ -96,7 +95,7 @@ build_list() {
                 build_err+=("${LOG_FILE}")
                 err_build
             else
-                printf "\n   - $p."
+                printf "\n   - $p." >> $log
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
