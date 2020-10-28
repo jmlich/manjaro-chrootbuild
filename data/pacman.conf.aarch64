@@ -15,6 +15,3 @@ Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
 
 [community]
 Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
-
-[multilib]
-Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
