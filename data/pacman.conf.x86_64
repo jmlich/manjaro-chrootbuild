@@ -4,7 +4,7 @@ HoldPkg = pacman glibc manjaro-system
 SyncFirst = manjaro-system archlinux-keyring manjaro-keyring
 Architecture = auto
 CheckSpace
-SigLevel = Never
+SigLevel = Required DatabaseOptional
 LocalFileSigLevel = Optional
 
 [core]

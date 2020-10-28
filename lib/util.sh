@@ -2,7 +2,6 @@
 
 ARCH=$(uname -m)
 START_DIR=${PWD}
-PKG_DIR=${START_DIR}
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 PAC_CONF_TPL=/etc/chrootbuild/pacman.conf.${ARCH}
@@ -141,6 +140,8 @@ prepare_lists() {
     #ssh_add
     msg "List(s) to build:"
     printf "   - %s\n" "${lists[@]//\//}"
+    printf "\n+++ $(date -u) - BUILDING LISTS: +++\n" >> $log
+    printf "   - %s\n" "${lists[@]//\//}" >> $log
 }
 
 prepare_pkgs() {

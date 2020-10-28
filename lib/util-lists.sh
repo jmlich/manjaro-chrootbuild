@@ -16,7 +16,6 @@ prepare_log() {
     install -d ${LOG_DIR}
     log=${LOG_DIR}/build_log
     [[ ! -e $log ]] && echo "+++ package build log +++" > $log
-    printf "\n\n+++ $(date -u) - START PACKAGE UPDATE +++\n\n" >> $log
 }
 
 get_ver() {
@@ -93,9 +92,11 @@ build_list() {
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
+                printf "\nERROR building $p\nsee: ${LOG_FILE}" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
             else
+                printf "\n   - $p."
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
@@ -107,5 +108,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
+    printf "+++ $(date -u) - DONE. +++\n\n" >> $log
 }

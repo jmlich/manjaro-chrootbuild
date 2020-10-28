@@ -1,5 +1,10 @@
 #!/bin/bash
 
+get_pkg_dir() {
+    PKG_DIR=$(get_mp_conf PKGDEST)
+    [[ -z ${PKG_DIR} ]] && PKG_DIR=${START_DIR}
+}
+
 get_default_branch() {
     case ${ARCH} in
         aarch64) BRANCH="arm-unstable" ;;
