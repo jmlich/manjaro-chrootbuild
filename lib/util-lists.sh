@@ -91,11 +91,11 @@ build_list() {
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
-                printf "\nERROR building $p\nsee: ${LOG_FILE}" >> $log
+                printf "! $p FAILED, see ${LOG_FILE} !\n" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
             else
-                printf "\n   - $p." >> $log
+                printf "* $p BUILT $(date -u +%r)\n" >> $log
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
@@ -107,5 +107,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf "+++ $(date -u) - DONE. +++\n\n" >> $log
+    printf "FINISHED, $(date -u +"%y/%M/%d %r%Z").\n\n" >> $log
 }

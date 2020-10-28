@@ -140,8 +140,9 @@ prepare_lists() {
     #ssh_add
     msg "List(s) to build:"
     printf "   - %s\n" "${lists[@]//\//}"
-    printf "\n+++ $(date -u) - BUILDING LISTS: +++\n" >> $log
-    printf "   - %s\n" "${lists[@]//\//}" >> $log
+    printf "\n$(date -u +"%y/%M/%d %r%Z"):\nBUILDING LISTS\n" >> $log
+    printf "- %s\n" "${lists[@]//\//}" >> $log
+    echo "" >> $log
 }
 
 prepare_pkgs() {
