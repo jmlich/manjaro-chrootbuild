@@ -1,9 +1,11 @@
 #!/bin/bash
 
+ARCH=$(uname -m)
 START_DIR=${PWD}
-PKG_DIR=${START_DIR}
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
+PAC_CONF_TPL=/etc/chrootbuild/pacman.conf.${ARCH}
+PAC_CONF=${CHROOT_DIR}/etc/pacman.conf
 [[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
@@ -137,7 +139,10 @@ prepare_lists() {
     prepare_log
     #ssh_add
     msg "List(s) to build:"
-    printf "   - %s\n" "${lists[@]//\//}"
+    printf "%s\n" "   - ${lists[@]//\//}"
+    printf "\n$(date -u +"%y/%m/%d %R:%S %Z"):\nBUILDING LISTS\n" >> $log
+    printf "%s\n" "- ${lists[@]//\//}" >> $log
+    echo "" >> $log
 }
 
 prepare_pkgs() {

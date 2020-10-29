@@ -16,7 +16,6 @@ prepare_log() {
     install -d ${LOG_DIR}
     log=${LOG_DIR}/build_log
     [[ ! -e $log ]] && echo "+++ package build log +++" > $log
-    printf "\n\n+++ $(date -u) - START PACKAGE UPDATE +++\n\n" >> $log
 }
 
 get_ver() {
@@ -72,6 +71,7 @@ build_list() {
         # compare, build if changed and install to chroot
         if [ $repo_ver == 0 ]; then
             msg6 "Package doesn't exist in repo."
+            repo_ver=r0
         else
             msg6 "repo version: $repo_ver"
         fi
@@ -84,7 +84,6 @@ build_list() {
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-            echo "$(date -u) $p $git_ver" >> $log
 
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
@@ -93,9 +92,11 @@ build_list() {
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
+                printf "! FAILED [$p], see ${LOG_FILE} !\n" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
             else
+                printf "* BUILT  [$p]\n" >> $log
                 cd ${START_DIR}/$1/$p
                 git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
@@ -107,5 +108,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf "+++ $(date -u) - PACKAGE UPDATE FINISHED. +++\n\n" >> $log
+    printf "FINISHED, $(date -u +"%y/%m/%d %r%Z").\n\n" >> $log
 }
