@@ -1,7 +1,7 @@
 # Author: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r132.gac8295b
+pkgver=r133.g2051ae7
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
@@ -29,5 +29,5 @@ cd $pkgname
 
   _install lib sh 644 /usr/lib/$pkgname
   _install bin in 755 /usr/bin
-  _install data 'conf.*' 644 /etc/$pkgname
+  _install data 'conf.*' 644 /etc/chrootbuild
 }
