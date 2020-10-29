@@ -108,5 +108,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf "FINISHED, $(date -u +"%y/%m/%d %r%Z").\n\n" >> $log
+    printf "\n  FINISHED, $(date -u +"%y/%m/%d %r%Z").\n\n" >> $log
 }
