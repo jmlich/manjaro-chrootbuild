@@ -139,9 +139,9 @@ prepare_lists() {
     prepare_log
     #ssh_add
     msg "List(s) to build:"
-    printf "%s\n" "   - ${lists[@]//\//}"
+    printf " - %s\n" "${lists[@]//\//}"
     printf "\n$(date -u +"%y/%m/%d %R:%S %Z"):\nBUILDING LISTS\n" >> $log
-    printf "%s\n" "- ${lists[@]//\//}" >> $log
+    printf " - %s\n" "${lists[@]//\//}" >> $log
     echo "" >> $log
 }
 
