@@ -38,3 +38,4 @@ job build_list "${lists[@]}"
 [[ $check = list ]] && summary
 
 cleanup
+exit 0
