@@ -1,0 +1,15 @@
+#!/bin/sh
+
+post_install() {
+  if [ -e /usr/local/bin/gitlab-runner ]; then
+    echo "Adding sudo rights for 'gitlab-runner'"
+    install -d $pkgdir/etc/sudoers.d
+    echo 'gitlab-runner ALL=NOPASSWD: /usr/bin/chrootbuild' > /etc/sudoers.d/gitlab-runner-chrootbuild
+  fi
+}
+
+post_upgrade() {
+  if [ ! -e /etc/sudoers.d/gitlab-runner-chrootbuild ]; then
+    post_install
+  fi
+}
