@@ -107,7 +107,7 @@ EOF
     PACKAGER=$(get_config PACKAGER)
     sed -e '/^PACKAGER=/d' -i "$1/${MP_CONF_GLOB}"
     for x in BUILDDIR=/build PKGDEST=/pkgdest SRCPKGDEST=/srcpkgdest SRCDEST=/srcdest \
-        LOGDEST=/logdest "PACKAGER='$PACKAGER'" "GPGKEY='$GPGKEY'"
+        LOGDEST=/logdest PACKAGER=${PACKAGER} GPGKEY=${GPGKEY}
     do
         grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
         echo "$x" >>"$1/${MP_CONF_GLOB}"
