@@ -116,6 +116,8 @@ cleanup() {
     rm ${CHROOT_DIR}/.{mount,lock} 2>/dev/null
     rm ${START_DIR}/*.list.work 2>/dev/null
     rm $mon $man_wait 2>/dev/null
+
+    # Since some of the removes may fail, we have to 'exit 0' here
     exit 0
     }
 
