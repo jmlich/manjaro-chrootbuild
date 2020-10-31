@@ -79,12 +79,11 @@ build_list() {
             if [ $(vercmp ${repo_ver%-*} ${git_ver%-*}) == 1 ]; then
                 reset_rel
             fi
-
+            git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             msg3 "building updated pkgver $git_ver"
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
             user_own PKGBUILD
@@ -97,8 +96,6 @@ build_list() {
                 err_build
             else
                 printf "* BUILT  [$p]\n" >> $log
-                cd ${START_DIR}/$1/$p
-                git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
             fi
             msg_wait
         else
