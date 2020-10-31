@@ -11,6 +11,7 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN=false
+PUSH_GIT=false
 INSTALL=false
 SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
@@ -203,6 +204,7 @@ usage() {
     echo '                 arm-unstable/arm-testing/arm-stable)'
     echo '                 default: unstable / arm-unstable'
     echo '     -c          Start with clean chroot fs'
+    echo '     -g          Push changes to git when building lists'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
