@@ -95,7 +95,7 @@ build_list() {
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
-                printf "! FAILED [$p], see ${LOG_FILE} !\n" >> $log
+                printf "! FAILED [$p], see ${LOG_FILE}\n" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
             else
@@ -109,5 +109,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf ". DONE [$1] $(date -u +"%y/%m/%d %R:%S %Z").\n\n" >> $log
+    printf ". DONE   [$1] $(date -u +"%y/%m/%d %R:%S %Z").\n\n" >> $log
 }
