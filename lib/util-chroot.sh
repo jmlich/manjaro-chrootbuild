@@ -103,8 +103,8 @@ EOF
     chmod 440 "$1/etc/sudoers.d/builduser-pacman"
 
     # adjust makepkg.conf
-    GPGKEY="\"$(get_config GPGKEY)\""
-    PACKAGER="\"$(get_config PACKAGER)\""
+    GPGKEY="$(get_config GPGKEY)"
+    PACKAGER="$(get_config PACKAGER)"
     sed -e '/^PACKAGER=/d' -i "$1/${MP_CONF_GLOB}"
     for x in BUILDDIR=/build PKGDEST=/pkgdest SRCPKGDEST=/srcpkgdest SRCDEST=/srcdest \
         LOGDEST=/logdest "PACKAGER=${PACKAGER}" GPGKEY=${GPGKEY}
