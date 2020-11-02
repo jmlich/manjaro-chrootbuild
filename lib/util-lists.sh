@@ -99,7 +99,7 @@ build_list() {
                 build_err+=("${LOG_FILE}")
                 err_build
             else
-                printf "* BUILT  [$p]\n" >> $log
+                printf "* BUILT  [$p] $git_ver\n" >> $log
             fi
             msg_wait
         else
