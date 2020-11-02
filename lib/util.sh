@@ -115,7 +115,6 @@ cleanup() {
     msg4 "$mesg"
     umount -l ${CHROOT_DIR} 2>/dev/null
     for f in "${CHROOT_DIR}/.{mount,lock}" "${START_DIR}/*.list.work" $mon $man_wait; do
-        echo "rm $f if exists"
         [[ -e $f ]] && rm $f
     done
     }
