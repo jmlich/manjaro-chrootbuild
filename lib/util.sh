@@ -114,9 +114,10 @@ cleanup() {
     mesg=${1:-"Cleaning up."}
     msg4 "$mesg"
     umount -l ${CHROOT_DIR} 2>/dev/null
-    for f in ${CHROOT_DIR}/.{mount,lock} "${START_DIR}/*.list.work" $mon $man_wait; do
+    for f in ${CHROOT_DIR}/.{mount,lock} "${START_DIR}/*.list.work" $mon $mon_wait; do
         [[ -e $f ]] && rm $f
     done
+    return 0
     }
 
 abort() {
