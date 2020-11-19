@@ -169,7 +169,7 @@ prepare_pkgs() {
 }
 
 user_own() {
-    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} $1
+    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} "$@"
 }
 
 start_agent(){

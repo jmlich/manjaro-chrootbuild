@@ -90,7 +90,7 @@ build_list() {
             msg4 "logfile: $LOG_FILE"
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
-            user_own PKGBUILD
+            user_own PKGBUILD .git
             cd ..
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}

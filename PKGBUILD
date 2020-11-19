@@ -1,7 +1,7 @@
 # Author: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r159.gf5e1c8d
+pkgver=r160.g0c1e061
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
@@ -12,7 +12,7 @@ conflicts=(manjaro-arm-chrootbuild)
 replaces=(manjaro-arm-chrootbuild manjaro-arm-chrootbuild-dev)
 source=("git+$url.git")
 sha256sums=('SKIP')
-install=install
+install=$pkgname.install
 
 pkgver(){
   cd $pkgname
