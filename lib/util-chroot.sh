@@ -53,7 +53,13 @@ set_branch() {
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
     sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
-    [[ $mobile = true ]] && sed -i 's/#\[mobile\] Server/\[mobile\]\nServer/' ${PAC_CONF}
+    if [ $mobile = true ]; then
+        if [ $ARCH = aarch64 ]; then
+            sed -i 's/#\[mobile\] Server/\[mobile\]\nServer/' ${PAC_CONF}
+        else
+            err "Repo 'mobile' is not available for this architecture. Ignoring option '-m'"
+        fi
+    fi
 }
 
 update_chroot() {
