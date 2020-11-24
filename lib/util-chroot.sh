@@ -53,6 +53,7 @@ set_branch() {
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
     sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
+    [[ $mobile = true ]] && sed -i 's/#\[mobile\] Server/\[mobile\]\nServer/' ${PAC_CONF}
 }
 
 update_chroot() {

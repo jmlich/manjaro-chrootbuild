@@ -208,6 +208,7 @@ usage() {
     echo '                 (for multiple packages repeat -i flag)'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
+    echo '     -m          Use \'mobile\' repo (aarch64 only)'
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
