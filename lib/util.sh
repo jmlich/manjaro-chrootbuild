@@ -23,6 +23,7 @@ install_pkgs=()
 lists=()
 pkgs=()
 check=none
+mobile=false
 
 if tput setaf 0 &>/dev/null; then
     ALL_OFF="$(tput sgr0)"
