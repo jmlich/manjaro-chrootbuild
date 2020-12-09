@@ -12,7 +12,7 @@ while getopts "b:cdghi:l:mnp:rs" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
-        v) COLORS=false ;;
+        d) COLORS=false ;;
         g) PUSH_GIT=true ;;
         i) install_pkgs+=("${OPTARG}") ;;
         l) lists+=("${OPTARG}"); INSTALL=true ;;
