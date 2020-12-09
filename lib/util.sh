@@ -44,8 +44,6 @@ enable_colors() {
     fi
 }
 
-[[ "$COLORS" = "true" ]] && enable_colors
-
 header() {
     local mesg=$1; shift
     printf "${YELLOW}${BOLD}  >>  ${mesg}${ALL_OFF}\n" "$@" >&2

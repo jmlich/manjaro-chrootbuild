@@ -27,6 +27,8 @@ while getopts "b:cdghi:l:mnp:rs" arg; do
 done
 shift $((OPTIND -1))
 
+[[ "$COLORS" = "true" ]] && enable_colors
+
 check_root
 [[ ! -z $lists ]] && prepare_lists
 [[ ! -z $pkgs ]] && prepare_pkgs
