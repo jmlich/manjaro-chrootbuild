@@ -16,6 +16,7 @@ INSTALL=false
 SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
+COLORS=true
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
@@ -25,21 +26,25 @@ pkgs=()
 check=none
 mobile=false
 
-if tput setaf 0 &>/dev/null; then
-    ALL_OFF="$(tput sgr0)"
-    BOLD="$(tput bold)"
-    RED="${BOLD}$(tput setaf 1)"
-    GREEN="${BOLD}$(tput setaf 2)"
-    YELLOW="${BOLD}$(tput setaf 3)"
-    BLUE="${BOLD}$(tput setaf 4)"
-else
-    ALL_OFF="\e[0m"
-    BOLD="\e[1m"
-    RED="${BOLD}\e[31m"
-    GREEN="${BOLD}\e[32m"
-    YELLOW="${BOLD}\e[33m"
-    BLUE="${BOLD}\e[34m"
-fi
+enable_colors() {
+    if tput setaf 0 &>/dev/null; then
+        ALL_OFF="$(tput sgr0)"
+        BOLD="$(tput bold)"
+        RED="${BOLD}$(tput setaf 1)"
+        GREEN="${BOLD}$(tput setaf 2)"
+        YELLOW="${BOLD}$(tput setaf 3)"
+        BLUE="${BOLD}$(tput setaf 4)"
+    else
+        ALL_OFF="\e[0m"
+        BOLD="\e[1m"
+        RED="${BOLD}\e[31m"
+        GREEN="${BOLD}\e[32m"
+        YELLOW="${BOLD}\e[33m"
+        BLUE="${BOLD}\e[34m"
+    fi
+}
+
+[[ "$COLORS" = "true" ]] && enable_colors
 
 header() {
     local mesg=$1; shift
@@ -203,6 +208,7 @@ usage() {
     echo '                 arm-unstable/arm-testing/arm-stable)'
     echo '                 default: unstable / arm-unstable'
     echo '     -c          Start with clean chroot fs'
+    echo '     -d          Disable colors.'
     echo '     -g          Push changes to git when building lists'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
