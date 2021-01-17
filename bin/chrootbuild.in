@@ -8,7 +8,7 @@ trap 'abort "Aborted."' INT
 get_pkg_dir
 get_default_branch
 
-while getopts "b:cdghi:l:mnp:rs" arg; do
+while getopts "b:cdghi:l:mnp:rsx" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
@@ -19,8 +19,9 @@ while getopts "b:cdghi:l:mnp:rs" arg; do
         m) mobile=true ;;
         n) INSTALL=true ;;
         p) pkgs+=("${OPTARG}") ;;
-        r) RM_PKGS=true ;;
+        r) CHROOT_DIR="${OPTARG}" ;;
         s) SIGN=true ;;
+        x) RM_PKGS=true ;;
         h|?) usage 0 ;;
         *) usage 1 ;;
     esac
