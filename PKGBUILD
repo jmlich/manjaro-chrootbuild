@@ -1,17 +1,18 @@
 # Author: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r108.g520ca86
+pkgver=r171.g6a33fee
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
-url="https://gitlab.manjaro.org/manjaro-arm/applications/$pkgname"
+url="https://gitlab.manjaro.org/tools/development-tools/$pkgname"
 license=('GPL3')
 makedepends=('git')
 conflicts=(manjaro-arm-chrootbuild)
 replaces=(manjaro-arm-chrootbuild manjaro-arm-chrootbuild-dev)
 source=("git+$url.git")
 sha256sums=('SKIP')
+install=$pkgname.install
 
 pkgver(){
   cd $pkgname
@@ -29,5 +30,5 @@ cd $pkgname
 
   _install lib sh 644 /usr/lib/$pkgname
   _install bin in 755 /usr/bin
-  _install data 'conf.*' 644 /etc/$pkgname
+  _install data 'conf.*' 644 /etc/chrootbuild
 }

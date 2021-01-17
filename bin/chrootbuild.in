@@ -8,21 +8,27 @@ trap 'abort "Aborted."' INT
 get_pkg_dir
 get_default_branch
 
-while getopts "b:chi:l:np:rs" arg; do
+while getopts "b:cdghi:l:mnp:rsx" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
+        d) COLORS=false ;;
+        g) PUSH_GIT=true ;;
         i) install_pkgs+=("${OPTARG}") ;;
         l) lists+=("${OPTARG}"); INSTALL=true ;;
+        m) mobile=true ;;
         n) INSTALL=true ;;
         p) pkgs+=("${OPTARG}") ;;
-        r) RM_PKGS=true ;;
+        r) CHROOT_DIR="${OPTARG}" ;;
         s) SIGN=true ;;
+        x) RM_PKGS=true ;;
         h|?) usage 0 ;;
         *) usage 1 ;;
     esac
 done
 shift $((OPTIND -1))
+
+[[ "$COLORS" = "true" ]] && enable_colors
 
 check_root
 [[ ! -z $lists ]] && prepare_lists

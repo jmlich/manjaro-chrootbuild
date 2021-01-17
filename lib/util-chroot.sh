@@ -53,6 +53,13 @@ set_branch() {
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
     sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
+    if [ $mobile = true ]; then
+        if [ $ARCH = aarch64 ]; then
+            sed -i 's/#\[mobile\] Server/\[mobile\]\nServer/' ${PAC_CONF}
+        else
+            err "Repo 'mobile' is not available for this architecture. Ignoring option '-m'"
+        fi
+    fi
 }
 
 update_chroot() {
@@ -102,9 +109,12 @@ builduser ALL = NOPASSWD: /usr/bin/pacman
 EOF
     chmod 440 "$1/etc/sudoers.d/builduser-pacman"
 
+    # adjust makepkg.conf
+    GPGKEY="\"$(get_config GPGKEY)\""
+    PACKAGER="\"$(get_config PACKAGER)\""
     sed -e '/^PACKAGER=/d' -i "$1/${MP_CONF_GLOB}"
     for x in BUILDDIR=/build PKGDEST=/pkgdest SRCPKGDEST=/srcpkgdest SRCDEST=/srcdest \
-        LOGDEST=/logdest "PACKAGER='$PACKAGER'" "GPGKEY='$GPGKEY'"
+        LOGDEST=/logdest "PACKAGER=${PACKAGER}" GPGKEY=${GPGKEY}
     do
         grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
         echo "$x" >>"$1/${MP_CONF_GLOB}"

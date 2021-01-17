@@ -2,20 +2,6 @@
 
 . ${LIBDIR}/util.sh
 
-query_conf() {
-    echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
-}
-
-get_mp_conf() {
-    [[ -f ${MP_CONF_USER} ]] && CONF=$(query_conf $1 ${MP_CONF_USER})
-    [[ -z ${CONF} ]] && CONF=$(query_conf $1 ${MP_CONF_GLOB})
-    echo ${CONF//\"/}
-}
-
-get_config() {
-    echo $(get_mp_conf $1)
-}
-
 install_local_pkg() {
     local pkg=${1##*/}
     msg "Install local package [$pkg]"

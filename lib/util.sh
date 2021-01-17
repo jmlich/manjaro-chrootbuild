@@ -11,10 +11,12 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN=false
+PUSH_GIT=false
 INSTALL=false
 SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
+COLORS=true
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
@@ -22,22 +24,25 @@ install_pkgs=()
 lists=()
 pkgs=()
 check=none
+mobile=false
 
-if tput setaf 0 &>/dev/null; then
-    ALL_OFF="$(tput sgr0)"
-    BOLD="$(tput bold)"
-    RED="${BOLD}$(tput setaf 1)"
-    GREEN="${BOLD}$(tput setaf 2)"
-    YELLOW="${BOLD}$(tput setaf 3)"
-    BLUE="${BOLD}$(tput setaf 4)"
-else
-    ALL_OFF="\e[0m"
-    BOLD="\e[1m"
-    RED="${BOLD}\e[31m"
-    GREEN="${BOLD}\e[32m"
-    YELLOW="${BOLD}\e[33m"
-    BLUE="${BOLD}\e[34m"
-fi
+enable_colors() {
+    if tput setaf 0 &>/dev/null; then
+        ALL_OFF="$(tput sgr0)"
+        BOLD="$(tput bold)"
+        RED="${BOLD}$(tput setaf 1)"
+        GREEN="${BOLD}$(tput setaf 2)"
+        YELLOW="${BOLD}$(tput setaf 3)"
+        BLUE="${BOLD}$(tput setaf 4)"
+    else
+        ALL_OFF="\e[0m"
+        BOLD="\e[1m"
+        RED="${BOLD}\e[31m"
+        GREEN="${BOLD}\e[32m"
+        YELLOW="${BOLD}\e[33m"
+        BLUE="${BOLD}\e[34m"
+    fi
+}
 
 header() {
     local mesg=$1; shift
@@ -95,13 +100,28 @@ check_root() {
     fi
 }
 
+query_conf() {
+    echo "$(grep "^$1" "$2" | tail -1 | cut -d= -f2)"
+}
+
+get_mp_conf() {
+    [[ -f ${MP_CONF_USER} ]] && CONF=$(query_conf $1 ${MP_CONF_USER})
+    [[ -z ${CONF} ]] && CONF=$(query_conf $1 ${MP_CONF_GLOB})
+    echo ${CONF//\"/}
+}
+
+get_config() {
+    echo $(get_mp_conf $1)
+}
+
 cleanup() {
     mesg=${1:-"Cleaning up."}
     msg4 "$mesg"
     umount -l ${CHROOT_DIR} 2>/dev/null
-    rm ${CHROOT_DIR}/.{mount,lock} 2>/dev/null
-    rm ${START_DIR}/*.list.work 2>/dev/null
-    rm $mon $man_wait 2>/dev/null
+    for f in ${CHROOT_DIR}/.{mount,lock} "${START_DIR}/*.list.work" $mon $mon_wait; do
+        [[ -e $f ]] && rm $f
+    done
+    return 0
     }
 
 abort() {
@@ -153,7 +173,7 @@ prepare_pkgs() {
 }
 
 user_own() {
-    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} $1
+    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} "$@"
 }
 
 start_agent(){
@@ -186,16 +206,21 @@ usage() {
     echo '                 arm-unstable/arm-testing/arm-stable)'
     echo '                 default: unstable / arm-unstable'
     echo '     -c          Start with clean chroot fs'
+    echo '     -d          Disable colors.'
+    echo '     -g          Push changes to git when building lists'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
+    echo "     -m          Use 'mobile' repo (aarch64 only)"
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
-    echo '     -r          Remove previously built packages in $PKGDEST'
+    echo '     -r          custom chrootdir path'
+    echo '                 default: /var/lib/chrootbuild'
     echo '     -s          Sign package(s)'
+    echo '     -x          Remove previously built packages in $PKGDEST'
     echo ''
     exit $1
 }

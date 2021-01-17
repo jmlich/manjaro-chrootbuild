@@ -79,26 +79,27 @@ build_list() {
             if [ $(vercmp ${repo_ver%-*} ${git_ver%-*}) == 1 ]; then
                 reset_rel
             fi
-
+            if [ ${PUSH_GIT} = true ]; then
+                git add PKGBUILD
+                git commit -m "$git_ver" &>/dev/null
+                git push &>/dev/null
+            fi
             msg3 "building updated pkgver $git_ver"
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-
             rm -rf src PKGBUILD &>/dev/null
             git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
-            user_own PKGBUILD
+            user_own PKGBUILD .git
             cd ..
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
             if [ $status != 0 ]; then
-                printf "! FAILED [$p], see ${LOG_FILE} !\n" >> $log
+                printf "! FAILED [$p], see ${LOG_FILE}\n" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
             else
-                printf "* BUILT  [$p]\n" >> $log
-                cd ${START_DIR}/$1/$p
-                git add PKGBUILD && git commit -m "$git_ver" &>/dev/null && git push &>/dev/null
+                printf "* BUILT  [$p] $git_ver\n" >> $log
             fi
             msg_wait
         else
@@ -108,5 +109,5 @@ build_list() {
         cd ${START_DIR}
     done
 
-    printf "FINISHED, $(date -u +"%y/%m/%d %r%Z").\n\n" >> $log
+    printf ". DONE   [$1] $(date -u +"%y/%m/%d %R:%S %Z").\n\n" >> $log
 }
