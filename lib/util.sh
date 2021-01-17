@@ -217,8 +217,10 @@ usage() {
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
-    echo '     -r          Remove previously built packages in $PKGDEST'
+    echo '     -r          custom chrootdir path'
+    echo '                 default: /var/lib/chrootbuild'
     echo '     -s          Sign package(s)'
+    echo '     -x          Remove previously built packages in $PKGDEST'
     echo ''
     exit $1
 }
