@@ -13,6 +13,7 @@ RM_PKGS=false
 CLEAN=false
 PUSH_GIT=false
 INSTALL=false
+UPDATE=false
 SIGN=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
@@ -220,6 +221,7 @@ usage() {
     echo '     -r          custom chrootdir path'
     echo '                 default: /var/lib/chrootbuild'
     echo '     -s          Sign package(s)'
+    echo '     -u          Build pkgs only if update available (lists only)'
     echo '     -x          Remove previously built packages in $PKGDEST'
     echo ''
     exit $1
