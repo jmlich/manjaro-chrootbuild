@@ -53,6 +53,33 @@ build_list() {
     cd ${START_DIR}
     prepare_list $1
 
+    msg5 "* ${1%-git}: Building packages."
+    i=1
+    for p in $(cat $list); do
+        header "${1%-git}: $i/$num - $p"
+        LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
+        msg4 "logfile: $LOG_FILE"
+        echo ${LOG_FILE} > $mon
+        cd $1
+        build_pkg $p &>${LOG_FILE}
+        if [ $status != 0 ]; then
+            printf "! FAILED [$p], see ${LOG_FILE}\n" >> $log
+            build_err+=("${LOG_FILE}")
+            err_build
+        else
+            printf "* BUILT  [$p] $git_ver\n" >> $log
+        fi
+        ((i=i+1))
+        cd ${START_DIR}
+    done
+
+    printf ". DONE   [$1] $(date -u +"%y/%m/%d %R:%S %Z").\n\n" >> $log
+}
+
+build_list_git() {
+    cd ${START_DIR}
+    prepare_list $1
+
     msg5 "* ${1%-git}: Comparing git versions."
     i=1
     for p in $(cat $list); do
