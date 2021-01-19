@@ -20,7 +20,6 @@ rm_pkgs() {
 build_pkg() {
     rm -rf ${BUILD_DIR}/.[!.]*
     cp -r $1 ${BUILD_DIR}
-    get_keys $1
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     user_own ${BUILD_DIR}/$1
 
