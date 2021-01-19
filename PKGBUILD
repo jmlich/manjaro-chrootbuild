@@ -31,5 +31,5 @@ cd $pkgname
   _install lib sh 644 /usr/lib/$pkgname
   _install bin in 755 /usr/bin
   _install data 'conf.*' 644 /etc/chrootbuild
-  install -m644 data/build.sh /etc/chrootbuild
+  install -m644 data/build.sh $pkgdir/etc/chrootbuild
 }
