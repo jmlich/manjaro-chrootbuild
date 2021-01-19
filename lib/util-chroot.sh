@@ -120,15 +120,8 @@ EOF
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
 
-    # create buildscript
-    buildscript="$1/usr/bin/chrootbuild"
-    {
-        printf '#!/bin/bash\n\n'
-        printf 'export LC_ALL=en_US.UTF-8;\n'
-        printf '. /etc/profile;\n'
-        printf 'sudo -iu builduser bash -c "cd /build/$1; makepkg -$2 --noconfirm";\n'
-    } >"${buildscript}"
-    chmod +x "${buildscript}"
+    # install buildscript
+    install -m755 /etc/chrootbuild/build.sh "$1/usr/bin/chrootbuild"
 
 #    set_branch $(get_branch /${MIRROR_CONF}) ${mirror_conf}
     update_chroot $1 ${BRANCH}
