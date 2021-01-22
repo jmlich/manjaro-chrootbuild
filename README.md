@@ -16,12 +16,18 @@ Usage: chrootbuild [options]
                                 arm-unstable/arm-testing/arm-stable)
                                 default: unstable / arm-unstable)
      -c          Start with clean chroot fs
+     -d          Disable colors (for better browser display)
+     -g          Push changes to git when building lists
      -i <pkg>    Install local package (specify full path!)
      -l <list>   List to build
+     -m          Use 'mobile' repo (aarch64 only)
      -n          Install built pkg to chroot fs (default when building lists)
      -p <pkg>    Package to build
-     -r          Remove previously built packages in $PKGDEST
+     -r          Use custom chrootdir path
+                 default: /var/lib/chrootbuild
      -s          Sign package(s)
+     -u          Build pkgs only if newer than repo (lists only)
+     -x          Remove previously built packages in $PKGDEST
 ```
 
 **NOTE:** For multiple lists or packages repeat the respective flag. Example `sudo chrootbuild -csrl list-1 -l list-2` or `sudo chrootbuild -sp pkg-1 -p pkg-2`.
