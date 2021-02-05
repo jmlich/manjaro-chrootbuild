@@ -62,3 +62,62 @@ To rebuild listed packages with `pkgver` identical with repo version just bump `
 
 #### todo:
 - add option to build complete lists, regardless of repo version
+
+### Install on Ubuntu 20.04
+
+First you need to install **pacman**:
+
+apt install git build-essential cmake libarchive-dev pkg-config libcurl4-openssl-dev libgpgme-dev libssl-dev fakeroot dh-autoreconf libarchive-tools xsltproc gawk
+
+git clone https://gitlab.manjaro.org/packages/core/pacman.git
+pacver=5.2.2
+contribver=1.4.0
+cd pacman
+wget https://sources.archlinux.org/other/pacman/pacman-$pacver.tar.gz
+wget https://git.archlinux.org/pacman-contrib.git/snapshot/pacman-contrib-$contribver.tar.gz
+tar -xvf pacman-$pacver.tar.gz
+tar -xvf pacman-contrib-$contribver.tar.gz
+cd pacman-$pacver
+patch -p1 -i ../pacman-sync-first-option.patch
+cd ../pacman-$pacver
+./configure --prefix=/usr --sysconfdir=/etc \
+  --localstatedir=/var --disable-doc \
+  --with-scriptlet-shell=/usr/bin/bash \
+  --with-ldconfig=/usr/bin/ldconfig
+make V=1
+make install
+install -m644 pacman.conf.x86_64 /etc/pacman.conf
+install -m644 makepkg.conf /etc/
+sed -i /etc/makepkg.conf \
+  -e "s|@CARCH[@]|x86_64|g" \
+  -e "s|@CHOST[@]|x86_64-pc-linux-gnu|g" \
+  -e "s|@CARCHFLAGS[@]|-march=x86-64|g"
+install -m644 etc-pacman.d-gnupg.mount /usr/lib/systemd/system/etc-pacman.d-gnupg.mount
+install -m644 pacman-init.service /usr/lib/systemd/system/pacman-init.service
+cd pacman-contrib-$contribver.tar.gz
+./autogen.sh
+./configure \
+  --prefix=/usr \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-doc
+make
+make install
+
+Install **manjaro-chrootbuild**:
+
+cd ..
+git clone https://gitlab.manjaro.org/tools/development-tools/manjaro-chrootbuild
+cd manjaro-chrootbuild
+git checkout server
+./install.sh
+
+echo "PKGDEST = </pkg/destination>" >> /etc/makepkg.conf
+echo "PACKAGER = <packages name> <packager@email>" >> /etc/makepkg.conf
+echo "GPGKEY = <keyID>" >> /etc/makepkg.conf
+
+pacman-key --init
+cp /etc/chrootbuild/pacman.conf.x86_64 /etc/pacman.conf
+sed -i "s/@BRANCH@/unstable/g" /etc/pacman.conf
+pacman -Sy manjaro-keyring archlinux-keyring
+pacman-key --populate manjaro archlinux
