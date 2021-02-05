@@ -20,8 +20,8 @@ Usage: chrootbuild [options]
      -d          Disable colors (for better browser display)
      -g          Push changes to git when building lists
      -i <pkg>    Install local package (specify full path!)
+     -k <repo>   Use custom repo (mobile/kde-unstable)
      -l <list>   List to build
-     -m          Use 'mobile' repo (aarch64 only)
      -n          Install built pkg to chroot fs (default when building lists)
      -p <pkg>    Package to build
      -r          Use custom chrootdir path

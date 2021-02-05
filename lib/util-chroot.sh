@@ -40,24 +40,28 @@ chroot_api_mount() {
     touch $1/.mount
 }
 
-#get_branch() {
-#    branch=$(cat $1 | grep ^Branch | cut -d= -f2 | cut -d' ' -f2)
-#    echo ${branch}
-#}
-
 set_branch() {
     sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
     echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
 }
 
+add_repo() {
+    msg "Adding repo [$1]."
+    sed -i -e "s/@REPO@/$1/" -e 's/^#//g' ${PAC_CONF}
+}
+
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
     sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
-    if [ $mobile = true ]; then
-        if [ $ARCH = aarch64 ]; then
-            sed -i 's/#\[mobile\] Server/\[mobile\]\nServer/' ${PAC_CONF}
+    if [ ! -z $custom_repo ]; then
+        if [ $custom_repo = mobile ]; then
+            if [ ! $ARCH = aarch64 ]; then
+                err "Repo 'mobile' is not available for this architecture and will be skipped."
+            else
+                add_repo $custom_repo
+            fi
         else
-            err "Repo 'mobile' is not available for this architecture. Ignoring option '-m'"
+            add_repo $custom_repo
         fi
     fi
 }
@@ -65,7 +69,6 @@ conf_pacman() {
 update_chroot() {
     [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
     cmd=yu
-#    [[ $2 != $(get_branch ${mirror_conf}) ]] && cmd=yyuu
     msg "Configure branch [$2]"
     conf_pacman
     set_branch $2

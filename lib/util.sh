@@ -24,8 +24,8 @@ MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 install_pkgs=()
 lists=()
 pkgs=()
+custom_repo=
 check=none
-mobile=false
 
 enable_colors() {
     if tput setaf 0 &>/dev/null; then
@@ -212,9 +212,10 @@ usage() {
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
+    echo '     -k <repo>   Use custom repo:'
+    echo '                 (mobile/kde-unstable)'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
-    echo "     -m          Use 'mobile' repo (aarch64 only)"
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
