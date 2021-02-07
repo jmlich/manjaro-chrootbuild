@@ -67,7 +67,8 @@ To rebuild listed packages with `pkgver` identical with repo version just bump `
 
 First you need to install **pacman**:
 
-apt install git build-essential cmake libarchive-dev pkg-config libcurl4-openssl-dev libgpgme-dev libssl-dev fakeroot dh-autoreconf libarchive-tools xsltproc gawk
+```
+apt install git build-essential cmake libarchive-dev pkg-config libcurl4-openssl-dev libgpgme-dev libssl-dev fakeroot dh-autoreconf libarchive-tools xsltproc gawk subversion
 
 git clone https://gitlab.manjaro.org/packages/core/pacman.git
 pacver=5.2.2
@@ -103,13 +104,15 @@ cd pacman-contrib-$contribver.tar.gz
   --disable-doc
 make
 make install
+```
+
 
 Install **manjaro-chrootbuild**:
 
+```
 cd ..
 git clone https://gitlab.manjaro.org/tools/development-tools/manjaro-chrootbuild
 cd manjaro-chrootbuild
-git checkout server
 ./install.sh
 
 echo "PKGDEST = </pkg/destination>" >> /etc/makepkg.conf
@@ -121,3 +124,4 @@ cp /etc/chrootbuild/pacman.conf.x86_64 /etc/pacman.conf
 sed -i "s/@BRANCH@/unstable/g" /etc/pacman.conf
 pacman -Sy manjaro-keyring archlinux-keyring
 pacman-key --populate manjaro archlinux
+```
