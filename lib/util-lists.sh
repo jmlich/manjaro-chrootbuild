@@ -115,9 +115,11 @@ build_list_git() {
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-            rm -rf src PKGBUILD &>/dev/null
-            git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
-            user_own PKGBUILD .git
+            if [[ -d .git ]]; then
+                rm -rf src PKGBUILD &>/dev/null
+                git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
+                user_own PKGBUILD .git
+            fi
             cd ..
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
