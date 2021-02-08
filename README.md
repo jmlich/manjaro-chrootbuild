@@ -44,7 +44,8 @@ Usage: prepare_chroot [options]"
                                 arm-unstable/arm-testing/arm-stable)
                                 default: unstable / arm-unstable)
      -c          Create clean chroot filesystem
-     -k          Keep Chroot filesystem mounted
+     -k <repo>   Use custom repo (kde-unstable/mobile)
+     -m          Keep Chroot filesystem mounted
      -u          Unmount Chroot filesystem cleanly
 ```
 

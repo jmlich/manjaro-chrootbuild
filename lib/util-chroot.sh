@@ -134,7 +134,7 @@ prepare_chroot() {
         if [ -e $1/.lock ]; then
             err_choice "Chroot is busy. Force unmount? [y/N]"
             read choice
-            if [[ "$choice" = "y" 2>/dev/null ]]; then
+            if [[ "$choice" = "y" ]]; then
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
