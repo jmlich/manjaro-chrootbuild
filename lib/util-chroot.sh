@@ -68,12 +68,11 @@ conf_pacman() {
 
 update_chroot() {
     [[ ! -e $1/.mount ]] && chroot_api_mount $1 && touch $1/.{mount,lock}
-    cmd=yu
     msg "Configure branch [$2]"
     conf_pacman
     set_branch $2
     msg "Update chroot file system"
-    pacman --sysroot $1 -S$cmd --noconfirm || abort "Failed to update chroot."
+    sudo chroot ${CHROOT_DIR} pacman -Syu --noconfirm || abort "Failed to update chroot."
 }
 
 create_chroot() {
@@ -126,7 +125,6 @@ EOF
     # install buildscript
     install -m755 /etc/chrootbuild/build.sh "$1/usr/bin/chrootbuild"
 
-#    set_branch $(get_branch /${MIRROR_CONF}) ${mirror_conf}
     update_chroot $1 ${BRANCH}
 }
 

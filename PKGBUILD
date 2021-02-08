@@ -1,7 +1,7 @@
 # Author: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r196.gdc0f7ee
+pkgver=r197.g07dd6a7
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
