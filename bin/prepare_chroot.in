@@ -5,24 +5,8 @@ LIBDIR='/usr/lib/manjaro-chrootbuild'
 . ${LIBDIR}/util.sh
 . ${LIBDIR}/util-chroot.sh
 
-KEEP=false
+MOUNT=false
 UMOUNT=false
-
-usage_prepare_chroot() {
-    echo ''
-    echo "Usage: ${0##*/} [options]"
-    echo ''
-    echo '     -b <branch> Branch to use:'
-    echo '                 (unstable/testing/stable-staging/stable;'
-    echo '                 arm-unstable/arm-testing/arm-stable)'
-    echo '                 default: unstable / arm-unstable'
-    echo '     -c          Create clean chroot filesystem'
-    echo '     -h          This help'
-    echo '     -k          Keep Chroot filesystem mounted'
-    echo '     -u          Unmount Chroot filesystem cleanly'
-    echo ''
-    exit $1
-}
 
 trap 'abort "Aborted."' INT
 check_root
@@ -32,7 +16,8 @@ while getopts "b:chku" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
-        k) KEEP=true ;;
+        k) custom_repo="${OPTARG}" ;;
+        m) MOUNT=true ;;
         u) UMOUNT=true ;;
         h|?) usage_prepare_chroot 0 ;;
         *) usage_prepare_chroot 1 ;;
@@ -48,7 +33,7 @@ fi
 
 prepare_chroot ${CHROOT_DIR}
 
-if [ $KEEP = true ]; then
+if [ $MOUNT = true ]; then
     msg "Chroot filesystem of branch [${BRANCH}] is ready and mounted at [${CHROOT_DIR}]."
     msg4 "To unmount run 'prepare_chroot' again with the '-u' flag."
 else

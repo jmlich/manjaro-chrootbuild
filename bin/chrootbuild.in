@@ -23,8 +23,8 @@ while getopts "b:cdghi:k:l:np:rsux" arg; do
         s) SIGN=true ;;
         u) UPDATE=true ;;
         x) RM_PKGS=true ;;
-        h|?) usage 0 ;;
-        *) usage 1 ;;
+        h|?) usage_chrootbuild 0 ;;
+        *) usage_chrootbuild 1 ;;
     esac
 done
 shift $((OPTIND -1))

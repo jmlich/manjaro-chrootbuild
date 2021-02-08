@@ -198,7 +198,7 @@ ssh_add(){
     fi
 }
 
-usage() {
+usage_chrootbuild() {
     echo ''
     echo "Usage: ${0##*/} [options]"
     echo ''
@@ -224,6 +224,24 @@ usage() {
     echo '     -s          Sign package(s)'
     echo '     -u          Build pkgs only if update available (lists only)'
     echo '     -x          Remove previously built packages in $PKGDEST'
+    echo ''
+    exit $1
+}
+
+usage_prepare_chroot() {
+    echo ''
+    echo "Usage: ${0##*/} [options]"
+    echo ''
+    echo '     -b <branch> Branch to use:'
+    echo '                 (unstable/testing/stable-staging/stable;'
+    echo '                 arm-unstable/arm-testing/arm-stable)'
+    echo '                 default: unstable / arm-unstable'
+    echo '     -c          Create clean chroot filesystem'
+    echo '     -h          This help'
+    echo '     -k <repo>   Use custom repo:'
+    echo '                 (mobile/kde-unstable)'
+    echo '     -m          Keep Chroot filesystem mounted'
+    echo '     -u          Unmount Chroot filesystem cleanly'
     echo ''
     exit $1
 }
