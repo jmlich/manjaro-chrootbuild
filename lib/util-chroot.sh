@@ -72,7 +72,7 @@ update_chroot() {
     conf_pacman
     set_branch $2
     msg "Update chroot file system"
-    sudo chroot ${CHROOT_DIR} pacman -Syu --noconfirm || abort "Failed to update chroot."
+    sudo chroot $1 pacman -Syu --noconfirm || abort "Failed to update chroot."
 }
 
 create_chroot() {
@@ -134,13 +134,13 @@ prepare_chroot() {
         if [ -e $1/.lock ]; then
             err_choice "Chroot is busy. Force unmount? [y/N]"
             read choice
-            if [ $choice = y 2>/dev/null ] ;then
+            if [[ "$choice" = "y" 2>/dev/null ]]; then
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
             fi
         fi
-        if [ ${CLEAN} = true ]; then
+        if [[ "${CLEAN}" = "true" ]]; then
             msg "Delete old chroot file system"
             rm -rf $1/*
             create_chroot $1
