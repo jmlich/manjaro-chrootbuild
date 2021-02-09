@@ -131,6 +131,8 @@ build_list_git() {
                 printf "* BUILT  [$p] $git_ver\n" >> $log
             fi
             msg_wait
+        elif [[ $(vercmp "$git_ver" "$repo_ver") == -1 ]]; then
+            msg3 "!! repo is newer than git ??"
         else
             msg3 "unchanged."
         fi
