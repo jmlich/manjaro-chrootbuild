@@ -84,7 +84,7 @@ build_list_git() {
     i=1
     for p in $(cat $list); do
         header "${1%-git}: $i/$num - $p"
-        repo_ver=$(sudo chroot ${CHROOT_DIR} pacman -Siy "{p}" 2>/dev/null | grep "Version" | head -1 | rev | cut -d: -f1 | rev | sed 's/ //')
+        repo_ver=$(sudo chroot ${CHROOT_DIR} pacman -Siy "${p}" 2>/dev/null | grep "Version" | head -1 | rev | cut -d: -f1 | rev | sed 's/ //')
         [[ -z $repo_ver ]] && repo_ver=0
 
         # update local pkgver
