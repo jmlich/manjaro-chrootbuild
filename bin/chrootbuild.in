@@ -8,7 +8,7 @@ trap 'abort "Aborted."' INT
 get_pkg_dir
 get_default_branch
 
-while getopts "b:cdghi:k:l:np:rsux" arg; do
+while getopts "b:cdghi:k:l:np:r:sux" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
