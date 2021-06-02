@@ -43,6 +43,7 @@ chroot_api_mount() {
 set_branch() {
     sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
     echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+    echo $1 > ${CHROOT_DIR}/.branch
 }
 
 add_repo() {
@@ -152,6 +153,10 @@ prepare_chroot() {
                 msg "Removing multilib chroot"
                 CLEAN=true
             fi
+        fi
+        if [[ $(cat $1/.branch) != ${BRANCH} ]]; then
+            msg "Rebuilding chroot for branch [${BRANCH}]"
+            CLEAN=true
         fi
         if [[ "${CLEAN}" = "true" ]]; then
             msg "Delete old chroot file system"
