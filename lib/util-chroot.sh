@@ -123,19 +123,6 @@ EOF
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
 
-    if [[ ${MULTILIB} = true ]]; then
-        CARCH="\"i686\""
-        CHOST="\"i686-unknown-linux-gnu\""
-        CFLAGS="\"-m32 -march=i686 -mtune=generic -O2 -pipe\""
-        CXXFLAGS='"${CFLAGS}"'
-        LDFLAGS="\"-m32 -Wl,-O1,--sort-common,--as-needed,-z,relro\""
-        for x in "CARCH=${CARCH}" "CHOST=${CHOST}" "CFLAGS=${CFLAGS}" "CXXFLAGS=${CXXFLAGS}" "LDFLAGS=${LDFLAGS}"
-        do
-            grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
-            echo "$x" >>"$1/${MP_CONF_GLOB}"
-        done
-    fi
-
     # install buildscript
     install -m755 /etc/chrootbuild/build.sh "$1/usr/bin/chrootbuild"
 
