@@ -15,6 +15,7 @@ PUSH_GIT=false
 INSTALL=false
 UPDATE=false
 SIGN=false
+MULTILIB=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 COLORS=true
