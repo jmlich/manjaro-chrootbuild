@@ -27,6 +27,7 @@ lists=()
 pkgs=()
 custom_repo=
 check=none
+shopt -s dotglob
 
 enable_colors() {
     if tput setaf 0 &>/dev/null; then
