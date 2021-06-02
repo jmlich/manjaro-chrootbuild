@@ -78,6 +78,7 @@ update_chroot() {
 create_chroot() {
     create_min_fs $1
     chroot_api_mount $1 && touch $1/.{mount,lock}
+    [[ ${MULTILIB} = true ]] && touch $1/.multilib
     msg "Install build environment"
     conf_pacman
     pacman -r $1 --config ${PAC_CONF} -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
@@ -139,6 +140,17 @@ prepare_chroot() {
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
+            fi
+        fi
+        if [ ${MULTILIB} = true ]; then
+            if [[ ! -e $1/.multilib ]]; then
+                msg "Rebuilding chroot for multilib"
+                CLEAN=true
+            fi
+        else
+            if [ -e $1/.multilib ]; then
+                msg "Removing multilib chroot"
+                CLEAN=true
             fi
         fi
         if [[ "${CLEAN}" = "true" ]]; then
