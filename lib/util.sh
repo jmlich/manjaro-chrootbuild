@@ -218,6 +218,7 @@ usage_chrootbuild() {
     echo '                 (mobile/kde-unstable)'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
+    echo '     -m          Build a multilib package'
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
