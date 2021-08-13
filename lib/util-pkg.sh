@@ -24,6 +24,7 @@ build_pkg() {
     user_own ${BUILD_DIR}/$1
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
+    [[ $MODULES = true ]] && mp_opts='fsr'
     chroot ${CHROOT_DIR} sudo -iu builduser chrootbuild $1 $mp_opts
     status=$?
     [[ $status != 0 ]] && [[ $check = package ]] && abort "Building package [${1//\//}] failed."
