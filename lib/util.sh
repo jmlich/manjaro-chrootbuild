@@ -14,6 +14,7 @@ CLEAN=false
 PUSH_GIT=false
 INSTALL=false
 UPDATE=false
+MODULES=false
 SIGN=false
 MULTILIB=false
 MIRROR='https://repo.manjaro.org/repo'
@@ -216,6 +217,7 @@ usage_chrootbuild() {
     echo '                 (for multiple packages repeat -i flag)'
     echo '     -k <repo>   Use custom repo:'
     echo '                 (mobile/kde-unstable)'
+    echo '     -K <list>   Kernel-modules list to build'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
     echo '     -m          Build a multilib package'
