@@ -12,5 +12,5 @@ _install lib sh 644 /usr/lib/manjaro-chrootbuild
 _install bin in 755 /usr/bin
 _install data 'conf.*' 644 /etc/chrootbuild
 install -m644 data/build.sh /etc/chrootbuild
-echo "$1" >> /etc/makepkg.conf
+printf "\n$1\n" >> /etc/makepkg.conf
 echo "$2" > /etc/pacman.d/mirrorlist
