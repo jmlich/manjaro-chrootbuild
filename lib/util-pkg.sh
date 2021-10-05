@@ -7,7 +7,7 @@ install_local_pkg() {
     msg "Install local package [$pkg]"
     cp $1 ${CHROOT_DIR}/pkgdest
     chroot ${CHROOT_DIR} pacman -U /pkgdest/$pkg --noconfirm || abort "Failed to install local package."
-    rm $2/pkgdest/$pkg
+    rm ${CHROOT_DIR}/pkgdest/$pkg
 }
 
 rm_pkgs() {
