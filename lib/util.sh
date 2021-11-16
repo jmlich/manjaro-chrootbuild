@@ -20,6 +20,7 @@ MULTILIB=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 COLORS=true
+DEBUG=false
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
