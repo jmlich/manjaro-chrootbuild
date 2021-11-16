@@ -18,6 +18,7 @@ Usage: chrootbuild [options]
                                 default: unstable / arm-unstable)
      -c          Start with clean chroot fs
      -d          Disable colors (for better browser display)
+     -D          Build additional debug package
      -g          Push changes to git when building lists
      -i <pkg>    Install local package (specify full path!)
      -k <repo>   Use custom repo (mobile/kde-unstable)
