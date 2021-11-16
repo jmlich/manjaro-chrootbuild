@@ -211,6 +211,7 @@ usage_chrootbuild() {
     echo '                 default: unstable / arm-unstable'
     echo '     -c          Start with clean chroot fs'
     echo '     -d          Disable colors.'
+    echo '     -D          Build with debug symbols.'
     echo '     -g          Push changes to git when building lists'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
