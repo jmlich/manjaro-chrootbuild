@@ -28,6 +28,7 @@ build_pkg() {
     chroot ${CHROOT_DIR} sudo -iu builduser chrootbuild $1 $mp_opts
     status=$?
     [[ $status != 0 ]] && [[ $check = package ]] && abort "Building package [${1//\//}] failed."
+    [[ $INSTALL = true ]] && chroot ${CHROOT_DIR} sudo pacman -R --noconfirm $1-debug 2>/dev/null
     cd ${CHROOT_DIR}/pkgdest
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
     cd ${START_DIR}
