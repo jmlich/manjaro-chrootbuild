@@ -21,6 +21,7 @@ MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
 COLORS=true
 DEBUG=false
+FORCE_UNMOUNT=false
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
@@ -213,6 +214,7 @@ usage_chrootbuild() {
     echo '     -c          Start with clean chroot fs'
     echo '     -d          Disable colors.'
     echo '     -D          Build with debug symbols.'
+    echo '     -f          Force unmount chroot if busy.'
     echo '     -g          Push changes to git when building lists'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
