@@ -139,10 +139,13 @@ EOF
 prepare_chroot() {
     if [ -e $1/.manjaro-chroot ]; then
         if [ -e $1/.lock ]; then
-            err_choice "Chroot is busy. Force unmount? [y/N]"
-            read choice
-            [[ "$FORCE_UNMOUNT" = "true" ]] && choice=y
-            if [[ "$choice" = "y" ]]; then
+            if [[ "$FORCE_UNMOUNT" = "true" ]]; then
+                unmount=y
+            else
+                err_choice "Chroot is busy. Force unmount? [y/N]"
+                    read unmount
+            fi
+            if [[ "$unmount" = "y" ]]; then
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
