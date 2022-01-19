@@ -16,6 +16,7 @@ while getopts "b:chk:mu" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
+        f) FORCE_UNMOUNT=true ;;
         k) custom_repo="${OPTARG}" ;;
         m) MOUNT=true ;;
         u) UMOUNT=true ;;

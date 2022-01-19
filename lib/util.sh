@@ -246,6 +246,7 @@ usage_prepare_chroot() {
     echo '                 arm-unstable/arm-testing/arm-stable)'
     echo '                 default: unstable / arm-unstable'
     echo '     -c          Create clean chroot filesystem'
+    echo '     -f          Force unmount chroot if busy.'
     echo '     -h          This help'
     echo '     -k <repo>   Use custom repo:'
     echo '                 (mobile/kde-unstable)'
