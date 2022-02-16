@@ -3,10 +3,12 @@
 . ${LIBDIR}/util.sh
 
 install_local_pkgs() {
-    msg "Install local package(s):\n${local_pkgs[@]}"
+    msg "Install local package(s):"
+    printf "   %s\n" "${local_pkgs[@]}"
+    echo ""
     [[ ! -d ${CHROOT_DIR}/local_pkgs ]] && mkdir ${CHROOT_DIR}/local_pkgs
     cp ${local_pkgs[@]} ${CHROOT_DIR}/local_pkgs
-    chroot ${CHROOT_DIR} pacman -U /local_pkgs/*.zst --noconfirm || abort "Failed to install local package."
+    chroot ${CHROOT_DIR} /bin/bash -c 'pacman -U /local_pkgs/*.zst --noconfirm' || abort "Failed to install local package(s)."
     rm ${CHROOT_DIR}/local_pkgs/*
 }
 
