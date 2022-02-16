@@ -16,7 +16,7 @@ while getopts "b:cdDfghi:k:K:l:mnp:r:sux" arg; do
         D) DEBUG=true ;;
         f) FORCE_UNMOUNT=true ;;
         g) PUSH_GIT=true ;;
-        i) install_pkgs+=("${OPTARG}") ;;
+        i) INSTALL_LOCAL=true; local_pkgs+=("${OPTARG}") ;;
         k) custom_repo="${OPTARG}" ;;
         K) lists+=("${OPTARG}"); MODULES=true ;;
         l) lists+=("${OPTARG}"); INSTALL=true ;;
@@ -41,7 +41,7 @@ check_root
 [[ $check = none ]] && abort "No list or package specified. Aborting."
 
 prepare_chroot ${CHROOT_DIR}
-job install_local_pkg "${install_pkgs[@]}"
+[[ ${INSTALL_LOCAL} = true ]] && install_local_pkgs
 [[ ${RM_PKGS} = true ]] && rm_pkgs
 job build_pkg "${pkgs[@]}"
 [[ ${UPDATE} = true ]] && job build_list_git "${lists[@]}" || job build_list "${lists[@]}" 

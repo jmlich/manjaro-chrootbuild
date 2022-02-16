@@ -11,6 +11,7 @@ BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
 RM_PKGS=false
 CLEAN=false
+INSTALL_LOCAL=false
 PUSH_GIT=false
 INSTALL=false
 UPDATE=false
