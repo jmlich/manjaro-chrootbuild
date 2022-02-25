@@ -15,6 +15,7 @@ prepare_log() {
     [[ -z ${LOG_DIR} ]] && LOG_DIR=$USER_HOME/.chrootbuild-logs
     install -d ${LOG_DIR}
     log=${LOG_DIR}/build_log
+    err_list=${LOG_DIR}/err_list
     [[ ! -e $log ]] && echo "+++ package build log +++" > $log
 }
 
@@ -39,10 +40,12 @@ prepare_list() {
 }
 
 summary() {
+    [[ -e $err_list ]] && rm $err_list
     if [[ ! -z ${build_err} ]]; then
         err_build
         for e in "${build_err[@]}"; do
             echo "      $e"
+            echo $e >> $err_list
         done
         echo ""
     fi
