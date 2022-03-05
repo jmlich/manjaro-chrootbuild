@@ -24,6 +24,13 @@ build_pkg() {
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     user_own ${BUILD_DIR}/$1
+    #Generate checksums and update local PKGBUILD
+	if [ $CHECKSUMS = true ]; then
+		cd ${BUILD_DIR}/$1
+		sudo -u ${SUDO_USER} updpkgsums
+		cd ../
+		cat ${BUILD_DIR}/$1/PKGBUILD > ${START_DIR}/$1/PKGBUILD
+	fi
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
     [[ $MODULES = true ]] && mp_opts='fsr'
