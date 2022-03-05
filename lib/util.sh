@@ -32,6 +32,7 @@ pkgs=()
 custom_repo=
 check=none
 shopt -s dotglob
+CHECKSUMS=false
 
 enable_colors() {
     if tput setaf 0 &>/dev/null; then
@@ -217,6 +218,7 @@ usage_chrootbuild() {
     echo '     -D          Build with debug symbols.'
     echo '     -f          Force unmount chroot if busy.'
     echo '     -g          Push changes to git when building lists'
+	echo '     -G          Generate Checksums'
     echo '     -h          This help'
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
