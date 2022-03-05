@@ -21,6 +21,7 @@ Usage: chrootbuild [options]
      -D          Build additional debug package
      -f          Force unmount chroot if busy
      -g          Push changes to git when building lists
+     -G          Generate Checksums
      -i <pkg>    Install local package (specify full path!)
      -k <repo>   Use custom repo (mobile/kde-unstable)
      -l <list>   List to build

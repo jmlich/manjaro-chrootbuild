@@ -27,9 +27,9 @@ build_pkg() {
     #Generate checksums and update local PKGBUILD
 	if [ $CHECKSUMS = true ]; then
 		cd ${BUILD_DIR}/$1
-		sudo -u $(ls -ld ${BUILD_DIR} | awk '{print $3}') updpkgsums
+		sudo -u ${SUDO_USER} updpkgsums
 		cd ../
-		cat ${BUILD_DIR}/$1/PKGBUILD > $START_DIR/$1/PKGBUILD
+		cat ${BUILD_DIR}/$1/PKGBUILD > ${START_DIR}/$1/PKGBUILD
 	fi
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
