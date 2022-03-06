@@ -26,10 +26,10 @@ build_pkg() {
     user_own ${BUILD_DIR}/$1
     #Generate checksums and update local PKGBUILD
 	if [ $CHECKSUMS = true ]; then
+		msg "Generate checksums for [$1]"
 		cd ${BUILD_DIR}/$1
 		sudo -u ${SUDO_USER} updpkgsums
 		cd ../
-		cat ${BUILD_DIR}/$1/PKGBUILD > ${START_DIR}/$1/PKGBUILD
 	fi
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
@@ -38,6 +38,7 @@ build_pkg() {
     status=$?
     [[ $status != 0 ]] && [[ $check = package ]] && abort "Building package [${1//\//}] failed."
     [[ $INSTALL = true ]] && chroot ${CHROOT_DIR} sudo pacman -R --noconfirm $1-debug 2>/dev/null
+    cat ${BUILD_DIR}/$1/PKGBUILD > ${START_DIR}/$1/PKGBUILD #update local PKGBUILD
     cd ${CHROOT_DIR}/pkgdest
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
     cd ${START_DIR}
