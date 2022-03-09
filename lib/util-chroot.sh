@@ -82,10 +82,12 @@ create_chroot() {
     [[ ${MULTILIB} = true ]] && touch $1/.multilib
     msg "Install build environment"
     conf_pacman
-    pacman -r $1 --config ${PAC_CONF} -Syy base-devel --noconfirm || abort "Failed to install chroot filesystem."
+    pacman -r $1 --config ${PAC_CONF} -Syy base-devel archlinux-keyring manjaro-keyring --noconfirm || abort "Failed to install chroot filesystem."
     [[ ${MULTILIB} = true ]] && pacman -r $1 --config ${PAC_CONF} -Syy multilib-devel --noconfirm
-    msg "Copy keyring"
-    cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
+    msg "Populate keyrings."
+    chroot $1 pacman-key --init
+    chroot $1 pacman-key --populate archlinux manjaro
+
     msg "Create locale"
     printf 'en_US.UTF-8 UTF-8\n' > "$1/etc/locale.gen"
     printf 'LANG=en_US.UTF-8\n' > "$1/etc/locale.conf"
