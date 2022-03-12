@@ -221,7 +221,7 @@ usage_chrootbuild() {
     echo '     -g          Push changes to git when building lists'
 	echo '     -G          Generate Checksums'
     echo '     -h          This help'
-    echo '     -H          Use the host\'s keyrings'
+    echo "     -H          Use the host\'s keyrings"
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
     echo '     -k <repo>   Use custom repo:'
@@ -253,7 +253,7 @@ usage_prepare_chroot() {
     echo '     -c          Create clean chroot filesystem'
     echo '     -f          Force unmount chroot if busy.'
     echo '     -h          This help'
-    echo '     -H          Use the host\'s keyrings'
+    echo "     -H          Use the host\'s keyrings"
     echo '     -k <repo>   Use custom repo:'
     echo '                 (mobile/kde-unstable)'
     echo '     -m          Keep Chroot filesystem mounted'
