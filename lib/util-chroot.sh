@@ -77,19 +77,29 @@ update_chroot() {
 }
 
 create_chroot() {
-    keyrings=('archlinux' 'manjaro')
-    [[ ${ARCH} = aarch64 ]] && keyrings+=('archlinuxarm' 'manjaro-arm')
     create_min_fs $1
     chroot_api_mount $1 && touch $1/.{mount,lock}
     [[ ${MULTILIB} = true ]] && touch $1/.multilib
+
     msg "Install build environment"
     conf_pacman
-    pacman -r $1 --config ${PAC_CONF} -Syy base-devel "${keyrings[@]/%/-keyring}" --noconfirm || abort "Failed to install chroot filesystem."
-    [[ ${MULTILIB} = true ]] && pacman -r $1 --config ${PAC_CONF} -Syy multilib-devel --noconfirm
-    msg "Populate keyrings."
-    chroot $1 pacman-key --init
-    chroot $1 pacman-key --populate "${keyrings[@]}"
+    base_pkgs=('base-devel')
+    [[ ${MULTILIB} = true ]] && base_pkgs+=('multilib-devel')
+    if [[ ${HOST_KEYS} = false ]]; then
+        keyrings=('archlinux' 'manjaro')
+        [[ ${ARCH} = aarch64 ]] && keyrings+=('archlinuxarm' 'manjaro-arm')
+        base_pkgs+=("${keyrings[@]/%/-keyring}")
+    fi
+    pacman -r $1 --config ${PAC_CONF} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
 
+    if [[ ${HOST_KEYS} = true ]]; then
+        msg "Copy keyring"
+        cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
+    else
+        msg "Populate keyrings."
+        chroot $1 pacman-key --init
+        chroot $1 pacman-key --populate "${keyrings[@]}"
+    fi
     msg "Create locale"
     printf 'en_US.UTF-8 UTF-8\n' > "$1/etc/locale.gen"
     printf 'LANG=en_US.UTF-8\n' > "$1/etc/locale.conf"

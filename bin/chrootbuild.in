@@ -8,7 +8,7 @@ trap 'abort "Aborted."' INT
 get_pkg_dir
 get_default_branch
 
-while getopts "b:cdDfghi:k:K:l:mnp:r:suxG" arg; do
+while getopts "b:cdDfghHi:k:K:l:mnp:r:suxG" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
@@ -17,6 +17,7 @@ while getopts "b:cdDfghi:k:K:l:mnp:r:suxG" arg; do
         f) FORCE_UNMOUNT=true ;;
         g) PUSH_GIT=true ;;
         G) CHECKSUMS=true ;;
+        H) HOST_KEYS=true ;;
         i) INSTALL_LOCAL=true; local_pkgs+=("${OPTARG}") ;;
         k) custom_repo="${OPTARG}" ;;
         K) lists+=("${OPTARG}"); MODULES=true ;;

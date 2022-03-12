@@ -18,11 +18,13 @@ UPDATE=false
 MODULES=false
 SIGN=false
 MULTILIB=false
-MIRROR='https://repo.manjaro.org/repo'
-MIRROR_CONF=etc/pacman-mirrors.conf
 COLORS=true
 DEBUG=false
 FORCE_UNMOUNT=false
+CHECKSUMS=false
+HOST_KEYS=false
+MIRROR='https://repo.manjaro.org/repo'
+MIRROR_CONF=etc/pacman-mirrors.conf
 mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
@@ -32,7 +34,6 @@ pkgs=()
 custom_repo=
 check=none
 shopt -s dotglob
-CHECKSUMS=false
 
 enable_colors() {
     if tput setaf 0 &>/dev/null; then
@@ -220,6 +221,7 @@ usage_chrootbuild() {
     echo '     -g          Push changes to git when building lists'
 	echo '     -G          Generate Checksums'
     echo '     -h          This help'
+    echo '     -H          Use the host's keyrings'
     echo '     -i <pkg>    Install package(s) to chroot fs'
     echo '                 (for multiple packages repeat -i flag)'
     echo '     -k <repo>   Use custom repo:'
@@ -251,6 +253,7 @@ usage_prepare_chroot() {
     echo '     -c          Create clean chroot filesystem'
     echo '     -f          Force unmount chroot if busy.'
     echo '     -h          This help'
+    echo '     -H          Use the host's keyrings'
     echo '     -k <repo>   Use custom repo:'
     echo '                 (mobile/kde-unstable)'
     echo '     -m          Keep Chroot filesystem mounted'

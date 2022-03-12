@@ -12,11 +12,12 @@ trap 'abort "Aborted."' INT
 check_root
 get_default_branch
 
-while getopts "b:chk:mu" arg; do
+while getopts "b:chHk:mu" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
         f) FORCE_UNMOUNT=true ;;
+        H) HOST_KEYS=true ;;
         k) custom_repo="${OPTARG}" ;;
         m) MOUNT=true ;;
         u) UMOUNT=true ;;
