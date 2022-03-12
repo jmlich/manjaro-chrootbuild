@@ -22,6 +22,8 @@ Usage: chrootbuild [options]
      -f          Force unmount chroot if busy
      -g          Push changes to git when building lists
      -G          Generate Checksums
+     -h          Display help
+     -H          Use the host's keyring
      -i <pkg>    Install local package (specify full path!)
      -k <repo>   Use custom repo (mobile/kde-unstable)
      -l <list>   List to build
@@ -47,6 +49,9 @@ Usage: prepare_chroot [options]"
                                 arm-unstable/arm-testing/arm-stable)
                                 default: unstable / arm-unstable)
      -c          Create clean chroot filesystem
+     -f          Force unmount chroot if busy
+     -h          Display help.
+     -H          Use the host's keyring
      -k <repo>   Use custom repo (kde-unstable/mobile)
      -m          Keep Chroot filesystem mounted
      -u          Unmount Chroot filesystem cleanly
@@ -109,8 +114,6 @@ cd pacman-contrib-$contribver.tar.gz
 make
 make install
 ```
-
-
 Install **manjaro-chrootbuild**:
 
 ```
@@ -123,9 +126,9 @@ echo "PKGDEST = </pkg/destination>" >> /etc/makepkg.conf
 echo "PACKAGER = <packages name> <packager@email>" >> /etc/makepkg.conf
 echo "GPGKEY = <keyID>" >> /etc/makepkg.conf
 
-pacman-key --init
 cp /etc/chrootbuild/pacman.conf.x86_64 /etc/pacman.conf
 sed -i "s/@BRANCH@/unstable/g" /etc/pacman.conf
 pacman -Sy manjaro-keyring archlinux-keyring
+pacman-key --init
 pacman-key --populate manjaro archlinux
 ```
