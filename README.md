@@ -128,7 +128,7 @@ echo "GPGKEY = <keyID>" >> /etc/makepkg.conf
 
 cp /etc/chrootbuild/pacman.conf.x86_64 /etc/pacman.conf
 sed -i "s/@BRANCH@/unstable/g" /etc/pacman.conf
-pacman -Sy manjaro-keyring archlinux-keyring
+pacman -Sy manjaro-keyring archlinux-keyring (for aarch64 additionally: manjaro-arm-keyring archlinuxarm-keyring)
 pacman-key --init
-pacman-key --populate manjaro archlinux
+pacman-key --populate manjaro archlinux (for aarch64 additionally: manjaro-arm archlinuxarm)
 ```
