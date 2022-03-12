@@ -21,17 +21,15 @@ rm_pkgs() {
 
 build_pkg() {
     rm -rf ${BUILD_DIR}/.[!.]*
+    if [[ ${CHECKSUMS} = true ]]; then
+        msg "Generate checksums for [$1]"
+        cd $1
+        sudo -u ${SUDO_USER} updpkgsums
+        cd ..
+    fi
     cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     user_own ${BUILD_DIR}/$1
-    #Generate checksums and update local PKGBUILD
-	if [ ${CHECKSUMS} = true ]; then
-		msg "Generate checksums for [$1]"
-		cd ${BUILD_DIR}/$1
-		sudo -u ${SUDO_USER} updpkgsums
-		cat PKGBUILD > ${START_DIR}/$1/PKGBUILD #update local PKGBUILD
-		cd ..
-	fi
 
     [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
     [[ $MODULES = true ]] && mp_opts='fsr'
