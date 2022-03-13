@@ -85,14 +85,14 @@ create_chroot() {
     conf_pacman
     base_pkgs=('base-devel')
     [[ ${MULTILIB} = true ]] && base_pkgs+=('multilib-devel')
-    if [[ ${HOST_KEYS} = false ]]; then
+    if [ ${HOST_KEYS} = false ]; then
         keyrings=('archlinux' 'manjaro')
         [[ ${ARCH} = aarch64 ]] && keyrings+=('archlinuxarm' 'manjaro-arm')
         base_pkgs+=("${keyrings[@]/%/-keyring}")
     fi
     pacman -r $1 --config ${PAC_CONF} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
 
-    if [[ ${HOST_KEYS} = true ]]; then
+    if [ ${HOST_KEYS} = true ]; then
         msg "Copy keyring"
         cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     else
@@ -139,7 +139,7 @@ EOF
         grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
-    if [ ${DEBUG} == true ]; then
+    if [ ${DEBUG} = true ]; then
       sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge debug !lto)' "$1/${MP_CONF_GLOB}"
     fi
 
@@ -153,20 +153,20 @@ EOF
 prepare_chroot() {
     if [ -e $1/.manjaro-chroot ]; then
         if [ -e $1/.lock ]; then
-            if [[ "$FORCE_UNMOUNT" = "true" ]]; then
+            if [ ${FORCE_UNMOUNT} = true ]; then
                 unmount=y
             else
                 err_choice "Chroot is busy. Force unmount? [y/N]"
                     read unmount
             fi
-            if [[ "$unmount" = "y" ]]; then
+            if [ ${unmount} = y ]; then
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
             fi
         fi
         if [ ${MULTILIB} = true ]; then
-            if [[ ! -e $1/.multilib ]]; then
+            if [ ! -e $1/.multilib ]; then
                 msg "Rebuilding chroot for multilib"
                 CLEAN=true
             fi
@@ -176,11 +176,11 @@ prepare_chroot() {
                 CLEAN=true
             fi
         fi
-        if [[ $(cat $1/.branch) != ${BRANCH} ]]; then
+        if [ $(cat $1/.branch) != ${BRANCH} ]; then
             msg "Rebuilding chroot for branch [${BRANCH}]"
             CLEAN=true
         fi
-        if [[ "${CLEAN}" = "true" ]]; then
+        if [ ${CLEAN} = true ]; then
             msg "Delete old chroot file system"
             rm -rf $1/*
             create_chroot $1
