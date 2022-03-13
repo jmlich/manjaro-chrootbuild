@@ -21,7 +21,7 @@ rm_pkgs() {
 
 build_pkg() {
     rm -rf ${BUILD_DIR}/.[!.]*
-    if [[ ${CHECKSUMS} = true ]]; then
+    if [ ${CHECKSUMS} = true ]; then
         msg "Generate checksums for [$1]"
         cd $1
         sudo -u ${SUDO_USER} updpkgsums
@@ -31,12 +31,12 @@ build_pkg() {
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     user_own ${BUILD_DIR}/$1
 
-    [[ $INSTALL = true ]] && mp_opts='fsi' || mp_opts='fs'
-    [[ $MODULES = true ]] && mp_opts='fsr'
+    [[ ${INSTALL} = true ]] && mp_opts='fsi' || mp_opts='fs'
+    [[ ${MODULES} = true ]] && mp_opts='fsr'
     chroot ${CHROOT_DIR} sudo -iu builduser chrootbuild $1 $mp_opts
     status=$?
-    [[ $status != 0 ]] && [[ $check = package ]] && abort "Building package [${1//\//}] failed."
-    [[ $INSTALL = true ]] && chroot ${CHROOT_DIR} sudo pacman -R --noconfirm $1-debug 2>/dev/null
+    [[ ${status} != 0 ]] && [[ ${check} = package ]] && abort "Building package [${1//\//}] failed."
+    [[ ${INSTALL} = true ]] && chroot ${CHROOT_DIR} sudo pacman -R --noconfirm $1-debug 2>/dev/null
     cd ${CHROOT_DIR}/pkgdest
     mv *.{xz,zst,sig} ${PKG_DIR}/ 2>/dev/null
     cd ${START_DIR}
