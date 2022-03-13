@@ -103,7 +103,7 @@ err_build() {
 }
 
 check_root() {
-    if [ "$EUID" -ne 0 ]; then
+    if [ ${EUID} -ne 0 ]; then
         err "This application needs to be run as root."
         exit 1
     fi
@@ -149,7 +149,7 @@ job() {
 }
 
 check_sanity() {
-    if [ $check = list ]; then
+    if [ ${check} = list ]; then
         if [ ! -f $1.list ]; then
             abort "Could not find buildlist [$1.list]. Aborting."
         elif [ ! -d $1 ]; then
