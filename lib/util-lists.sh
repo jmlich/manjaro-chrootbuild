@@ -26,7 +26,7 @@ get_ver() {
 
 reset_rel() {
     _rel=${git_ver#*-}
-    if [[ $_rel != 1 ]]; then
+    if [ ${_rel} != 1 ]; then
         echo "[${pkg#*/}]: pkgrel $_rel > 1"
         sed -i -e "s/pkgrel=$_rel/pkgrel=1/" PKGBUILD
     fi
@@ -41,7 +41,7 @@ prepare_list() {
 
 summary() {
     [[ -e $err_list ]] && rm $err_list
-    if [[ ! -z ${build_err} ]]; then
+    if [ ! -z ${build_err} ]; then
         err_build
         for e in "${build_err[@]}"; do
             echo "      $e"
@@ -65,7 +65,7 @@ build_list() {
         echo ${LOG_FILE} > $mon
         cd $1
         build_pkg $p &>${LOG_FILE}
-        if [[ $status != 0 ]]; then
+        if [ ${status} != 0 ]; then
             printf "! FAILED [$p], see ${LOG_FILE}\n" >> $log
             build_err+=("${LOG_FILE}")
             err_build
@@ -99,17 +99,17 @@ build_list_git() {
         git_ver=$(get_ver pkgver)-$(get_ver pkgrel)
 
         # compare, build if changed and install to chroot
-        if [[ $repo_ver == 0 ]]; then
+        if [ ${repo_ver} == 0 ]; then
             msg6 "Package doesn't exist in repo."
             repo_ver=r0
         else
             msg6 "repo version: $repo_ver"
         fi
-        if [[ $(vercmp "$git_ver" "$repo_ver") == 1 ]]; then
-            if [[ $(vercmp "${repo_ver%-*}" "${git_ver%-*}") == 1 ]]; then
+        if [ $(vercmp "${git_ver}" "${repo_ver}") == 1 ]; then
+            if [ $(vercmp "${repo_ver%-*}" "${git_ver%-*}") == 1 ]; then
                 reset_rel
             fi
-            if [[ ${PUSH_GIT} = true ]]; then
+            if [ ${PUSH_GIT} = true ]; then
                 git add PKGBUILD
                 git commit -m "$git_ver" &>/dev/null
                 git push &>/dev/null
@@ -118,7 +118,7 @@ build_list_git() {
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
-            if [[ -d .git ]]; then
+            if [ -d .git ]; then
                 rm -rf src PKGBUILD &>/dev/null
                 git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
                 user_own PKGBUILD .git
@@ -126,7 +126,7 @@ build_list_git() {
             cd ..
             echo ${LOG_FILE} > $mon
             build_pkg $p &>${LOG_FILE}
-            if [[ $status != 0 ]]; then
+            if [ ${status} != 0 ]; then
                 printf "! FAILED [$p], see ${LOG_FILE}\n" >> $log
                 build_err+=("${LOG_FILE}")
                 err_build
@@ -134,7 +134,7 @@ build_list_git() {
                 printf "* BUILT  [$p] $git_ver\n" >> $log
             fi
             msg_wait
-        elif [[ $(vercmp "$git_ver" "$repo_ver") == -1 ]]; then
+        elif [ $(vercmp "${git_ver}" "${repo_ver}") == -1 ]; then
             msg3 "!! repo is newer than git ??"
         else
             msg3 "unchanged."
