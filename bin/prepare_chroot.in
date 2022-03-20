@@ -12,7 +12,7 @@ trap 'abort "Aborted."' INT
 check_root
 get_default_branch
 
-while getopts "b:chHk:mM:u" arg; do
+while getopts "b:chHk:mMu" arg; do
     case "${arg}" in
         b) BRANCH="${OPTARG}" ;;
         c) CLEAN=true ;;
