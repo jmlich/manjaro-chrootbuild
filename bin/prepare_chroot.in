@@ -20,6 +20,7 @@ while getopts "b:chHk:mu" arg; do
         H) HOST_KEYS=true ;;
         k) custom_repo="${OPTARG}" ;;
         m) MOUNT=true ;;
+        M) MIRROR="${OPTARG}" ;;
         u) UMOUNT=true ;;
         h|?) usage_prepare_chroot 0 ;;
         *) usage_prepare_chroot 1 ;;

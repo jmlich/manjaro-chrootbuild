@@ -8,13 +8,13 @@ SigLevel = Required DatabaseOptional
 LocalFileSigLevel = Optional
 
 #[@REPO@]
-#Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+#Server = @MIRROR@/@BRANCH@/$repo/$arch
 
 [core]
-Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+Server = @MIRROR@/@BRANCH@/$repo/$arch
 
 [extra]
-Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+Server = @MIRROR@/@BRANCH@/$repo/$arch
 
 [community]
-Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
+Server = @MIRROR@/@BRANCH@/$repo/$arch

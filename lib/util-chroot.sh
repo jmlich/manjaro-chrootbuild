@@ -53,7 +53,7 @@ add_repo() {
 
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
-    sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
+    sed -i "s/@BRANCH@/$BRANCH/g; s|@MIRROR@|$MIRROR|g" ${PAC_CONF}
     if [ ! -z $custom_repo ]; then
         if [ $custom_repo = mobile ]; then
             if [ ! $ARCH = aarch64 ]; then
