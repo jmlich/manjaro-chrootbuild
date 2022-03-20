@@ -41,8 +41,10 @@ chroot_api_mount() {
 }
 
 set_branch() {
-    sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
-    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > "${CHROOT_DIR}/etc/pacman.d/mirrorlist"
+    pac_d="${CHROOT_DIR}/etc/pacman.d"
+    [[ -e ${mirror_conf} ]] && sed -i "/Branch =/c\Branch = $1" ${mirror_conf}
+    [[ ! -e $pac_d ]] && mkdir -p $pac_d
+    echo "Server = ${MIRROR}/$1/\$repo/\$arch" > $pac_d/mirrorlist
     echo $1 > ${CHROOT_DIR}/.branch
 }
 
@@ -53,7 +55,7 @@ add_repo() {
 
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${PAC_CONF}
-    sed -i "s/@BRANCH@/$BRANCH/g" ${PAC_CONF}
+    set_branch $BRANCH
     if [ ! -z $custom_repo ]; then
         if [ $custom_repo = mobile ]; then
             if [ ! $ARCH = aarch64 ]; then
