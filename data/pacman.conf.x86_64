@@ -8,16 +8,16 @@ SigLevel = Required DatabaseOptional
 LocalFileSigLevel = Optional
 
 #[@REPO@]
-#Include = /etc/pacman.d/mirrorlist
+#Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
 
 [core]
-Include = /etc/pacman.d/mirrorlist
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
 
 [extra]
-Include = /etc/pacman.d/mirrorlist
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
 
 [community]
-Include = /etc/pacman.d/mirrorlist
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch
 
 [multilib]
-Include = /etc/pacman.d/mirrorlist
+Server = https://repo.manjaro.org/repo/@BRANCH@/$repo/$arch

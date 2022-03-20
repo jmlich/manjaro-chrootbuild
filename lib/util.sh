@@ -230,7 +230,6 @@ usage_chrootbuild() {
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
     echo '     -m          Build a multilib package'
-    echo '     -M <url>    Use custom mirror'
     echo '     -n          Install built pkg to chroot fs'
     echo '     -p <pkg>    Package(s) to build'
     echo '                 (for multiple packages repeat -p flag)'
@@ -258,7 +257,6 @@ usage_prepare_chroot() {
     echo '     -k <repo>   Use custom repo:'
     echo '                 (mobile/kde-unstable)'
     echo '     -m          Keep Chroot filesystem mounted'
-    echo '     -M <url>    Use custom mirror'
     echo '     -u          Unmount Chroot filesystem cleanly'
     echo ''
     exit $1
