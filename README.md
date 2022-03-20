@@ -27,6 +27,8 @@ Usage: chrootbuild [options]
      -i <pkg>    Install local package (specify full path!)
      -k <repo>   Use custom repo (mobile/kde-unstable)
      -l <list>   List to build
+     -m          Build a multilib package
+     -M <url>    Use custom mirror
      -n          Install built pkg to chroot fs (default when building lists)
      -p <pkg>    Package to build
      -r          Use custom chrootdir path
@@ -54,6 +56,7 @@ Usage: prepare_chroot [options]"
      -H          Use the host's keyring
      -k <repo>   Use custom repo (kde-unstable/mobile)
      -m          Keep Chroot filesystem mounted
+     -M <url>    Use custom mirror
      -u          Unmount Chroot filesystem cleanly
 ```
 
