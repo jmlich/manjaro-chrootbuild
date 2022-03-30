@@ -5,6 +5,7 @@ LIBDIR='/usr/lib/manjaro-chrootbuild'
 . ${LIBDIR}/util-chroot.sh
 
 trap 'abort "Aborted."' INT
+get_src_dir
 get_pkg_dir
 get_default_branch
 

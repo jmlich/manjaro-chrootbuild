@@ -24,10 +24,23 @@ build_pkg() {
     if [ ${CHECKSUMS} = true ]; then
         msg "Generate checksums for [$1]"
         cd $1
-        sudo -u ${SUDO_USER} updpkgsums
+        content=$(mktemp)
+        newcontent=$(mktemp)
+        ls > $content
+        sudo -u ${SUDO_USER} updpkgsums #generate checksums
+        #check if need to be updtae also pkgver array
+        if [[ $(grep 'pkgver()' PKGBUILD) ]]; then sudo -u ${SUDO_USER} makepkg -od; fi 
+        if [[ $(grep 'pkgver ()' PKGBUILD) ]]; then sudo -u ${SUDO_USER} makepkg -od; fi
+        #check source folder to prevent the unneeded download of source
+        if [[ $SRC_DIR != $START_DIR ]]; then mv $SRC_DIR/* $START_DIR/$1; fi
+        ls > $newcontent
+        cp -r ${START_DIR}/$1 ${BUILD_DIR}
+        cp -rf ${BUILD_DIR}/$1 ${START_DIR}
+        rm -rf $(grep -vFxf $content $newcontent)
+        rm -f $content $newcontent
         cd ..
+    else cp -r $1 ${BUILD_DIR}
     fi
-    cp -r $1 ${BUILD_DIR}
     rm -rf ${BUILD_DIR}/$1/{pkg,src}/
     user_own ${BUILD_DIR}/$1
 

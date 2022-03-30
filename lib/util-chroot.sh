@@ -5,6 +5,11 @@ get_pkg_dir() {
     [[ -z ${PKG_DIR} ]] && PKG_DIR=${START_DIR}
 }
 
+get_src_dir() {
+    SRC_DIR=$(get_mp_conf SRCDEST)
+    [[ -z ${SRC_DIR} ]] && SRC_DIR=${START_DIR}
+}
+
 get_default_branch() {
     case ${ARCH} in
         aarch64) BRANCH="arm-unstable" ;;
