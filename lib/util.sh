@@ -181,8 +181,12 @@ prepare_pkgs() {
     printf "   - %s\n" "${pkgs[@]//\//}"
 }
 
+root_own() {
+    chown -R root:root .
+}
+
 user_own() {
-    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} "$@"
+    chown -R ${BUILDUSER_UID}:${BUILDUSER_GID} .
 }
 
 start_agent(){

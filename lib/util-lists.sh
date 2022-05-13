@@ -92,9 +92,11 @@ build_list_git() {
 
         # update local pkgver
         cd $1/$p
+        root_own
         rm -rf src
-        msg6 "updating git ..." # can take a while in some cases.
+        msg6 "updating git ..."
         [[ -d .git ]] && git pull &>/dev/null
+        user_own
         sudo -iu ${SUDO_USER} repo=${PWD} bash -c 'cd ${repo}; makepkg -do &>/dev/null'
         git_ver=$(get_ver pkgver)-$(get_ver pkgrel)
 
@@ -110,18 +112,21 @@ build_list_git() {
                 reset_rel
             fi
             if [ ${PUSH_GIT} = true ]; then
+                root_own
                 git add PKGBUILD
                 git commit -m "$git_ver" &>/dev/null
                 git push &>/dev/null
+                user_own
             fi
             msg3 "building updated pkgver $git_ver"
 
             LOG_FILE="${LOG_DIR}/$p-$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
             if [ -d .git ]; then
+                root_own
                 rm -rf src PKGBUILD &>/dev/null
                 git checkout PKGBUILD &>/dev/null && git pull &>/dev/null
-                user_own PKGBUILD .git
+                user_own
             fi
             cd ..
             echo ${LOG_FILE} > $mon
