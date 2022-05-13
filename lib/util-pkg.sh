@@ -41,8 +41,9 @@ build_pkg() {
         cd ..
     else cp -r $1 ${BUILD_DIR}
     fi
-    rm -rf ${BUILD_DIR}/$1/{pkg,src}/
-    user_own ${BUILD_DIR}/$1
+    cd ${BUILD_DIR}/$1
+    rm -rf {pkg,src}/
+    user_own
 
     [[ ${INSTALL} = true ]] && mp_opts='fsi' || mp_opts='fs'
     [[ ${MODULES} = true ]] && mp_opts='fsr'
