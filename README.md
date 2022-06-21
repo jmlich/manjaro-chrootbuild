@@ -27,6 +27,7 @@ Usage: chrootbuild [options]
      -i <pkg>    Install local package (specify full path!)
      -k <repo>   Use custom repo (mobile/kde-unstable)
      -l <list>   List to build
+     -L          Enable LinkTimeOptimization
      -m          Build a multilib package
      -M <url>    Use custom mirror
      -n          Install built pkg to chroot fs (default when building lists)
