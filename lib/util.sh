@@ -234,6 +234,7 @@ usage_chrootbuild() {
     echo '     -K <list>   Kernel-modules list to build'
     echo '     -l <list>   List(s) to build'
     echo '                 (for multiple lists repeat -l flag)'
+    echo '     -L          enable LinTimeOptimization'
     echo '     -m          Build a multilib package'
     echo '     -M <url>    Use custom mirror'
     echo '     -n          Install built pkg to chroot fs'
