@@ -1,7 +1,7 @@
 # Author: Bernhard Landauer <bernhard@manjaro.org>
 
 pkgname=manjaro-chrootbuild
-pkgver=r271.gd0c9d1b
+pkgver=r280.g1db5ad6
 pkgrel=1
 pkgdesc="Build packages and buildlists in a chroot filesystem."
 arch=('any')
@@ -19,17 +19,17 @@ pkgver(){
   printf "r%s.g%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
+_install() {
+    for f in $(ls $1/*.$2 | cut -d / -f 2); do
+        install -Dm$3 $1/$f $pkgdir/$4/${f/.in/}
+    done
+}
+
 package() {
 cd $pkgname
 
-  _install() {
-      for f in $(ls $1/*.$2 | cut -d / -f 2); do
-          install -Dm$3 $1/$f $pkgdir/$4/${f/.in/}
-      done
-  }
-
-  _install lib sh 644 /usr/lib/$pkgname
-  _install bin in 755 /usr/bin
-  _install data 'conf.*' 644 /etc/chrootbuild
-  install -m644 data/build.sh $pkgdir/etc/chrootbuild
+_install lib sh 644 /usr/lib/$pkgname
+_install bin in 755 /usr/bin
+_install data 'conf.*' 644 /etc/chrootbuild
+install -m644 data/build.sh $pkgdir/etc/chrootbuild
 }
