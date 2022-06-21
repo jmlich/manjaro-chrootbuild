@@ -154,7 +154,9 @@ EOF
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
     if [ ${DEBUG} = true ]; then
-      sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge debug !lto)' "$1/${MP_CONF_GLOB}"
+      sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge debug lto)' "$1/${MP_CONF_GLOB}"
+    else
+      sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)' "$1/${MP_CONF_GLOB}"
     fi
 
     # install buildscript
