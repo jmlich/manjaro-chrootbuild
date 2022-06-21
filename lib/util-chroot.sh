@@ -115,8 +115,8 @@ create_chroot() {
         chroot $1 pacman-key --populate "${keyrings[@]}"
     fi
     msg "Create locale"
-    printf 'en_US.UTF-8 UTF-8\n' > "$1/etc/locale.gen"
-    printf 'LANG=en_US.UTF-8\n' > "$1/etc/locale.conf"
+    printf '%s.UTF-8 UTF-8\n' C en_US de_DE > "$1/etc/locale.gen"
+    echo 'LANG=C.UTF-8' > "$1/etc/locale.conf"
     printf 'LC_MESSAGES=C\n' >> "$1/etc/locale.conf"
     chroot $1 locale-gen
     cp /etc/resolv.conf $1/etc/resolv.conf
