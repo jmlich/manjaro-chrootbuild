@@ -156,6 +156,9 @@ EOF
     if [ ${DEBUG} = true ]; then
       sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge debug !lto)' "$1/${MP_CONF_GLOB}"
     fi
+    if [ ${LTO} = true ]; then
+      sed -i -e 's/!lto/lto/' "$1/${MP_CONF_GLOB}"
+    fi
 
     # install buildscript
     install -m755 /etc/chrootbuild/build.sh "$1/usr/bin/chrootbuild"

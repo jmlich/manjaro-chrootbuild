@@ -20,6 +20,7 @@ SIGN=false
 MULTILIB=false
 COLORS=true
 DEBUG=false
+LTO=false
 FORCE_UNMOUNT=false
 CHECKSUMS=false
 HOST_KEYS=false
