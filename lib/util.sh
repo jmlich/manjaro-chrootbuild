@@ -223,7 +223,7 @@ usage_chrootbuild() {
     echo '     -D          Build with debug symbols.'
     echo '     -f          Force unmount chroot if busy.'
     echo '     -g          Push changes to git when building lists'
-	echo '     -G          Generate Checksums'
+    echo '     -G          Generate Checksums'
     echo '     -h          This help'
     echo "     -H          Use the host's keyrings"
     echo '     -i <pkg>    Install package(s) to chroot fs'
