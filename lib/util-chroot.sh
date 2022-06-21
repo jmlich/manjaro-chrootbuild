@@ -153,14 +153,12 @@ EOF
         grep -q "^$x" "$1/${MP_CONF_GLOB}" && continue
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
-    options="strip docs !libtool !staticlibs emptydirs zipman purge !debug !lto"
     if [ ${DEBUG} = true ]; then
-      options=$(sed 's/!debug/debug/' <<< "$options")
+      sed -i -e '/^OPTIONS=/c\OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge debug !lto)' "$1/${MP_CONF_GLOB}"
     fi
     if [ ${LTO} = true ]; then
-      options=$(sed 's/!lto/lto/' <<< "$options")
+      sed -i -e 's/!lto/lto/' "$1/${MP_CONF_GLOB}"
     fi
-    sed -i -e "/^OPTIONS=/c\OPTIONS=($options)" "$1/${MP_CONF_GLOB}"
 
     # install buildscript
     install -m755 /etc/chrootbuild/build.sh "$1/usr/bin/chrootbuild"
