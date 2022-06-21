@@ -97,6 +97,15 @@ create_chroot() {
     fi
     pacman -r $1 --config ${PAC_CONF} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
 
+    echo "Backing up pacman-mirrors.conf..."
+    cp /var/lib/chrootbuild/etc/pacman-mirrors.conf /var/lib/chrootbuild/etc/pacman-mirrors.conf.bak
+
+    echo "Removing pacman-mirrors & Python packages to ensure clean chroot..."
+    pacman -r $1 --config ${PAC_CONF} -Rdd pacman-mirrors python python-certifi python-chardet python-idna python-npyscreen python-requests python-urllib3 libnsl --noconfirm
+
+    echo "Restoring pacman-mirrors.conf..."
+    cp /var/lib/chrootbuild/etc/pacman-mirrors.conf.bak /var/lib/chrootbuild/etc/pacman-mirrors.conf
+
     if [ ${HOST_KEYS} = true ]; then
         msg "Copy keyring"
         cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
