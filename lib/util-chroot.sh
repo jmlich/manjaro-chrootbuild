@@ -92,7 +92,7 @@ create_chroot() {
     [[ ${MULTILIB} = true ]] && base_pkgs+=('multilib-devel')
     if [ ${HOST_KEYS} = false ]; then
         keyrings=('archlinux' 'manjaro')
-        [[ ${ARCH} = aarch64 ]] && keyrings+=('archlinuxarm' 'manjaro-arm')
+        [[ ${ARCH} = aarch64 ]] && keyrings=('archlinuxarm' 'manjaro-arm' 'manjaro')
         base_pkgs+=("${keyrings[@]/%/-keyring}")
     fi
     pacman -r $1 --config ${PAC_CONF} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
