@@ -5,7 +5,6 @@ START_DIR=${PWD}
 CHROOT_DIR=/var/lib/chrootbuild
 BUILD_DIR=${CHROOT_DIR}/build
 PAC_CONF_TPL=/etc/chrootbuild/pacman.conf.${ARCH}
-PAC_CONF=${CHROOT_DIR}/etc/pacman.conf
 [[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
 BUILDUSER_UID="${SUDO_UID:-$UID}"
 BUILDUSER_GID="$(id -g "${BUILDUSER_UID}")"
@@ -26,7 +25,6 @@ CHECKSUMS=false
 HOST_KEYS=false
 MIRROR='https://repo.manjaro.org/repo'
 MIRROR_CONF=etc/pacman-mirrors.conf
-mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
 MP_CONF_GLOB='/etc/makepkg.conf'
 MP_CONF_USER="${USER_HOME}/.makepkg.conf"
 install_pkgs=()

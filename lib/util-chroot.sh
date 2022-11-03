@@ -53,12 +53,12 @@ set_branch() {
 
 add_repo() {
     msg "Adding repo [$1]."
-    sed -i -e "s/@REPO@/$1/" -e 's/^#//g' ${PAC_CONF}
+    sed -i -e "s/@REPO@/$1/" -e 's/^#//g' ${pac_conf}
 }
 
 conf_pacman() {
-    cp ${PAC_CONF_TPL} ${PAC_CONF}
-    sed -i "s/@BRANCH@/$BRANCH/g; s|@MIRROR@|$MIRROR|g" ${PAC_CONF}
+    cp ${PAC_CONF_TPL} ${pac_conf}
+    sed -i "s/@BRANCH@/$BRANCH/g; s|@MIRROR@|$MIRROR|g" ${pac_conf}
     if [ ! -z $custom_repo ]; then
         if [ $custom_repo = mobile ]; then
             if [ ! $ARCH = aarch64 ]; then
@@ -95,7 +95,7 @@ create_chroot() {
         [[ ${ARCH} = aarch64 ]] && keyrings=('archlinuxarm' 'manjaro-arm' 'manjaro')
         base_pkgs+=("${keyrings[@]/%/-keyring}")
     fi
-    pacman -r $1 --config ${PAC_CONF} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
+    pacman -r $1 --config ${pac_conf} -Syy "${base_pkgs[@]}" --noconfirm || abort "Failed to install chroot filesystem."
 
     echo "Backing up pacman-mirrors.conf..."
     cp ${CHROOT_DIR}/etc/pacman-mirrors.conf ${CHROOT_DIR}/etc/pacman-mirrors.conf.bak
@@ -170,6 +170,8 @@ EOF
 
 # create/update chroot build environment
 prepare_chroot() {
+    pac_conf=${CHROOT_DIR}/etc/pacman.conf
+    mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
     if [ -e $1/.manjaro-chroot ]; then
         if [ -e $1/.lock ]; then
             if [ ${FORCE_UNMOUNT} = true ]; then
