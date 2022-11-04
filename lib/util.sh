@@ -3,7 +3,6 @@
 ARCH=$(uname -m)
 START_DIR=${PWD}
 CHROOT_DIR=/var/lib/chrootbuild
-BUILD_DIR=${CHROOT_DIR}/build
 PAC_CONF_TPL=/etc/chrootbuild/pacman.conf.${ARCH}
 [[ $EUID = 0 ]] && USER_HOME=/home/${SUDO_USER} || USER_HOME=$HOME
 BUILDUSER_UID="${SUDO_UID:-$UID}"

@@ -20,7 +20,8 @@ rm_pkgs() {
 }
 
 build_pkg() {
-    rm -rf ${BUILD_DIR}/.[!.]*
+    build_dir=${CHROOT_DIR}/build
+    rm -rf ${build_dir}/.[!.]*
     if [ ${CHECKSUMS} = true ]; then
         msg "Generate checksums for [$1]"
         cd $1
@@ -34,8 +35,8 @@ build_pkg() {
         #check source folder to prevent the unneeded download of source
         if [[ $SRC_DIR != $START_DIR ]]; then mv $SRC_DIR/* $START_DIR/$1; fi
         ls > $newcontent
-        cp -r ${START_DIR}/$1 ${BUILD_DIR}
-        cp -rf ${BUILD_DIR}/$1 ${START_DIR}
+        cp -r ${START_DIR}/$1 ${build_dir}
+        cp -rf ${build_dir}/$1 ${START_DIR}
         rm -rf $(grep -vFxf $content $newcontent)
         rm -f $content $newcontent
         cd ..
