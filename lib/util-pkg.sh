@@ -40,9 +40,9 @@ build_pkg() {
         rm -rf $(grep -vFxf $content $newcontent)
         rm -f $content $newcontent
         cd ..
-    else cp -r $1 ${BUILD_DIR}
+    else cp -r $1 ${build_dir}
     fi
-    cd ${BUILD_DIR}/$1
+    cd ${build_dir}/$1
     rm -rf {pkg,src}/
     user_own
 
