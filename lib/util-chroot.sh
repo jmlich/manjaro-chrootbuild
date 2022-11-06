@@ -101,7 +101,7 @@ create_chroot() {
     cp ${CHROOT_DIR}/etc/pacman-mirrors.conf ${CHROOT_DIR}/etc/pacman-mirrors.conf.bak
 
     echo "Removing pacman-mirrors & Python packages to ensure clean chroot..."
-    pacman -r $1 --config ${PAC_CONF} -Rdd pacman-mirrors python python-certifi python-chardet python-idna python-npyscreen python-requests python-urllib3 libnsl --noconfirm
+    pacman -r $1 --config ${pac_conf} -Rdd pacman-mirrors python python-certifi python-chardet python-idna python-npyscreen python-requests python-urllib3 libnsl --noconfirm
 
     echo "Restoring pacman-mirrors.conf..."
     cp ${CHROOT_DIR}/etc/pacman-mirrors.conf.bak ${CHROOT_DIR}/etc/pacman-mirrors.conf
