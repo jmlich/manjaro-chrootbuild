@@ -101,7 +101,7 @@ err_build() {
 }
 
 check_root() {
-    if [ ${EUID} -ne 0 ]; then
+    if [[ ${EUID} -ne 0 ]]; then
         err "This application needs to be run as root."
         exit 1
     fi
@@ -147,13 +147,13 @@ job() {
 }
 
 check_sanity() {
-    if [ ${check} = list ]; then
-        if [ ! -f $1.list ]; then
+    if [[ ${check} = list ]]; then
+        if [[ ! -f $1.list ]]; then
             abort "Could not find buildlist [$1.list]. Aborting."
-        elif [ ! -d $1 ]; then
+        elif [[ ! -d $1 ]]; then
             abort "Could not find directory [$1]. Aborting."
         fi
-    elif [ ! -f $1/PKGBUILD ]; then
+    elif [[ ! -f $1/PKGBUILD ]]; then
         abort "Could not find PKGBUILD for [$1]. Aborting."
     fi
 }
@@ -198,7 +198,7 @@ start_agent(){
 ssh_add(){
     local ssh_env="$USER_HOME/.ssh/environment"
 
-    if [ -f "${ssh_env}" ]; then
+    if [[ -f "${ssh_env}" ]]; then
          . "${ssh_env}" > /dev/null
          ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
             start_agent ${ssh_env};

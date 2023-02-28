@@ -13,7 +13,7 @@ install_local_pkgs() {
 }
 
 rm_pkgs() {
-    if [ ! -z ${PKG_DIR} ]; then
+    if [[ ! -z ${PKG_DIR} ]]; then
         msg "Remove previously built packages from [${PKG_DIR}]"
         rm ${PKG_DIR}/*.{xz,zst,sig} &>/dev/null
     fi
@@ -22,7 +22,7 @@ rm_pkgs() {
 build_pkg() {
     build_dir=${CHROOT_DIR}/build
     rm -rf ${build_dir}/.[!.]*
-    if [ ${CHECKSUMS} = true ]; then
+    if [[ ${CHECKSUMS} = true ]]; then
         msg "Generate checksums for [$1]"
         cd $1
         content=$(mktemp)
@@ -60,7 +60,7 @@ build_pkg() {
 gpg_sign() {
     cd $1
     GPGKEY=$(get_config GPGKEY)
-    if [ ! -z ${GPGKEY} ]; then
+    if [[ ! -z ${GPGKEY} ]]; then
         sudo -u ${SUDO_USER} sign_pkgs
     else
         err "No gpg key found in makepkg config. Package cannot be signed."

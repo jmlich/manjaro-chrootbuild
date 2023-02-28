@@ -2,7 +2,7 @@
 
 tmp=/tmp/current_build
 
-while [ -e $tmp ]; do
+while [[ -e $tmp ]]; do
     current_build=$(cat $tmp)
     cat $current_build
     sleep 3

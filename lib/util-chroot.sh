@@ -59,9 +59,9 @@ add_repo() {
 conf_pacman() {
     cp ${PAC_CONF_TPL} ${pac_conf}
     sed -i "s/@BRANCH@/$BRANCH/g; s|@MIRROR@|$MIRROR|g" ${pac_conf}
-    if [ ! -z $custom_repo ]; then
-        if [ $custom_repo = mobile ]; then
-            if [ ! $ARCH = aarch64 ]; then
+    if [[ ! -z $custom_repo ]]; then
+        if [[ $custom_repo = mobile ]]; then
+            if [[ ! $ARCH = aarch64 ]]; then
                 err "Repo 'mobile' is not available for this architecture and will be skipped."
             else
                 add_repo $custom_repo
@@ -90,7 +90,7 @@ create_chroot() {
     conf_pacman
     base_pkgs=('base-devel')
     [[ ${MULTILIB} = true ]] && base_pkgs+=('multilib-devel')
-    if [ ${HOST_KEYS} = false ]; then
+    if [[ ${HOST_KEYS} = false ]]; then
         keyrings=('archlinux' 'manjaro')
         [[ ${ARCH} = aarch64 ]] && keyrings=('archlinuxarm' 'manjaro-arm' 'manjaro')
         base_pkgs+=("${keyrings[@]/%/-keyring}")
@@ -106,7 +106,7 @@ create_chroot() {
     echo "Restoring pacman-mirrors.conf..."
     cp ${CHROOT_DIR}/etc/pacman-mirrors.conf.bak ${CHROOT_DIR}/etc/pacman-mirrors.conf
 
-    if [ ${HOST_KEYS} = true ]; then
+    if [[ ${HOST_KEYS} = true ]]; then
         msg "Copy keyring"
         cp -a /etc/pacman.d/gnupg "$1/etc/pacman.d/"
     else
@@ -154,10 +154,10 @@ EOF
         echo "$x" >>"$1/${MP_CONF_GLOB}"
     done
     OPTIONS=$(grep "^OPTIONS=" "$1/${MP_CONF_GLOB}")
-    if [ ${DEBUG} = true ]; then
+    if [[ ${DEBUG} = true ]]; then
       OPTIONS=$(sed 's/!debug/debug/' <<< "$OPTIONS")
     fi
-    if [ ${LTO} = true ]; then
+    if [[ ${LTO} = true ]]; then
       OPTIONS=$(sed 's/!lto/lto/' <<< "$OPTIONS")
     fi
     sed -i -e "s/^OPTIONS=.*/${OPTIONS}/" "$1/${MP_CONF_GLOB}"
@@ -172,36 +172,36 @@ EOF
 prepare_chroot() {
     pac_conf=${CHROOT_DIR}/etc/pacman.conf
     mirror_conf=${CHROOT_DIR}/${MIRROR_CONF}
-    if [ -e $1/.manjaro-chroot ]; then
-        if [ -e $1/.lock ]; then
-            if [ ${FORCE_UNMOUNT} = true ]; then
+    if [[ -e $1/.manjaro-chroot ]]; then
+        if [[ -e $1/.lock ]]; then
+            if [[ ${FORCE_UNMOUNT} = true ]]; then
                 unmount=y
             else
                 err_choice "Chroot is busy. Force unmount? [y/N]"
                     read unmount
             fi
-            if [ ${unmount} = y ]; then
+            if [[ ${unmount} = y ]]; then
                 cleanup "Re-mounting chroot filesystem."
             else
                 exit 1
             fi
         fi
-        if [ ${MULTILIB} = true ]; then
-            if [ ! -e $1/.multilib ]; then
+        if [[ ${MULTILIB} = true ]]; then
+            if [[ ! -e $1/.multilib ]]; then
                 msg "Rebuilding chroot for multilib"
                 CLEAN=true
             fi
         else
-            if [ -e $1/.multilib ]; then
+            if [[ -e $1/.multilib ]]; then
                 msg "Removing multilib chroot"
                 CLEAN=true
             fi
         fi
-        if [ $(cat $1/.branch) != ${BRANCH} ]; then
+        if [[ $(cat $1/.branch) != ${BRANCH} ]]; then
             msg "Rebuilding chroot for branch [${BRANCH}]"
             CLEAN=true
         fi
-        if [ ${CLEAN} = true ]; then
+        if [[ ${CLEAN} = true ]]; then
             msg "Delete old chroot file system"
             rm -rf $1/*
             create_chroot $1

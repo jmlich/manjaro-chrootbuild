@@ -28,7 +28,7 @@ while getopts "b:chHk:mu" arg; do
 done
 shift $((OPTIND -1))
 
-if [ $UMOUNT = true ]; then
+if [[ $UMOUNT = true ]]; then
     msg "Unmount Chroot filesystem."
     cleanup
     exit 0
@@ -36,7 +36,7 @@ fi
 
 prepare_chroot ${CHROOT_DIR}
 
-if [ $MOUNT = true ]; then
+if [[ $MOUNT = true ]]; then
     msg "Chroot filesystem of branch [${BRANCH}] is ready and mounted at [${CHROOT_DIR}]."
     msg4 "To unmount run 'prepare_chroot' again with the '-u' flag."
 else
