@@ -60,7 +60,7 @@ build_list() {
     i=1
     for p in $(cat $list); do
         header "${1%-git}: $i/$num - $p"
-        LOG_FILE="${LOG_DIR}/${p_$(date +'%Y%m%d%H%M')}"
+        LOG_FILE="${LOG_DIR}/${p}_$(date +'%Y%m%d%H%M')"
         msg4 "logfile: $LOG_FILE"
         echo ${LOG_FILE} > $mon
         cd $1
@@ -120,7 +120,7 @@ build_list_git() {
             fi
             msg3 "building updated pkgver $git_ver"
 
-            LOG_FILE="${LOG_DIR}/${p_$(date +'%Y%m%d%H%M')}"
+            LOG_FILE="${LOG_DIR}/${p}_$(date +'%Y%m%d%H%M')"
             msg4 "logfile: $LOG_FILE"
             if [[ -d .git ]]; then
                 root_own
