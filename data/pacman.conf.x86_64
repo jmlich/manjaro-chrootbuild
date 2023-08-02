@@ -16,8 +16,5 @@ Server = @MIRROR@/@BRANCH@/$repo/$arch
 [extra]
 Server = @MIRROR@/@BRANCH@/$repo/$arch
 
-[community]
-Server = @MIRROR@/@BRANCH@/$repo/$arch
-
 [multilib]
 Server = @MIRROR@/@BRANCH@/$repo/$arch
