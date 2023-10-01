@@ -53,7 +53,16 @@ set_branch() {
 
 add_repo() {
     msg "Adding repo [$1]."
-    sed -i -e "s/@REPO@/$1/" -e 's/^#//g' ${pac_conf}
+
+    if [[ "$1" =~ ^https?://.*db ]]; then
+        CUSTOM_REPO_NAME="${1##*/}"      # Remove everyting before the last slash
+        CUSTOM_REPO_NAME="${CUSTOM_REPO_NAME%.*}"  # Remove everything after the last dot
+        CUSTOM_REPO_URL="${1%/*}"        # Remove everything after the last slash
+        sed -i "s/^#\[@REPO@\]/\[$CUSTOM_REPO_NAME\]\nSigLevel = Optional TrustAll\nServer = ${CUSTOM_REPO_URL//\//\\/}\n\n#\[@REPO@\]/" \
+            ${pac_conf}
+    else
+        sed -i -e "s/@REPO@/$1/" -e 's/^#//g' ${pac_conf}
+    fi
 }
 
 conf_pacman() {
